@@ -8,7 +8,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 
 import com.observatorio.Observatorio_Software.infrastructure.output.controladorExcepciones.estructuraExcepciones.CodigoError;
+import com.observatorio.Observatorio_Software.infrastructure.output.controladorExcepciones.estructuraExcepciones.Error;
 import com.observatorio.Observatorio_Software.infrastructure.output.controladorExcepciones.estructuraExcepciones.ErrorUtils;
+import com.observatorio.Observatorio_Software.infrastructure.output.controladorExcepciones.excepcionesPropias.EntidadNoExisteException;
+import com.observatorio.Observatorio_Software.infrastructure.output.controladorExcepciones.excepcionesPropias.EntidadYaExisteException;
+import com.observatorio.Observatorio_Software.infrastructure.output.controladorExcepciones.excepcionesPropias.ReglaNegocioExcepcion;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.FieldError;
@@ -20,10 +24,35 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 @ControllerAdvice
 public class RestApiExceptionHandler {
 
-
-/*
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Error> handleGenericException(final HttpServletRequest req,
+                                                        final Exception ex, final Locale locale) {
+        final Error error = ErrorUtils
+                .crearError(CodigoError.ERROR_GENERICO.getCodigo(),
+                        CodigoError.ERROR_GENERICO.getLlaveMensaje(),
+                        HttpStatus.INTERNAL_SERVER_ERROR.value())
+                .setUrl(req.getRequestURL().toString()).setMetodo(req.getMethod());
+        return new ResponseEntity<>(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+    //===========
+    // @ExceptionHandler(EntidadYaExisteException.class)
+    // public ResponseEntity<Error> handleGenericException(final HttpServletRequest req,
+    //                 final EntidadYaExisteException ex) {
+    //         final Error error = ErrorUtils
+    //                         .crearError(CodigoError.ENTIDAD_YA_EXISTE.getCodigo(),
+    //                                         String.format("%s, %s", CodigoError.ENTIDAD_YA_EXISTE.getLlaveMensaje(),
+    //                                                         ex.getMessage()),
+    //                                         HttpStatus.NOT_ACCEPTABLE.value())
+    //                         .setUrl(req.getRequestURL().toString()).setMetodo(req.getMethod());
+    //         return new ResponseEntity<>(error, HttpStatus.NOT_ACCEPTABLE);
+    // }
+    @ExceptionHandler(EntidadYaExisteException.class)
+    @ResponseStatus(HttpStatus.CONFLICT)  // Puedes usar HttpStatus.CONFLICT (409) para indicar un conflicto de datos
+    public ResponseEntity<String> handleEntidadYaExisteException(EntidadYaExisteException ex) {
+        // Puedes devolver una estructura de JSON más detallada si lo prefieres
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT);
+    }
     //========================================
-    /*
     @ExceptionHandler(ReglaNegocioExcepcion.class)
     public ResponseEntity<Error> handleGenericException(final HttpServletRequest req,
                                                         final ReglaNegocioExcepcion ex, final Locale locale) {
@@ -47,9 +76,6 @@ public class RestApiExceptionHandler {
         return new ResponseEntity<>(error, HttpStatus.NOT_FOUND);
     }
 
-
-     */
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<Map<String, String>> handleValidationExceptions(MethodArgumentNotValidException ex) {
         System.out.println("Retornando respuesta con los errores identificados");
@@ -70,3 +96,4 @@ public class RestApiExceptionHandler {
                 HttpStatus.BAD_REQUEST);
     }
 }
+

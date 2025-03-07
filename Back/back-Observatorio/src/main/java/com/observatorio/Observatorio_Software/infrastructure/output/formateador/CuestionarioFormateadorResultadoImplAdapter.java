@@ -1,13 +1,13 @@
 package com.observatorio.Observatorio_Software.infrastructure.output.formateador;
 
-import com.observatorio.Observatorio_Software.aplication.output.CuestionarioFormatterResultsIntPort;
+import com.observatorio.Observatorio_Software.aplication.output.CuestionarioFormateadorResultadoIntPort;
 import com.observatorio.Observatorio_Software.infrastructure.output.controladorExcepciones.excepcionesPropias.EntidadYaExisteException;
 import com.observatorio.Observatorio_Software.infrastructure.output.controladorExcepciones.excepcionesPropias.ReglaNegocioExcepcion;
 import org.springframework.stereotype.Service;
 
 
 @Service
-public class CuestionarioFormateadorResultadoImplAdapter implements CuestionarioFormatterResultsIntPort {
+public class CuestionarioFormateadorResultadoImplAdapter implements CuestionarioFormateadorResultadoIntPort {
 
     @Override
     public void retornarRespuestaErrorEntidadExiste(String mensaje) {

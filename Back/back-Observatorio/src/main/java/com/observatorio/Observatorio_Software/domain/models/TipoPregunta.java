@@ -6,7 +6,10 @@ import lombok.*;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TipoPregunta {
-    private int idtipopregunta;
+    private int idTipoPregunta;
     private String nombre;
     private String descripcion;
+    //private List<Pregunta> preguntas;
+
+
 }

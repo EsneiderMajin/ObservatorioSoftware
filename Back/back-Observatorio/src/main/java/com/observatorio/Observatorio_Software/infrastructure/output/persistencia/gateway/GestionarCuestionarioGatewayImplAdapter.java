@@ -1,7 +1,14 @@
 package com.observatorio.Observatorio_Software.infrastructure.output.persistencia.gateway;
 
-import com.observatorio.Observatorio_Software.aplication.output.ManagementCuestionarioGatewayIntPort;
+import com.observatorio.Observatorio_Software.aplication.output.GestionarCuestionarioGatewayIntPort;
 import com.observatorio.Observatorio_Software.domain.models.Cuestionario;
+import com.observatorio.Observatorio_Software.domain.models.Respuesta;
+import com.observatorio.Observatorio_Software.infrastructure.input.DTOResponse.CuestionarioDTORespuesta;
+import com.observatorio.Observatorio_Software.infrastructure.input.DTOResponse.PreguntaDTORespuesta;
+import com.observatorio.Observatorio_Software.infrastructure.output.persistencia.entidades.CuestionarioEntity;
+import com.observatorio.Observatorio_Software.infrastructure.output.persistencia.entidades.PreguntaEntity;
+import com.observatorio.Observatorio_Software.infrastructure.output.persistencia.entidades.RespuestaEntity;
+import com.observatorio.Observatorio_Software.infrastructure.output.persistencia.entidades.TipoPreguntaEntity;
 import com.observatorio.Observatorio_Software.infrastructure.output.persistencia.repositorios.CuestionarioRepository;
 import com.observatorio.Observatorio_Software.infrastructure.output.persistencia.repositorios.PreguntasRepository;
 import com.observatorio.Observatorio_Software.infrastructure.output.persistencia.repositorios.RespuestasRepository;
@@ -14,8 +21,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class GestionarCuestionarioGatewayImplAdapter implements ManagementCuestionarioGatewayIntPort {
-/*
+public class GestionarCuestionarioGatewayImplAdapter implements GestionarCuestionarioGatewayIntPort {
+
     private final CuestionarioRepository objCuestionarioRepository;
     private final RespuestasRepository objRespuestaRepository;
     private final ModelMapper CuestionarioModelMapper;
@@ -31,32 +38,7 @@ public class GestionarCuestionarioGatewayImplAdapter implements ManagementCuesti
         this.tipoPreguntaRepository = tipoPreguntaRepository;
         this.objPreguntaRepository = objPreguntaRepository;
     }
-*/
-    @Override
-    public Cuestionario guardarCuestionario(Cuestionario objCuestionario) {
-        return null;
-    }
 
-    @Override
-    public List<Cuestionario> listarCuestionarios() {
-        return List.of();
-    }
-
-    @Override
-    public List<Cuestionario> listarRespuestasCuestionarios() {
-        return List.of();
-    }
-
-    @Override
-    public Cuestionario asignarPreguntaCuestionario(Integer idPregunta) {
-        return null;
-    }
-
-    @Override
-    public List<Cuestionario> listarCuestionariosPorUsuario(Integer idusuario) {
-        return List.of();
-    }
-/*
     @Override
     public boolean existeCuestionarioPorTitulo(String titulo) {
         return this.objCuestionarioRepository.existeCuestionarioPorTitulo(titulo) == 1;
@@ -68,20 +50,20 @@ public class GestionarCuestionarioGatewayImplAdapter implements ManagementCuesti
         // Mapeo de las preguntas asociadas
         CuestionarioEntity objCuestionarioEntity = this.CuestionarioModelMapper.map(objCuestionario, CuestionarioEntity.class);
         List<PreguntaEntity> objPreguntaEntity = objCuestionario.getPreguntas().stream()
-            .map(pregunta -> {
-                PreguntaEntity preguntaEntity = CuestionarioModelMapper.map(pregunta, PreguntaEntity.class);
-                //==========
-                // Buscar y asignar TipoPreguntaEntity existente revisar por que no esta haciendo la relacion
-                TipoPreguntaEntity tipoPreguntaEntity = tipoPreguntaRepository.findById(pregunta.getObjTipoPregunta().getIdTipoPregunta())
-                        .orElseThrow(() -> new IllegalArgumentException("TipoPreguntaEntity no encontrada con ID: " + pregunta.getObjTipoPregunta().getIdTipoPregunta()));
+                .map(pregunta -> {
+                    PreguntaEntity preguntaEntity = CuestionarioModelMapper.map(pregunta, PreguntaEntity.class);
+                    //==========
+                    // Buscar y asignar TipoPreguntaEntity existente revisar por que no esta haciendo la relacion
+                    TipoPreguntaEntity tipoPreguntaEntity = tipoPreguntaRepository.findById(pregunta.getObjTipoPregunta().getIdTipoPregunta())
+                            .orElseThrow(() -> new IllegalArgumentException("TipoPreguntaEntity no encontrada con ID: " + pregunta.getObjTipoPregunta().getIdTipoPregunta()));
 
-                preguntaEntity.setObjTipoPregunta(tipoPreguntaEntity);
-                //========
-                // Establecer la relación con el cuestionario
-                preguntaEntity.setObjCuestionario(objCuestionarioEntity);
-                return preguntaEntity;
-            })
-            .collect(Collectors.toList());
+                    preguntaEntity.setObjTipoPregunta(tipoPreguntaEntity);
+                    //========
+                    // Establecer la relación con el cuestionario
+                    preguntaEntity.setObjCuestionario(objCuestionarioEntity);
+                    return preguntaEntity;
+                })
+                .collect(Collectors.toList());
 
         // Asignar las preguntas al cuestionario
         // objCuestionario.setPreguntas(objPreguntaEntity.stream()
@@ -133,24 +115,24 @@ public class GestionarCuestionarioGatewayImplAdapter implements ManagementCuesti
     }
 
     @Override
-    public List<Respuesta> listarCuestionariosPorDocente(Integer docente) {
-        Iterable<RespuestaEntity> respuestas = this.objRespuestaRepository.findByidDocente(docente);
+    public List<Respuesta> listarCuestionariosPorUsuario(Integer Usuario) {
+        Iterable<RespuestaEntity> respuestas = this.objRespuestaRepository.findByidUsuario(Usuario);
         List<Respuesta> listaObtenida = this.CuestionarioModelMapper.map(respuestas, new TypeToken<List<Respuesta>>() {
         }.getType());
         return listaObtenida;
     }
 
-@Override
-public List<PreguntaDTORespuesta> obtenerPreguntasDTOPorCuestionario(Integer idCuestionario) {
-    System.out.println("que hay:" + idCuestionario);
-    List<PreguntaEntity> preguntas = objPreguntaRepository.findByObjCuestionarioIdcuestionario(idCuestionario);
+    @Override
+    public List<PreguntaDTORespuesta> obtenerPreguntasDTOPorCuestionario(Integer idCuestionario) {
+        System.out.println("que hay:" + idCuestionario);
+        List<PreguntaEntity> preguntas = objPreguntaRepository.findByObjCuestionarioIdcuestionario(idCuestionario);
 
-    List<PreguntaDTORespuesta> listaObtenida = preguntas.stream()
-            .map(preguntaEntity -> CuestionarioModelMapper.map(preguntaEntity, PreguntaDTORespuesta.class))
-            .collect(Collectors.toList());
+        List<PreguntaDTORespuesta> listaObtenida = preguntas.stream()
+                .map(preguntaEntity -> CuestionarioModelMapper.map(preguntaEntity, PreguntaDTORespuesta.class))
+                .collect(Collectors.toList());
 
-    return listaObtenida;
-}
+        return listaObtenida;
+    }
 
     @Override
     public CuestionarioDTORespuesta obtenerCuestionarioDTOPorRespuesta(Integer idRespuesta) {
@@ -159,6 +141,6 @@ public List<PreguntaDTORespuesta> obtenerPreguntasDTOPorCuestionario(Integer idC
         return this.CuestionarioModelMapper.map(this.objCuestionarioRepository.findById(idCuestionario).get(), CuestionarioDTORespuesta.class);
     }
 
-*/
+
 
 }

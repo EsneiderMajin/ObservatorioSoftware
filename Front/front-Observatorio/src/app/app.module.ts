@@ -7,7 +7,7 @@ import { HeaderComponent } from './pages/header/header.component';
 import { FooterComponent } from './pages/footer/footer.component';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,6 +16,14 @@ import { HomeComponent } from './pages/Home/home.component';
 import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatGridListModule } from '@angular/material/grid-list';
+import { LoginComponent } from './pages/login/login.component';
+import { StateComponent } from './pages/state/state.component';
+import { ContactComponent } from './pages/contact/contact.component';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CuestionarioComponent } from './pages/cuestionario/cuestionario.component';
 
 const routes: Routes = [
   {
@@ -23,7 +31,14 @@ const routes: Routes = [
   },
   {
     path:'home', component: HomeComponent
-  }
+  },
+  {
+    path:'login', component: LoginComponent
+  },
+  {
+    path:'cuestionario', component: CuestionarioComponent
+  },
+
   // {path:'clientes',component: ClientesComponent},
   // {path:'cliente/form',component: FormComponent},
   // {path:'cliente/form/:id',component: FormComponent}
@@ -35,7 +50,11 @@ const routes: Routes = [
     AppComponent,
     HeaderComponent,
     FooterComponent,
-    HomeComponent
+    HomeComponent,
+    LoginComponent,
+    StateComponent,
+    ContactComponent,
+    CuestionarioComponent
   ],
   imports: [
     MatCardModule,
@@ -49,7 +68,15 @@ const routes: Routes = [
     RouterModule.forRoot(routes),
     AppRoutingModule,
     FormsModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    ReactiveFormsModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatSnackBarModule,
+
+    MatInputModule,
+    MatProgressSpinnerModule
+    
   ],
   providers: [],
   bootstrap: [AppComponent]

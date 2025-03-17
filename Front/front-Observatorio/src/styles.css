@@ -1,16 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
+/* html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 
 mat-toolbar.footer-toolbar {
-    background-color: #4A4A4A !important; /* Color vinotinto */
-    color: white; /* Texto blanco */
+    background-color: #4A4A4A !important; 
+    color: white; 
     display: flex;
     align-items: center;
     justify-content: center;
-    font-family: 'Roboto', sans-serif;  /* Tipografía Roboto (común en Material Design)  */
+    font-family: 'Roboto', sans-serif;  
 }
 
 mat-toolbar.footer-toolbar .container {
@@ -20,5 +20,5 @@ mat-toolbar.footer-toolbar .container {
 
 mat-toolbar.footer-toolbar p {
     margin: 0.5rem 0;
-    font-size: 14px; /* Ajusta el tamaño de fuente si es necesario */
-}
+    font-size: 14px; 
+} */

@@ -16,6 +16,7 @@
             "outputPath": "dist/front-observatorio",
             "index": "src/index.html",
             "main": "src/main.ts",
+            "baseHref": "/ObservatorioSoftware/",
             "polyfills": [
               "zone.js"
             ],

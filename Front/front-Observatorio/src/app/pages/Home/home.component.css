@@ -1,30 +1,55 @@
-/* kira.component.css */
-.kira-title {
-    font-family: serif; /* O el nombre de tu fuente serif */
-    font-size: 24px;
-    font-weight: bold;
-    color: #6D1A35;
-  }
-  
-  .kira-subtitle {
-    font-family: serif;
-    font-size: 14px;
-    color: #757575; /* Gris Material Design */
-  }
-  
-  .kira-h2 {
-    font-family: serif;
-    font-size: 18px;
-    font-weight: bold;
-    color: #9F3A52;
-  }
-  
-  .kira-grid-title {
-    font-weight: bold;  
-  }
-  
-  
-  table { width: 100%; border-collapse: collapse; margin-bottom: 10px; }
-  th, td { border: 1px solid #ccc; padding: 8px; text-align: left; }
-  ul, ol { margin-bottom: 10px; padding-left: 20px; }
-  p { margin-bottom: 10px; }
+.container {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+}
+
+.icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.custom-blue-text {
+  color: #1f487c; 
+  font-weight: bold;
+}
+
+.gqm-diagram {
+  display: block; /* Hace que la imagen sea un bloque */
+  margin: 20px auto; /* Centra la imagen horizontalmente */
+  max-width: 60%; /* Asegura que la imagen no exceda el ancho del contenedor */
+  height: auto; /* Mantiene la proporción de la imagen */
+}
+
+h2 {
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.feature {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.icon {
+  margin-right: 10px;
+  font-size: 20px;
+}
+
+.smiley::before {
+  content: '😊';
+}
+
+.arrow-up::before {
+  content: '↑';
+}
+
+.book::before {
+  content: '📚';
+}
+
+.bar-chart::before {
+  content: '📊';
+}

@@ -16,7 +16,6 @@
             "outputPath": "dist/front-observatorio",
             "index": "src/index.html",
             "main": "src/main.ts",
-            "baseHref": "/ObservatorioSoftware/",
             "polyfills": [
               "zone.js"
             ],
@@ -36,7 +35,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
+                  "maximumWarning": "700kb",
                   "maximumError": "1mb"
                 },
                 {

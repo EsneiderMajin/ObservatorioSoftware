@@ -1,0 +1,25 @@
+/* Contenedor principal */
+.app-container {
+  display: flex;
+  flex-direction: column; 
+  min-height: 100vh; 
+}
+
+/* Encabezado */
+app-header {
+  /* Ajusta según tus necesidades */
+}
+
+/* Contenido principal */
+.main-content {
+  flex: 1; 
+  padding: 16px; 
+}
+
+/* Footer */
+app-footer {
+  background-color: #f8f9fa; 
+  padding: 16px; 
+  text-align: center; 
+  border-top: 1px solid #ccc; 
+}

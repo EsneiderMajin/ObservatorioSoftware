@@ -1,0 +1,46 @@
+.contact-container {
+    text-align: center;
+    background: #000;
+    color: #3D6D1A; 
+    padding-bottom: 50px;
+  
+    .header-image {
+      width: 80%;
+      height: 400px;
+      object-fit: cover;
+    }
+  
+    .form-container {
+      width: 50%;
+      margin: auto;
+      background: rgba(0, 0, 0, 0.9);
+      padding: 20px;
+      border-radius: 10px;
+    }
+  
+    .row {
+      display: flex;
+      justify-content: space-between;
+      
+      .half-width {
+        width: 48%;
+      }
+    }
+  
+    .full-width {
+      width: 100%;
+    }
+  
+    button {
+      background-color: #3b7f3b;
+      color: white;
+      width: 100%;
+    }
+
+  }
+
+  .light {
+    background-color: #d3d3d3 !important;
+  }
+
+  

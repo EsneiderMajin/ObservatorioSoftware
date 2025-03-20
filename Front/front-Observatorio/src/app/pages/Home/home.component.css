@@ -1,55 +1,41 @@
 .container {
-  font-family: Arial, sans-serif;
-  line-height: 1.6;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 80vh;
 }
 
-.icon {
-  width: 24px;
-  height: 24px;
-  margin-right: 10px;
-  vertical-align: middle;
+.image-container {
+  flex: 2;
 }
 
-.custom-blue-text {
-  color: #1f487c; 
-  font-weight: bold;
+.img-fluid {
+  width: 52%;
+  height: auto;
 }
 
-.gqm-diagram {
-  display: block; /* Hace que la imagen sea un bloque */
-  margin: 20px auto; /* Centra la imagen horizontalmente */
-  max-width: 60%; /* Asegura que la imagen no exceda el ancho del contenedor */
-  height: auto; /* Mantiene la proporción de la imagen */
+.form-container {
+  background-color: #d6d5d5;
+  padding: 20px;
+  border-radius: 5px;
+  flex: 1;
 }
 
 h2 {
-  font-size: 24px;
-  margin-bottom: 20px;
+  color: green; /* Color del título */
+  margin-bottom: 20px; /* Espacio entre el título y el párrafo */
 }
 
-.feature {
-  display: flex;
-  align-items: center;
-  margin-bottom: 10px;
+p {
+  color: green; /* Color del texto */
+  margin-bottom: 30px; /* Espacio entre el texto y el botón */
 }
 
-.icon {
-  margin-right: 10px;
-  font-size: 20px;
-}
-
-.smiley::before {
-  content: '😊';
-}
-
-.arrow-up::before {
-  content: '↑';
-}
-
-.book::before {
-  content: '📚';
-}
-
-.bar-chart::before {
-  content: '📊';
+.btn-primary {
+  background-color: green;
+  color: white;
+  padding: 10px 20px; /* Ajusta el tamaño del botón */
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }

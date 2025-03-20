@@ -38,6 +38,12 @@ const routes: Routes = [
   {
     path:'cuestionario', component: CuestionarioComponent
   },
+  {
+    path: 'contact', component: ContactComponent
+  },
+  {
+    path: 'state', component: StateComponent
+  }
 
   // {path:'clientes',component: ClientesComponent},
   // {path:'cliente/form',component: FormComponent},

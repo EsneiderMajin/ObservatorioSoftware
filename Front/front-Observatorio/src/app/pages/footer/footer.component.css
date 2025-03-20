@@ -1,0 +1,16 @@
+.footer-toolbar {
+  margin-top: auto;
+    background-color: #000000;
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif; 
+    font-weight: normal; 
+    font-size: small;     
+  
+    .container {
+      text-align: center;
+    }
+  }
+  
+  .footer-text {
+     color: #FFFFFF; 
+  }

@@ -6,7 +6,6 @@ import { Component } from '@angular/core';
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent {
-  public proyecto: any = {anio: '2025', nombreProyecto: 'Observatorio de Software'};
-  public tecnologia: any = {leyenda: 'WebApp desarrollada con ', tec1: 'Angular ', tec2: 'SpringBoot'};
+  public proyecto: any = {anio: '2025', universidad: 'Universidad del Cauca, todos los derechos reservados'};
   public autor: string = 'Esneider Majin Palechor - Sebastian Osorio';
 }

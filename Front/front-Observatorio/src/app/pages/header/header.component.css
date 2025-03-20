@@ -1,3 +1,21 @@
 .spacer {
     flex: 1 1 auto; /* Expande el espacio disponible, empujando los botones a la derecha */
   }
+
+.toolbar {
+    background-color: #000000;
+    color: #FFFFFF;
+    font-family: 'Inter', sans-serif; 
+    font-weight: normal; 
+    font-size: small;     
+  
+    .container {
+      text-align: center;
+    }
+  }
+
+  .icon {
+    width: 7%; /* Define el ancho deseado */
+    height: auto; /* Mantiene la relación de aspecto */
+    position: relative;
+  }

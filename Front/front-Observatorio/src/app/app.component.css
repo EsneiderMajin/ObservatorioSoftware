@@ -11,6 +11,7 @@ app-header {
 .main-content {
   flex: 1; 
   padding: 16px; 
+  background-color: #f5f5f5;
 }
 
 .footer-toolbar {

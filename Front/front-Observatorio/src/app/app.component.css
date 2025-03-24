@@ -1,5 +1,5 @@
 .app-container {
-  background-color: #000000;
+  background-color: #ffffff;
   display: flex;
   flex-direction: column; 
   min-height: 100vh; 
@@ -14,7 +14,7 @@ app-header {
 }
 
 .footer-toolbar {
-  background-color: #000000;
+  background-color: #455740;
   color: #FFFFFF;
   font-family: 'Inter', sans-serif; 
   font-weight: normal; 

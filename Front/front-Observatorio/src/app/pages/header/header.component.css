@@ -3,8 +3,8 @@
   }
 
 .toolbar {
-    background-color: #000000;
-    color: #FFFFFF;
+    background-color: #E1EBDC;
+    color: #40513B;
     font-family: 'Inter', sans-serif; 
     font-weight: normal; 
     font-size: small;     
@@ -15,7 +15,7 @@
   }
 
   .icon {
-    width: 7%; /* Define el ancho deseado */
+    width: 11%; /* Define el ancho deseado */
     height: auto; /* Mantiene la relación de aspecto */
     position: relative;
   }

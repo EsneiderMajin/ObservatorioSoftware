@@ -1,47 +1,43 @@
-body {
-    background-color: #d3d3d3; /* Fondo gris claro */
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
+
+.mission-container {
+  background-color: #455740;
+  color: #9DC08B;
+  padding: 50px;
+  font-family: 'Arial', sans-serif;
 }
 
-.form-container {
-    background-color: #d6d5d5;
-    padding: 20px;
-    border-radius: 5px;
-    flex: 1;
-    display: flex;
-    justify-content: space-between;
-    padding: 20px;
-  }
-  
-  h2 {
-    color: green; /* Color del título */
-    margin-bottom: 20px; /* Espacio entre el título y el párrafo */
-  }
-  
-  p {
-    color: green; /* Color del texto */
-    margin-bottom: 30px; /* Espacio entre el texto y el botón */
-  }
-  
-  .btn-primary {
-    background-color: green;
-    color: white;
-    padding: 10px 20px; /* Ajusta el tamaño del botón */
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
 
-  .box-column {
-    width: 45%; /* Ajusta el ancho según sea necesario */
-    height: 300px; /* Ajusta la altura según sea necesario */
-    background-color: white; /* Fondo blanco */
-    border-radius: 5px; /* Bordes redondeados */
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra suave */
+.title-one {
+  color: #A479FD;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.5rem;
 }
 
-.text-column {
-    width: 45%; /* Ajusta el ancho según sea necesario */
+.title-two {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 2rem;
+  color: #4d645d; 
+}
+
+.features-container {
+  background-color: #e8f6f3;
+  padding: 50px;
+  font-family: 'Arial', sans-serif;
+}
+
+.title-two {
+  margin-top: 0;
+  margin-bottom: 20px;
+  font-size: 2rem;
+  color: #4d645d;
+}
+
+
+.text-two {
+  color: #40513B;
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 1.2rem;
 }

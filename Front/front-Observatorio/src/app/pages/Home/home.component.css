@@ -10,32 +10,40 @@
 }
 
 .img-fluid {
-  width: 52%;
+  width: 75%;
   height: auto;
 }
 
 .form-container {
-  background-color: #d6d5d5;
-  padding: 20px;
-  border-radius: 5px;
-  flex: 1;
+  background-color: #00000073;
+  padding: 10px;
+  /* border-radius: 5px;
+  flex: 1; */
 }
 
-h2 {
-  color: green; /* Color del título */
-  margin-bottom: 20px; /* Espacio entre el título y el párrafo */
+h1 {
+  color: #FFFFFF; 
+  margin-bottom: 20px; 
 }
 
-p {
-  color: green; /* Color del texto */
-  margin-bottom: 30px; /* Espacio entre el texto y el botón */
+h3 {
+  color: #FFFFFF; 
+  margin-bottom: 30px; 
 }
 
 .btn-primary {
-  background-color: green;
+  background-color: #9c27b0;
   color: white;
-  padding: 10px 20px; /* Ajusta el tamaño del botón */
+  padding: 10px 20px; 
   border: none;
   border-radius: 5px;
   cursor: pointer;
+}
+
+.left-column {
+  width: 50%; 
+}
+.right-column {
+  width: 50%; 
+  text-align: center;
 }

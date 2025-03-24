@@ -11,19 +11,14 @@ export class ContactComponent {
 
   constructor(private fb: FormBuilder) {
     this.contactForm = this.fb.group({
-      name: ['', Validators.required],
-      email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.pattern(/^\d{10}$/)]],
-      message: ['', Validators.required]
+      correo: ['', [Validators.required, Validators.email]],
+      mensaje: ['', Validators.required]
     });
   }
 
-  submitForm() {
+  onSubmit() {
     if (this.contactForm.valid) {
-      console.log('Formulario enviado:', this.contactForm.value);
-      // Aquí puedes integrar una API para enviar los datos
-    } else {
-      console.log('Formulario inválido');
+      console.log(this.contactForm.value);
     }
   }
 }

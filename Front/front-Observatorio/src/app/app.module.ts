@@ -24,6 +24,8 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CuestionarioComponent } from './pages/cuestionario/cuestionario.component';
+import { RegisterComponent } from './pages/register/register.component';
+import { MainviewComponent } from './pages/mainview/mainview.component';
 
 const routes: Routes = [
   {
@@ -43,6 +45,12 @@ const routes: Routes = [
   },
   {
     path: 'state', component: StateComponent
+  },
+  {
+    path: 'register', component: RegisterComponent
+  },
+  {
+    path: 'mainview', component: MainviewComponent
   }
 
   // {path:'clientes',component: ClientesComponent},
@@ -60,7 +68,9 @@ const routes: Routes = [
     LoginComponent,
     StateComponent,
     ContactComponent,
-    CuestionarioComponent
+    CuestionarioComponent,
+    RegisterComponent,
+    MainviewComponent
   ],
   imports: [
     MatCardModule,

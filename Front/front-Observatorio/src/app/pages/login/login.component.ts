@@ -36,7 +36,9 @@ export class LoginComponent {
     this.authService.login(email, password).subscribe({
       next: () => {
         this.snackBar.open('Inicio de sesión exitoso', 'Cerrar', { duration: 3000 });
-        this.router.navigate(['/dashboard']);
+        this.loading = false;
+        console.log('Router:',  this.router.navigate(['/mainview']));
+        this.router.navigate(['/mainview']);
       },
       error: () => {
         this.snackBar.open('Credenciales incorrectas', 'Cerrar', { duration: 3000 });

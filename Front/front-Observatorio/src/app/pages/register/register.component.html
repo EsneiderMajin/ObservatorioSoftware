@@ -1,0 +1,61 @@
+<img src="assets/imagenbase.jpg" alt="Observatorio de Calidad de Software" class="banner-image" />
+<h1>Registro</h1>
+    <p>Por favor complete los siguientes campos obligatorios</p>
+<div class="registro-container">
+    
+    <form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
+      <!-- Campo Nombre -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Nombre</mat-label>
+        <mat-icon matPrefix>person</mat-icon>
+        <input matInput placeholder="Nombre" formControlName="nombre" />
+        <mat-error *ngIf="registroForm.get('nombre')?.hasError('required') && registroForm.get('nombre')?.touched">
+          El nombre es obligatorio
+        </mat-error>
+      </mat-form-field>
+  
+      <!-- Campo Apellido -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Apellido</mat-label>
+        <mat-icon matPrefix>person_outline</mat-icon>
+        <input matInput placeholder="Apellido" formControlName="apellido" />
+        <mat-error *ngIf="registroForm.get('apellido')?.hasError('required') && registroForm.get('apellido')?.touched">
+          El apellido es obligatorio
+        </mat-error>
+      </mat-form-field>
+  
+      <!-- Campo Correo -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Correo</mat-label>
+        <mat-icon matPrefix>mail</mat-icon>
+        <input matInput placeholder="Correo" formControlName="correo" />
+        <mat-error *ngIf="registroForm.get('correo')?.hasError('required') && registroForm.get('correo')?.touched">
+          El correo es obligatorio
+        </mat-error>
+        <mat-error *ngIf="registroForm.get('correo')?.hasError('email') && registroForm.get('correo')?.touched">
+          Formato de correo inválido
+        </mat-error>
+      </mat-form-field>
+  
+      <!-- Campo Contraseña -->
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Contraseña</mat-label>
+        <mat-icon matPrefix>lock</mat-icon>
+        <input
+          matInput
+          placeholder="Contraseña"
+          formControlName="contrasena"
+          type="password"
+        />
+        <mat-error *ngIf="registroForm.get('contrasena')?.hasError('required') && registroForm.get('contrasena')?.touched">
+          La contraseña es obligatoria
+        </mat-error>
+      </mat-form-field>
+  
+      <!-- Botón Registrarse -->
+      <button mat-raised-button color="primary" type="submit">
+        Registrarse
+      </button>
+    </form>
+  </div>
+  

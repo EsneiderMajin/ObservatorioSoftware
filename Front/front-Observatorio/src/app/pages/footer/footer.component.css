@@ -1,8 +1,9 @@
 .footer-toolbar {
   text-align: center;
   margin-top: auto;
-    background-color: #455740;
-    color: #FFFFFF;
+    padding: 10px;
+    background-color: #FFFFFF;
+    color: #000000;
     font-family: 'Inter', sans-serif; 
     font-weight: normal; 
     font-size: small;     
@@ -12,6 +13,6 @@
     }
   }
   
-  .footer-text {
-     color: #FFFFFF; 
-  }
+  /* .footer-text {
+     color: #FFFFFF; //cuando se quiere esconder el texto
+  } */

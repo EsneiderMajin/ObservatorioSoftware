@@ -1,0 +1,33 @@
+.banner-image {
+    width: 100%;
+    height: 280px;      
+    object-fit: cover; 
+    display: block;
+  }
+
+.registro-container {
+    max-width: 400px; /* Ajusta según tus necesidades */
+    margin: auto; /* Centra el contenedor vertical y horizontalmente */
+    padding: 1rem;
+  }
+  
+  .registro-container h2 {
+    margin-bottom: 0.5rem;
+  }
+  
+  .registro-container p {
+    margin-bottom: 2rem;
+    color: #555; /* color de texto secundario */
+  }
+  
+  .full-width {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+  
+  /* Opcional: estilizar el botón */
+  button[type="submit"] {
+    display: block;
+    margin: 1rem auto 0; /* centra el botón horizontalmente */
+  }
+  

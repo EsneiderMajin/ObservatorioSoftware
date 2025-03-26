@@ -27,10 +27,10 @@ import { CuestionarioComponent } from './pages/cuestionario/cuestionario.compone
 
 const routes: Routes = [
   {
-    path:'',redirectTo:'/home',pathMatch:'full'
+    path:'',redirectTo:'/',pathMatch:'full'
   },
   {
-    path:'home', component: HomeComponent
+    path:'', component: HomeComponent
   },
   {
     path:'login', component: LoginComponent

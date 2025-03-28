@@ -26,6 +26,10 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CuestionarioComponent } from './pages/cuestionario/cuestionario.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { MainviewComponent } from './pages/mainview/mainview.component';
+import { QuestionselectComponent } from './components/questionselect/questionselect.component';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+
 
 const routes: Routes = [
   {
@@ -70,7 +74,9 @@ const routes: Routes = [
     ContactComponent,
     CuestionarioComponent,
     RegisterComponent,
-    MainviewComponent
+    MainviewComponent,
+    QuestionselectComponent,
+
   ],
   imports: [
     MatCardModule,
@@ -89,9 +95,10 @@ const routes: Routes = [
     MatFormFieldModule,
     MatIconModule,
     MatSnackBarModule,
-
     MatInputModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    MatRadioModule,
+    MatCheckboxModule, // Importante para checkboxes
     
   ],
   providers: [],

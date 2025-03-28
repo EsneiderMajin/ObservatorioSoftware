@@ -1,0 +1,84 @@
+<form [formGroup]="questionsForm" (ngSubmit)="onSubmit()">
+  <div formArrayName="questions">
+    <div 
+    *ngFor="let questionCtrl of questionsArray.controls; let i = index"
+    [formGroupName]="i"
+    class="pregunta-container"
+    >
+      <h3>{{ questions[i].question }}</h3>
+
+      <div [ngSwitch]="questions[i].type">
+        <!-- PREGUNTA DE SELECCIÓN ÚNICA -->
+        <div *ngSwitchCase="'single'" [formGroup]="getFormGroup(i)">
+          <mat-radio-group formControlName="response">
+            <mat-radio-button
+              *ngFor="let opcion of questions[i].options"
+              [value]="opcion.value"
+              class="radio-opcion">
+              {{ opcion.label }}
+            </mat-radio-button>
+          </mat-radio-group>
+          <div class="error-message"
+            *ngIf="getFormGroup(i).get('response')?.touched &&
+                   getFormGroup(i).get('response')?.hasError('required')">
+            Por favor seleccione una opción
+          </div>
+          <div *ngIf="hasOtherSelected(getFormGroup(i).value, questions[i].options)">
+            <mat-form-field appearance="fill">
+              <mat-label>Especifique otro</mat-label>
+              <input matInput formControlName="otroTexto" />
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- PREGUNTA DE SELECCIÓN MÚLTIPLE -->
+        <div *ngSwitchCase="'multiple'" [formGroup]="getFormGroup(i)">
+          <div *ngFor="let opcion of questions[i].options">
+            <mat-checkbox
+              (change)="onCheckboxChange($event, opcion.value, getFormGroup(i))"
+              [checked]="getFormGroup(i).value.selectedOptions.includes(opcion.value)">
+              {{ opcion.label }}
+            </mat-checkbox>
+          </div>
+          <div *ngIf="hasOtherSelected(getFormGroup(i).value, questions[i].options)">
+            <mat-form-field appearance="fill">
+              <mat-label>Especifique otro</mat-label>
+              <input matInput formControlName="otroTexto" />
+            </mat-form-field>
+          </div>
+        </div>
+
+        <!-- PREGUNTA DE TIPO MATRIZ -->
+        <div *ngSwitchCase="'matrix'" [formGroup]="getFormGroup(i)">
+          <table class="matrix-table">
+            <thead>
+              <tr>
+                <th></th>
+                <th *ngFor="let col of questions[i].columns" style="text-align: center;">
+                  {{ col.label }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of questions[i].rows">
+                <td>{{ row.label }}</td>
+                <td *ngFor="let col of questions[i].columns" style="text-align: center;">
+                  <mat-radio-button
+                    [name]="row.value"
+                    [value]="col.value"
+                    [checked]="getFormGroup(i).get('matrix')?.get(row.value)?.value === col.value"
+                    (change)="onMatrixRadioChange(row.value, col.value, getMatrixGroup(i))"
+                    >
+                  </mat-radio-button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <button mat-raised-button color="primary" type="submit" [disabled]="!questionsForm.valid">{{botonSend}}</button>
+</form>

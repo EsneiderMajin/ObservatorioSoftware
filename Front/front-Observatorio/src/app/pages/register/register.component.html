@@ -14,16 +14,6 @@
         </mat-error>
       </mat-form-field>
   
-      <!-- Campo Apellido -->
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Apellido</mat-label>
-        <mat-icon matPrefix>person_outline</mat-icon>
-        <input matInput placeholder="Apellido" formControlName="apellido" />
-        <mat-error *ngIf="registroForm.get('apellido')?.hasError('required') && registroForm.get('apellido')?.touched">
-          El apellido es obligatorio
-        </mat-error>
-      </mat-form-field>
-  
       <!-- Campo Correo -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Correo</mat-label>

@@ -1,26 +1,104 @@
 import { Injectable } from '@angular/core';
 import { Observable, of, throwError } from 'rxjs';
 import { delay } from 'rxjs/operators';
+import { SupabaseService } from '../supabase/supabase.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
-  private validUser = { email: 'sneider@gmail.com', password: '123456' };
+
+  constructor(private supabaseService: SupabaseService) {}
+
+
 
   login(email: string, password: string): Observable<boolean> {
-    if (email === this.validUser.email && password === this.validUser.password) {
-      localStorage.setItem('token', 'fake-jwt-token');
-      return of(true).pipe(delay(1000)); // Simula una petición HTTP
-    }
-    return throwError(() => new Error('Credenciales incorrectas'));
+    const supabase = this.supabaseService.getClient();
+    return new Observable<boolean>(observer => {
+      supabase.auth.signInWithPassword({ email, password })
+        .then(({ data, error }) => {
+          if (error) {
+            console.error('Error al iniciar sesión:', error);
+            observer.error(error);
+          } else {
+            localStorage.setItem('token', data.session.access_token);
+            observer.next(true);
+          }
+          observer.complete();
+        })
+        .catch(error => {
+          console.error('Error al iniciar sesión:', error);
+          observer.error(error);
+        });
+    }).pipe(delay(100)); // Simula un retraso de 1 segundo
+    
+
   }
 
-  logout() {
-    localStorage.removeItem('token');
+  logout(): Observable<boolean> {
+    const supabase = this.supabaseService.getClient();
+    return new Observable<boolean>(observer => {
+      supabase.auth.signOut()
+        .then(({ error }) => {
+          if (error) {
+            console.error('Error al cerrar sesión:', error);
+            observer.error(error);
+          } else {
+            localStorage.removeItem('token');
+            observer.next(true);
+          }
+          observer.complete();
+        })
+        .catch(error => {
+          console.error('Error al cerrar sesión:', error);
+          observer.error(error);
+        });
+    }).pipe(delay(100)); // Simula un retraso de 1 segundo
+  }
+  
+  consultarUsuarioPorToken(): Observable<any> {
+    const supabase = this.supabaseService.getClient();
+    return new Observable<any>(observer => {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        observer.error('No hay token disponible');
+        return;
+      }
+
+      supabase.auth.getUser()
+        .then(({ data, error }) => {
+          if (error) {
+            console.error('Error al obtener el usuario:', error);
+            observer.error(error);
+          } else {
+            observer.next(data.user);
+          }
+          observer.complete();
+        })
+        .catch(error => {
+          console.error('Error al obtener el usuario:', error);
+          observer.error(error);
+        });
+    }).pipe(delay(100)); // Simula un retraso de 1 segundo
   }
 
-  isAuthenticated(): boolean {
-    return !!localStorage.getItem('token');
-  }
+  
+
+  // getUsuarioByCorreoandContrasena(correo: string, contrasena: string): Promise<any> {
+  //   const supabase = this.supabaseService.getClient();
+  //   return Promise.resolve(
+  //     supabase
+  //       .from('Usuario')
+  //       .select('*')
+  //       .eq('correoElectronico', correo)
+  //       .eq('contrasena', contrasena)
+  //       .single()
+  //   ).then(({ data, error }) => {
+  //     if (error) {
+  //       console.error('Error al obtener el usuario:', error);
+  //       return null;
+  //     }
+  //     return data;
+  //   });
+  // }
 }

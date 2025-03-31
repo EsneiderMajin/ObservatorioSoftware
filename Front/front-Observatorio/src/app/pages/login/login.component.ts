@@ -21,7 +21,7 @@ export class LoginComponent {
   ) {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      password: ['', [Validators.required, Validators.minLength(4)]]
     });
   }
 
@@ -34,14 +34,14 @@ export class LoginComponent {
     const { email, password } = this.loginForm.value;
 
     this.authService.login(email, password).subscribe({
-      next: () => {
+      next: (response) => {
         this.snackBar.open('Inicio de sesión exitoso', 'Cerrar', { duration: 3000 });
         this.loading = false;
         console.log('Router:',  this.router.navigate(['/mainview']));
         this.router.navigate(['/mainview']);
       },
-      error: () => {
-        this.snackBar.open('Credenciales incorrectas', 'Cerrar', { duration: 3000 });
+      error: (error) => {
+        this.snackBar.open(error.message, 'Cerrar', { duration: 3000 });
         this.loading = false;
       }
     });

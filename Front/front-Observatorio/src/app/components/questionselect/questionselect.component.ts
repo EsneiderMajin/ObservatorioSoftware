@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { Question, Option, MatrixRow, } from 'src/app/core/models/observatorio.model';
+import { Questions, Option, MatrixRow, } from 'src/app/core/models/observatorio.model';
 
 @Component({
   selector: 'app-questionselect',
@@ -8,7 +8,7 @@ import { Question, Option, MatrixRow, } from 'src/app/core/models/observatorio.m
   styleUrls: ['./questionselect.component.css']
 })
 export class QuestionselectComponent implements OnInit, OnChanges  {
-  @Input() questions!: Question[];
+  @Input() questions!: Questions[];
   @Input() category!: string;
   @Output() answered = new EventEmitter<any>();
   botonSend = "Siguiente";

@@ -3,8 +3,8 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { HeaderComponent } from './pages/header/header.component';
-import { FooterComponent } from './pages/footer/footer.component';
+import { HeaderComponent } from './components/header/header.component';
+import { FooterComponent } from './components/footer/footer.component';
 import { RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
@@ -29,6 +29,11 @@ import { MainviewComponent } from './pages/mainview/mainview.component';
 import { QuestionselectComponent } from './components/questionselect/questionselect.component';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { LoadingComponent } from './components/loading/loading.component';
+import { ModalNotificationComponent } from './components/modal-notification/modal-notification.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { MatSelectModule } from '@angular/material/select';
+import { ResultsComponent } from './pages/results/results.component';
 
 
 const routes: Routes = [
@@ -55,6 +60,9 @@ const routes: Routes = [
   },
   {
     path: 'mainview', component: MainviewComponent
+  },
+  {
+    path: 'resultados', component: ResultsComponent
   }
 
   // {path:'clientes',component: ClientesComponent},
@@ -76,6 +84,9 @@ const routes: Routes = [
     RegisterComponent,
     MainviewComponent,
     QuestionselectComponent,
+    LoadingComponent,
+    ModalNotificationComponent,
+    ResultsComponent,
 
   ],
   imports: [
@@ -99,6 +110,7 @@ const routes: Routes = [
     MatProgressSpinnerModule,
     MatRadioModule,
     MatCheckboxModule, // Importante para checkboxes
+    MatDialogModule,
     
   ],
   providers: [],

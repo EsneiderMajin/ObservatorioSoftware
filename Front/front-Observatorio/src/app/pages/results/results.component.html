@@ -1,27 +1,84 @@
-<div>
-  <h2>Resultados de Calidad</h2>
+<div class="report-container">
+  <h1>Reporte de Resultados</h1>
+
+  <h3>Descripción</h3>
+
+  <h5>
+    Este informe tiene como objetivo evaluar el nivel de implementación de prácticas de calidad dentro del proceso de desarrollo, conocer el nivel de esfuerzo que invierten las organizaciones de software en su implementación, y finalmente conocer el estado general de los mayores desafíos que enfrentan al implementar estas prácticas. Para cada uno se utiliza la scala LIKERT con el fin de dar una descripción detallada para facilitar su comprensión y aplicación en la evaluación de calidad.
+  </h5>
+
+  <h2>1. PRÁCTICAS DE GESTIÓN DE CALIDAD</h2>
+
+  <h3>Propósito</h3>
+
+  <h5>
+    El propósito es conocer cuál es el nivel de implementación de las prácticas de gestión de calidad en sus proyectos identificando fortalezas, oportunidades de mejora y recomendaciones para optimizar los procesos de calidad. Las siguientes gráficas muestras el nivel de implementación de cada práctica establecida por la industria y el nivel general de implementación en el que se encuentra su organización.
+  </h5>
+
+  <h3>Frecuencia relativa del grado de implementación de prácticas de gestión de calidad</h3>
+
+  <h5>
+    Nivel de implementación por prácticas de gestión de calidad: En la siguiente gráfica muestra la frecuencia relativa del grado de implementación de las prácticas de gestión de calidad en su organización. La escala utilizada es la escala LIKERT, que va desde 1 (nunca) hasta 5 (siempre). En la gráfica se puede observar el porcentaje de respuestas para cada una de las opciones.
+    En la parte superior de la gráfica se puede observar el porcentaje de respuestas para cada una de las opciones. En la parte inferior de la gráfica se puede observar el porcentaje de respuestas para cada una de las opciones.
+  </h5>
 
   <!-- Fila 1: Primer gráfico y su implementación total -->
   <div class="chart-row">
     <canvas #calidadChartCanvas1 class="small-chart"></canvas>
+    <h5>Nivel general de implementación de las prácticas de gestión de calidad</h5>
     <canvas #implementacionTotal1 class="small-chart"></canvas>
   </div>
-  <h2>Conclusiones</h2>
+
+  <h2>Conclusión</h2>
   <p>{{ conclusionesEvaluacion[0] }}</p>
+
+  <h2>2. PRÁCTICAS DE CONTROL DE CALIDAD</h2>
+
+  <h3>Propósito</h3>
+  
+  <h5>
+    El propósito es conocer cuál es el nivel de implementación de las prácticas de control de calidad en sus proyectos identificando fortalezas, oportunidades de mejora y recomendaciones para optimizar los procesos de calidad. Las siguientes gráficas muestras el nivel de implementación de cada práctica establecida por la industria y el nivel general de implementación en el que se encuentra su organización.
+  </h5>
+
+  <h3>Frecuencia relativa del grado de implementación de prácticas de control de calidad</h3>
+
+  <h5>
+    Nivel de implementación por prácticas de control de calidad: En la siguiente gráfica muestra la frecuencia relativa del grado de implementación de las prácticas de control de calidad en su organización. La escala utilizada es la escala LIKERT, que va desde 1 (nunca) hasta 5 (siempre). En la gráfica se puede observar el porcentaje de respuestas para cada una de las opciones.
+    En la parte superior de la gráfica se puede observar el porcentaje de respuestas para cada una de las opciones. En la parte inferior de la gráfica se puede observar el porcentaje de respuestas para cada una de las opciones.
+  </h5>
 
   <!-- Fila 2: Segundo gráfico y su implementación total -->
   <div class="chart-row">
     <canvas #calidadChartCanvas2 class="small-chart"></canvas>
+    <h5>Nivel general de implementación de las prácticas de control de calidad</h5>
     <canvas #implementacionTotal2 class="small-chart"></canvas>
   </div>
-  <h2>Conclusiones</h2>
+
+  <h2>Conclusión</h2>
   <p>{{ conclusionesEvaluacion[1] }}</p>
+
+  <h2>3. PRÁCTICAS DE ASEGURAMIENTO DE CALIDAD</h2>
+
+  <h3>Propósito</h3>
+
+  <h5>
+    El propósito es conocer cuál es el nivel de implementación de las prácticas de aseguramiento de calidad en sus proyectos identificando fortalezas, oportunidades de mejora y recomendaciones para optimizar los procesos de calidad. Las siguientes gráficas muestras el nivel de implementación de cada práctica establecida por la industria y el nivel general de implementación en el que se encuentra su organización.
+  </h5>
+
+  <h3>Frecuencia relativa del grado de implementación de prácticas de aseguramiento de calidad</h3>
+
+  <h5>
+    Nivel de implementación por prácticas de aseguramiento de calidad: En la siguiente gráfica muestra la frecuencia relativa del grado de implementación de las prácticas de aseguramiento de calidad en su organización. La escala utilizada es la escala LIKERT, que va desde 1 (nunca) hasta 5 (siempre). En la gráfica se puede observar el porcentaje de respuestas para cada una de las opciones.
+    En la parte superior de la gráfica se puede observar el porcentaje de respuestas para cada una de las opciones. En la parte inferior de la gráfica se puede observar el porcentaje de respuestas para cada una de las opciones.
+  </h5>
 
   <!-- Fila 3: Tercer gráfico y su implementación total -->
   <div class="chart-row">
     <canvas #calidadChartCanvas3 class="small-chart"></canvas>
+    <h5>Nivel general de implementación de las prácticas de aseguramiento de calidad</h5>
     <canvas #implementacionTotal3 class="small-chart"></canvas>
   </div>
-  <h2>Conclusiones</h2>
+
+  <h2>Conclusión</h2>
   <p>{{ conclusionesEvaluacion[2] }}</p>
 </div>

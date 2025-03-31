@@ -47,5 +47,16 @@
         Registrarse
       </button>
     </form>
+    <div *ngIf="loading">
+      <app-loading></app-loading>
+    </div>
   </div>
   
+
+  <app-modal-notification 
+  [nofiticationData]="notificationData"
+  *ngIf="visibleAlert"
+  (ResponseOptionText)="buttonOption($event)"
+  >
+</app-modal-notification>
+

@@ -1,40 +1,103 @@
 /* pregunta-radio.component.css */
 .pregunta-container {
-    margin: 1rem auto;
-    max-width: 600px;
-    font-family: Arial, sans-serif;
+  margin: 1rem auto;
+  max-width: 600px;
+  font-family: Arial, sans-serif;
+}
+
+.pregunta-container h3 {
+  margin-bottom: 1rem;
+}
+
+.obligatorio {
+  font-weight: normal;
+  color: #666;
+}
+
+.asterisk {
+  color: red;
+  margin-left: 0.3rem;
+}
+
+mat-radio-group {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+}
+
+.radio-opcion {
+  margin-bottom: 0.5rem;
+}
+
+.error-message {
+  color: red;
+  font-size: 0.9rem;
+  margin-bottom: 1rem;
+}
+
+button {
+  display: inline-block;
+}
+
+.button-send {
+  background-color: #4CAF50;
+  color: white;
+}
+
+.matrix-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.question-header {
+  text-align: left;
+  font-weight: bold;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+}
+
+.column-header {
+  text-align: center;
+  padding: 10px;
+  border-bottom: 1px solid #ddd;
+  font-weight: normal;
+}
+
+.row-label {
+  text-align: left;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+  background-color: #f9f9f9;
+}
+
+.radio-cell {
+  text-align: center;
+  padding: 10px;
+  border-right: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
+}
+
+/* Estilos responsivos */
+@media (max-width: 600px) {
+  .pregunta-container {
+    max-width: 100%;
+    padding: 0.5rem;
   }
-  
-  .pregunta-container h3 {
-    margin-bottom: 1rem;
+
+  .matrix-table {
+    font-size: 0.8rem;
   }
-  
-  .obligatorio {
-    font-weight: normal;
-    color: #666;
+
+  .column-header, .row-label, .radio-cell {
+    padding: 5px;
   }
-  
-  .asterisk {
-    color: red;
-    margin-left: 0.3rem;
+
+  .radio-cell {
+    min-width: 40px;
   }
-  
-  mat-radio-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 1rem;
+
+  h3 {
+    font-size: 1rem;
   }
-  
-  .radio-opcion {
-    margin-bottom: 0.5rem;
-  }
-  
-  .error-message {
-    color: red;
-    font-size: 0.9rem;
-    margin-bottom: 1rem;
-  }
-  
-  button {
-    display: inline-block;
-  }
+}

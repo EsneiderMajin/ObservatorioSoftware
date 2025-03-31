@@ -99,11 +99,11 @@ export const PreguntaAutorizacion: Questions = {
   ];
   
   const PreguntasCalidad: MatrixColumn[] = [
-    { label: '1 (No implementada)', value: 1 },
-    { label: '2 (Implementación inicial)', value: 2 },
-    { label: '3 (Implementación parcial)', value: 3 },
-    { label: '4 (Implementación avanzada)', value: 4 },
-    { label: '5 (Implementación optimizada)', value: 5 }
+    { label: '1', value: 1 },
+    { label: '2', value: 2 },
+    { label: '3', value: 3 },
+    { label: '4', value: 4 },
+    { label: '5', value: 5 }
   ];
   
   // Listado de preguntas de matriz

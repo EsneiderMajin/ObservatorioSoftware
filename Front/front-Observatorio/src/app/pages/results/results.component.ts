@@ -1,5 +1,6 @@
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
+import { ActivatedRoute } from '@angular/router';
 import { Chart, CategoryScale, LinearScale, BarElement, BarController, Title, Tooltip, Legend } from 'chart.js';
 import { conclusionesEvaluacionCalidad } from 'src/app/core/enums/observatorio.enum';
 import { PreguntaResponse, questions } from 'src/app/core/models/responseQuestions.models';
@@ -20,6 +21,7 @@ export class ResultsComponent implements OnInit {
   listaPreguntasCalidad: PreguntaResponse[] = [];
   listaPreguntasGenerales: PreguntaResponse[] = [];
   conclusionesEvaluacion: string[] = [];
+  encuestaId = 0;
 
   calidadChart1!: Chart;
   calidadChart2!: Chart;
@@ -40,6 +42,7 @@ export class ResultsComponent implements OnInit {
   @ViewChild('implementacionTotal3') implementacionTotal3!: ElementRef<HTMLCanvasElement>;
 
   constructor(
+    private readonly activeRoute: ActivatedRoute,
     private readonly questionService: QuestionService,
     private readonly formBuilder: FormBuilder,
     private authService: AuthService,
@@ -48,13 +51,16 @@ export class ResultsComponent implements OnInit {
   }
 
   async ngOnInit() {
+    this.activeRoute.params.subscribe(params => {
+      this.encuestaId = params?.['id'] ?? 0;
+    });
     await this.cargarDatos();
     // Initialization logic can be added here
   }
 
   async cargarDatos() {
     //Preguntas Calidad
-    await this.questionService.getPreguntasPorCategoria('preguntasCalidad').then((res) => {
+    await this.questionService.getPreguntasPorCategoria('preguntasCalidad', this.encuestaId).then((res) => {
       this.listaPreguntasCalidad = res as PreguntaResponse[];
     });
 

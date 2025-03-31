@@ -1,18 +1,35 @@
 <img src="assets/imagenbase.jpg" alt="Observatorio de Calidad de Software" class="banner-image" />
 <h1>Observatorio Software</h1>
-<div *ngIf="!mostrarResultados">
-  <p>Por favor de clic en el botón para iniciar la encuesta</p>
+<hr>
+
+
+<div *ngIf="listaEncuestas.length > 0">
+  <p>Para generar ver los resultados de la encuesta, haga clic en el botón "Generar Resultados".</p>
+  <table >
+    <thead>
+      <tr>
+        <th style="width: 30%;">ID</th>
+        <th style="width: 30%;">FECHA</th>
+        <th style="width: 40%;">ACCIÓN</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let encuesta of listaEncuestas; let i = index">
+        <td>Encuesta {{i + 1}}</td>
+        <td>{{ encuesta.fechaCreacion }}</td>
+        <td>
+          <button (click)="generarResultados(encuesta.idEncuesta)" class="btn-generar">Generar Resultados</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 </div>
 
 
-<div class="encuesta-container" *ngIf="!mostrarResultados">
+
+<div class="encuesta-container">
     <button mat-button class="survey-button" routerLink="/cuestionario">
     Iniciar Encuesta
   </button>
 </div>
 
-<div class="encuesta-container" *ngIf="mostrarResultados">
-    <button mat-button class="survey-button" routerLink="/resultados">
-    Mostrar Resultados
-  </button>
-</div>

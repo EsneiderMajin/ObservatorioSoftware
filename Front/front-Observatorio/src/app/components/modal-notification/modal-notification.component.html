@@ -1,0 +1,12 @@
+<div class="modal-overlay">
+    <div class="modal-content">
+      <h2 [ngClass]="{'error-title': nofiticationData.isError, 'success-title': !nofiticationData.isError}">
+        {{ nofiticationData.title }}
+      </h2>
+      <p>{{ nofiticationData.description }}</p>
+      <div class="modal-actions">
+        <button class="btn-ok" (click)="onButtonClick('aceptar')">Aceptar</button>
+        <!-- <button class="btn-cancel" (click)="onButtonClick('cancel')">Cancelar</button> -->
+      </div>
+    </div>
+  </div>

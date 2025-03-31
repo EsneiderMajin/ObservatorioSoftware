@@ -3,11 +3,11 @@
 export interface Encuesta {
   fechacreacion: string;
   idUsuario: number;
-  questions: Question[];
+  questions: Questions[];
 }
 
 export interface ListQuestions{
-  questions: Question[];
+  questions: Questions[];
   category: string; // Nueva propiedad para la categoría
   avaliable?: boolean; // Nueva propiedad para indicar si la pregunta está disponible
 }
@@ -17,7 +17,7 @@ export interface RespuestaComponent {
   category: string;
 }
 
-export interface Question {
+export interface Questions {
   question: string;
   type: 'single' | 'multiple' | 'matrix';
   options?: Option[];
@@ -43,7 +43,7 @@ export interface Option {
     value: string;
   }
   
-export const PreguntaAutorizacion: Question = {
+export const PreguntaAutorizacion: Questions = {
     question: ' Los datos recopilados en este estudio serán utilizados exclusivamente con fines educativos y de investigación. No se compartirán con terceros ni se expondrán de manera que permitan identificar a los participantes. Toda la información será tratada de forma anónima y confidencial, garantizando el respeto a la privacidad y seguridad de los datos.¿Desea Continuar?',
     type: 'single',
     options: [
@@ -52,7 +52,7 @@ export const PreguntaAutorizacion: Question = {
     ]
   };
   
-  export const PreguntasGenerales: Question[] = [
+  export const PreguntasGenerales: Questions[] = [
     {
       question: '¿Cuál es el tamaño aproximado de su organización? (Seleccione una sola opción)',
       type: 'single',
@@ -107,7 +107,7 @@ export const PreguntaAutorizacion: Question = {
   ];
   
   // Listado de preguntas de matriz
-  export const matrixQuestions: Question[] = [
+  export const matrixQuestions: Questions[] = [
     {
       question: '¿Con qué frecuencia se aplican las siguientes prácticas de gestión de calidad en sus proyectos?',
       type: 'matrix',
@@ -155,7 +155,7 @@ export const PreguntaAutorizacion: Question = {
     }
   ];
   
-  export const PreguntasEsfuerzo: Question[] = [
+  export const PreguntasEsfuerzo: Questions[] = [
     {
       question: '¿En qué medida su organización invierte esfuerzo en las prácticas de gestión de calidad?',
       type: 'single',
@@ -191,7 +191,7 @@ export const PreguntaAutorizacion: Question = {
     }
   ];
   
-  export const PreguntasDesafios: Question[] = [
+  export const PreguntasDesafios: Questions[] = [
     {
       question: '¿Cuáles son los mayores desafíos que enfrenta su organización en la implementación de las prácticas de calidad de software? (Seleccione todas las opciones que considere relevantes para su organización)',
       type: 'multiple',

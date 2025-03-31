@@ -20,4 +20,14 @@
     <app-questionselect [category]="preguntasDesafio.category"   [questions]="preguntasDesafio.questions" (answered)="answeredQuestion($event)"></app-questionselect>
   </div>
 
+  <div *ngIf="loading">
+    <app-loading></app-loading>
+  </div>
 
+
+  <app-modal-notification 
+  [nofiticationData]="notificationData"
+  *ngIf="VisibleAlert"
+  (ResponseOptionText)="buttonOption($event)"
+  >
+</app-modal-notification>

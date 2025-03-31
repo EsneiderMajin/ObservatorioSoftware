@@ -1,11 +1,11 @@
 
 
 export enum conclusionesEvaluacionCalidad{
-    baja = 'Implementación Baja: Las práctica apenas se aplica o casi no se usa.',
-    inicial = 'Implementación Inicial: Se empiezan a usar las prácticas, pero de forma muy limitada o esporádica. ',
-    parcial = 'Implementación Parcial: Las prácticas se usan en algunas áreas, pero aún no se ha aplicado en todo lo necesario.',
-    avanzada = 'Implementación Avanzada: Las prácticas se usan de forma regular y en la mayoría de los casos, aunque todavía se puede mejorar.',
-    total = 'Implementación Total: Las prácticas se aplican en su totalidad y de manera muy consistente en todos los aspectos.'
+    baja = 'El grado general de implementación de sus prácticas de calidad es Implementación Baja: Las práctica apenas se aplica o casi no se usa.',
+    inicial = 'El grado general de implementación de sus prácticas de calidad es Implementación Inicial: Se empiezan a usar las prácticas, pero de forma muy limitada o esporádica. ',
+    parcial = 'El grado general de implementación de sus prácticas de calidad es Implementación Parcial: Las prácticas se usan en algunas áreas, pero aún no se ha aplicado en todo lo necesario.',
+    avanzada = 'El grado general de implementación de sus prácticas de calidad es Implementación Avanzada: Las prácticas se usan de forma regular y en la mayoría de los casos, aunque todavía se puede mejorar.',
+    total = 'El grado general de implementación de sus prácticas de calidad es Implementación Total: Las prácticas se aplican en su totalidad y de manera muy consistente en todos los aspectos.'
 }
 
 export enum conclusionesEvaluacionEsfuerzo{

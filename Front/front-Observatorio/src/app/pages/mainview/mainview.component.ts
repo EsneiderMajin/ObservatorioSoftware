@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from '@angular/router';
+import { EncuestaResponse } from 'src/app/core/models/responseQuestions.models';
 import { AuthService } from 'src/app/core/services/login/auth.service';
 import { QuestionService } from 'src/app/core/services/question/question.service';
 
@@ -12,7 +13,7 @@ import { QuestionService } from 'src/app/core/services/question/question.service
 export class MainviewComponent implements OnInit {
 
   usuario: any;
-  mostrarResultados = false;
+  listaEncuestas: EncuestaResponse[] = [];
 
   constructor(
         private readonly questionService: QuestionService,
@@ -23,8 +24,10 @@ export class MainviewComponent implements OnInit {
 
   async ngOnInit() {
     await this.usuarioTieneEncuesta();
-    await this.consultarResultados();
 
+    await this.consultarEncuestas();
+
+    
   }
 
   async usuarioTieneEncuesta(){
@@ -46,20 +49,21 @@ export class MainviewComponent implements OnInit {
     
   }
 
-  async consultarResultados() {
-    await this.questionService.getEncuestaPorUsuario(this.usuario.id).then((response) => {
-      if (response) {
-        this.mostrarResultados = true;
-      }
-    }
-    ).catch((error) => {
+  async consultarEncuestas() {
+    await this.questionService.getEncuestasPorUsuario(this.usuario.id).then((response) => {
+      this.listaEncuestas = response;
+
+    }).catch((error) => {
       console.error('Error al consultar la encuesta:', error);
-    }
-    );
+    });
   }
 
   startSurvey() {
     console.log('Starting survey');
+  }
+
+  generarResultados(idEncuesta: number) {
+    this.router.navigate(['/resultados', idEncuesta]);
   }
   
 }

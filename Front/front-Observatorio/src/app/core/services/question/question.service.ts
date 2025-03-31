@@ -159,93 +159,93 @@ export class QuestionService {
     return PreguntasDesafiosData;
   }
 
-//consultar preguntas por categoria 
-async getPreguntasPorCategoria(categoria: string): Promise<ListQuestions[]> {
-  const supabase = this.supabaseService.getClient();
-
-  // Usamos la sintaxis de Supabase para "expandir" las relaciones
-  // Ten en cuenta que debes tener definidas las FK y el 'select' anidado
-  const { data, error } = await supabase
-    .from('Pregunta')
-    .select(`
-      *,
-      respuestaSimple(*),
-      respuestaMultiple(*),
-      respuestaMatrix(*)
-    `)
-    .eq('category', categoria);
-
-  if (error) {
-    console.error('Error al obtener preguntas por categoría:', error);
-    return [];
+  async getPreguntasPorCategoria(categoria: string, idEncuesta: number): Promise<ListQuestions[]> {
+    const supabase = this.supabaseService.getClient();
+  
+    // Usamos la sintaxis de Supabase para "expandir" las relaciones
+    // Ten en cuenta que debes tener definidas las FK y el 'select' anidado
+    const { data, error } = await supabase
+      .from('Pregunta')
+      .select(`
+        *,
+        respuestaSimple(*),
+        respuestaMultiple(*),
+        respuestaMatrix(*)
+      `)
+      .eq('category', categoria)
+      .eq('idEncuesta', idEncuesta); // Añadimos el filtro por idEncuesta
+  
+    if (error) {
+      console.error('Error al obtener preguntas por categoría y encuesta ID:', error);
+      return [];
+    }
+  
+    const questionsTransformadas = data.map((pregunta: any) => {
+      // Según el tipo de pregunta, estructuramos las respuestas
+      if (pregunta.type === 'single') {
+        // De la tabla respuestaSimple, normalmente habrá 0 o 1 registro
+        const simpleResp = pregunta.respuestaSimple?.[0];
+        return {
+          idPregunta: pregunta.idPregunta,
+          question: pregunta.question,
+          type: pregunta.type,
+          response: simpleResp ? simpleResp.response : undefined
+        };
+      } else if (pregunta.type === 'multiple') {
+        // De la tabla respuestaMultiple, puede haber varias opciones
+        const multipleResp = pregunta.respuestaMultiple || [];
+        return {
+          idPregunta: pregunta.idPregunta,
+          question: pregunta.question,
+          type: pregunta.type,
+          selectedOptions: multipleResp.map((item: any) => item.optionSelected)
+        };
+      } else if (pregunta.type === 'matrix') {
+        // De la tabla respuestaMatrix, armamos un objeto clave-valor
+        const matrixResp = pregunta.respuestaMatrix || [];
+        const matrix: { [key: string]: number } = {};
+        matrixResp.forEach((item: any) => {
+          matrix[item.matrixKey] = item.value;
+        });
+        return {
+          idPregunta: pregunta.idPregunta,
+          question: pregunta.question,
+          type: pregunta.type,
+          matrix
+        };
+      } else {
+        // Si hubiera otro tipo de pregunta no contemplado
+        return {
+          idPregunta: pregunta.idPregunta,
+          question: pregunta.question,
+          type: pregunta.type
+        };
+      }
+    });
+  
+    return [{
+      category: categoria,
+      questions: questionsTransformadas,
+      avaliable: true
+    }];
   }
 
-  const questionsTransformadas = data.map((pregunta: any) => {
-    // Según el tipo de pregunta, estructuramos las respuestas
-    if (pregunta.type === 'single') {
-      // De la tabla respuestaSimple, normalmente habrá 0 o 1 registro
-      const simpleResp = pregunta.respuestaSimple?.[0];
-      return {
-        idPregunta: pregunta.idPregunta,
-        question: pregunta.question,
-        type: pregunta.type,
-        response: simpleResp ? simpleResp.response : undefined
-      };
-    } else if (pregunta.type === 'multiple') {
-      // De la tabla respuestaMultiple, puede haber varias opciones
-      const multipleResp = pregunta.respuestaMultiple || [];
-      return {
-        idPregunta: pregunta.idPregunta,
-        question: pregunta.question,
-        type: pregunta.type,
-        selectedOptions: multipleResp.map((item: any) => item.optionSelected)
-      };
-    } else if (pregunta.type === 'matrix') {
-      // De la tabla respuestaMatrix, armamos un objeto clave-valor
-      const matrixResp = pregunta.respuestaMatrix || [];
-      const matrix: { [key: string]: number } = {};
-      matrixResp.forEach((item: any) => {
-        matrix[item.matrixKey] = item.value;
-      });
-      return {
-        idPregunta: pregunta.idPregunta,
-        question: pregunta.question,
-        type: pregunta.type,
-        matrix
-      };
-    } else {
-      // Si hubiera otro tipo de pregunta no contemplado
-      return {
-        idPregunta: pregunta.idPregunta,
-        question: pregunta.question,
-        type: pregunta.type
-      };
-    }
-  });
-
-  return [{
-    category: categoria,
-    questions: questionsTransformadas,
-    avaliable: true
-  }];
-}
-
 //consultar si usuario tiene encuesta
-async getEncuestaPorUsuario(idUsuario: string): Promise<any> {
+// Consultar si usuario tiene encuestas
+async getEncuestasPorUsuario(idUsuario: string): Promise<any[]> {
   const supabase = this.supabaseService.getClient();
 
   const { data, error } = await supabase
     .from('Encuesta')
     .select('*')
-    .eq('idUsuario', idUsuario)
-    .single(); // Usamos single para obtener un solo registro
+    .eq('idUsuario', idUsuario);
 
   if (error) {
-    console.error('Error al obtener encuesta por usuario:', error);
-    return null;
+    console.error('Error al obtener encuestas por usuario:', error);
+    return [];
   }
 
-  return data;
+  return data || [];
 }
 
 

@@ -62,12 +62,9 @@ const routes: Routes = [
     path: 'mainview', component: MainviewComponent
   },
   {
-    path: 'resultados', component: ResultsComponent
+    path: 'resultados/:id', component: ResultsComponent
   }
 
-  // {path:'clientes',component: ClientesComponent},
-  // {path:'cliente/form',component: FormComponent},
-  // {path:'cliente/form/:id',component: FormComponent}
 
 ];
 
@@ -109,7 +106,7 @@ const routes: Routes = [
     MatInputModule,
     MatProgressSpinnerModule,
     MatRadioModule,
-    MatCheckboxModule, // Importante para checkboxes
+    MatCheckboxModule,
     MatDialogModule,
     
   ],

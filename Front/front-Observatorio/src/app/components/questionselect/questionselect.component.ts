@@ -58,21 +58,21 @@ export class QuestionselectComponent implements OnInit, OnChanges  {
 
         case 'multiple':
           group = this.fb.group({
-            selectedOptions: [[]],
+            selectedOptions: [[],Validators.required],
             otroTexto: ['']
           });
           break;
 
-        case 'matrix':
-          // Para cada fila, creamos un control dentro de un grupo
-          const matrixGroup = this.fb.group({});
-          question.rows?.forEach((row: MatrixRow) => {
-            matrixGroup.addControl(row.value, this.fb.control(null));
-          });
-          group = this.fb.group({
-            matrix: matrixGroup
-          });
-          break;
+          case 'matrix':
+            // Para cada fila, creamos un control dentro de un grupo
+            const matrixGroup = this.fb.group({});
+            question.rows?.forEach((row: MatrixRow) => {
+              matrixGroup.addControl(row.value, this.fb.control(null, Validators.required)); // Asegurarse de que cada fila tenga required
+            });
+            group = this.fb.group({
+              matrix: matrixGroup
+            });
+            break;
 
         default:
           group = this.fb.group({});

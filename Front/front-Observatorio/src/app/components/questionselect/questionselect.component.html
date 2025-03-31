@@ -48,33 +48,34 @@
           </div>
         </div>
 
-        <!-- PREGUNTA DE TIPO MATRIZ -->
-        <div *ngSwitchCase="'matrix'" [formGroup]="getFormGroup(i)">
-          <table class="matrix-table">
-            <thead>
-              <tr>
-                <th></th>
-                <th *ngFor="let col of questions[i].columns" style="text-align: center;">
-                  {{ col.label }}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let row of questions[i].rows">
-                <td>{{ row.label }}</td>
-                <td *ngFor="let col of questions[i].columns" style="text-align: center;">
-                  <mat-radio-button
-                    [name]="row.value"
-                    [value]="col.value"
-                    [checked]="getFormGroup(i).get('matrix')?.get(row.value)?.value === col.value"
-                    (change)="onMatrixRadioChange(row.value, col.value, getMatrixGroup(i))"
-                    >
-                  </mat-radio-button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
+       <!-- PREGUNTA DE TIPO MATRIZ -->
+       <div *ngSwitchCase="'matrix'" [formGroup]="getFormGroup(i)">
+        <h5>(1 = No Implementada, 5= Implementacion Optimizada)</h5>
+        <table class="matrix-table">
+          <thead>
+            <tr>
+              <th></th>
+              <th  *ngFor="let col of questions[i].columns" class="column-header">
+                {{ col.label }}
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let row of questions[i].rows">
+              <td class="row-label">{{ row.label }}</td>
+              <td *ngFor="let col of questions[i].columns" class="radio-cell">
+                <mat-radio-button
+                  [name]="row.value"
+                  [value]="col.value"
+                  [checked]="getFormGroup(i).get('matrix')?.get(row.value)?.value === col.value"
+                  (change)="onMatrixRadioChange(row.value, col.value, getMatrixGroup(i))"
+                  >
+                </mat-radio-button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
 
       </div>
     </div>

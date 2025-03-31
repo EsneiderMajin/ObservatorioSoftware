@@ -33,7 +33,7 @@ export class CuestionarioComponent implements OnInit {
 
   encuesta: Encuesta = {} as Encuesta;
   
-  VisibleAlert= false
+  visibleAlert= false
   mostrarResultados = false;
 
   notificationData: NotificationData = {
@@ -129,7 +129,7 @@ export class CuestionarioComponent implements OnInit {
     await this.questionService.postGuardarRespuestas(this.encuesta).then((respuesta) => {
       this.loading = false
       this.notificationData.title = "Guardado Exitoso"
-      this.VisibleAlert = true
+      this.visibleAlert = true
       this.mostrarResultados = true;
       
     }
@@ -138,20 +138,19 @@ export class CuestionarioComponent implements OnInit {
       this.notificationData.title = "Error al guardar"
       this.notificationData.description = error.message
       this.notificationData.isError = true
-      this.VisibleAlert = true
+      this.visibleAlert = true
     }
     );
 
   }
 
   buttonOption(response: any): void {
-    console.log('Button option clicked:', response);
     if(response === "aceptar") {
       this.router.navigate(['mainview']); 
-      this.VisibleAlert = false;
+      this.visibleAlert = false;
     }
     if (response) {
-      this.VisibleAlert = false; 
+      this.visibleAlert = false; 
     }
 
   }

@@ -1,3 +1,9 @@
+export interface EncuestaResponse {
+  idEncuesta: number;
+  idUsuario: number;
+  fechaCreacion: string;
+}
+
 export interface PreguntaResponse {
   avaliable: boolean;
   category: string;

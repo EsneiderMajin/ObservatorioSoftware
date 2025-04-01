@@ -8,7 +8,7 @@
     <app-questionselect [category]="preguntasGenerales.category" [questions]="preguntasGenerales.questions" (answered)="answeredQuestion($event)"></app-questionselect>
   </div>
   <div class="container" *ngIf="preguntasCalidad.avaliable">
-    <h2>PREGUNTAS DE CALIDAD</h2>
+    <h3>Este apartado tiene como fin, reconocer el nivel de implementación de las prácticas de calidad de su organización.</h3>
     <app-questionselect [category]="preguntasCalidad.category" [questions]="preguntasCalidad.questions" (answered)="answeredQuestion($event)"></app-questionselect>
   </div>
   <div class="container" *ngIf="preguntasEsfuerzo.avaliable">

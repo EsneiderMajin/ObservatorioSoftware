@@ -7,6 +7,8 @@
 
 .pregunta-container h3 {
   margin-bottom: 1rem;
+  font-weight: normal;
+  text-align: justify;
 }
 
 .obligatorio {
@@ -50,6 +52,24 @@ button {
   margin-top: 1rem;
 }
 
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+}
+
+th, td {
+  padding: 12px 15px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+th {
+  font-weight: bold;
+  background-color: #f8f9fa;
+  color: #333;
+}
+
 .question-header {
   text-align: left;
   font-weight: bold;
@@ -57,12 +77,12 @@ button {
   border-bottom: 1px solid #ddd;
 }
 
-.column-header {
+/* .column-header {
   text-align: center;
   padding: 10px;
   border-bottom: 1px solid #ddd;
   font-weight: normal;
-}
+} */
 
 .row-label {
   text-align: left;
@@ -71,12 +91,6 @@ button {
   background-color: #f9f9f9;
 }
 
-.radio-cell {
-  text-align: center;
-  padding: 10px;
-  border-right: 1px solid #ddd;
-  border-bottom: 1px solid #ddd;
-}
 
 /* Estilos responsivos */
 @media (max-width: 600px) {

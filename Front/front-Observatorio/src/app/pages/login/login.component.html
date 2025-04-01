@@ -4,7 +4,7 @@
   <h3>Por favor inicie sesión para continuar</h3>
   <form [formGroup]="loginForm" (ngSubmit)="login()">
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Ingrese su usuario</mat-label>
+      <mat-label>Email</mat-label>
       <mat-icon matPrefix>person</mat-icon>
       <input matInput type="text" formControlName="email" required>
       <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
@@ -16,7 +16,7 @@
     </mat-form-field>
 
     <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Ingrese su contraseña</mat-label>
+      <mat-label>Contraseña</mat-label>
       <mat-icon matPrefix>lock</mat-icon>
       <input matInput type="password" formControlName="password" required>
       <mat-error *ngIf="loginForm.get('password')?.hasError('required')">

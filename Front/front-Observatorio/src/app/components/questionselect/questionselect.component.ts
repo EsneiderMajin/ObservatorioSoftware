@@ -12,6 +12,7 @@ export class QuestionselectComponent implements OnInit, OnChanges  {
   @Input() category!: string;
   @Output() answered = new EventEmitter<any>();
   botonSend = "Siguiente";
+  matrixError = false;
 
   questionsForm!: FormGroup;
 
@@ -132,24 +133,7 @@ export class QuestionselectComponent implements OnInit, OnChanges  {
   /**
    * Maneja la selección en la matriz para cada fila
    */
-  onMatrixRadioChange(rowValue: string, colValue: number, matrixGroup: FormGroup): void {
-    const rowControl = matrixGroup.get(rowValue);
-    if (rowControl) {
-      rowControl.setValue(colValue);
-    }
-  }
-
-  // onSubmit(): void {
-  //   if (this.questionsForm.valid) {
-  //     // Emitimos las respuestas al padre
-  //     let answers: any[] = [];
-  //     answers.push(this.category);
-  //     answers.push(this.questionsForm.value.questions.map((q: any) => q.form));
-  //     this.answered.emit(answers);
-  //   } else {
-  //     (this.questionsForm.get('questions') as FormArray).controls.forEach((control) => control.markAllAsTouched());
-  //   }
-  // }
+ 
 
   onSubmit(): void {
     if (this.questionsForm.valid) {
@@ -199,7 +183,45 @@ export class QuestionselectComponent implements OnInit, OnChanges  {
       (this.questionsForm.get('questions') as FormArray).controls.forEach((control) => 
         control.markAllAsTouched()
       );
+
+            // Verificar si hay errores en la matriz
+            this.questions.forEach((question, index) => {
+              if (question.type === 'matrix') {
+                const matrixGroup = this.getMatrixGroup(index);
+                const isMatrixComplete = this.isMatrixComplete(matrixGroup, question.rows || []);
+                if (!isMatrixComplete) {
+                  this.matrixError = true;
+                }
+              }
+            });
+          
     }
+  }
+
+    // Método para actualizar el estado de matrixError
+    updateMatrixError(index: number) {
+      const matrixGroup = this.getMatrixGroup(index);
+      const isComplete = this.isMatrixComplete(matrixGroup, this.questions[index].rows || []);
+      this.matrixError = !isComplete;
+    }
+  
+    // Manejar el cambio en la matriz
+    onMatrixRadioChange(rowValue: string, colValue: number, matrixGroup: FormGroup, index: number): void {
+      const rowControl = matrixGroup.get(rowValue);
+      if (rowControl) {
+        rowControl.setValue(colValue);
+      }
+      this.updateMatrixError(index); // Actualizar el estado de matrixError
+    }
+
+  isMatrixComplete(matrixGroup: FormGroup, rows: MatrixRow[]): boolean {
+    for (const row of rows) {
+      const rowControl = matrixGroup.get(row.value);
+      if (!rowControl || rowControl.value === null) {
+        return false;
+      }
+    }
+    return true;
   }
 
 

@@ -20,12 +20,11 @@
     margin: 2rem auto;
     text-align: center;
   }
-
+  
   .encuesta-container h2 {
     margin-bottom: 1rem;
   }
   
-
   h1 {
     font-size: 2.5rem;
     margin-bottom: 10px;
@@ -50,13 +49,13 @@
   
   th, td {
     padding: 12px 15px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
     text-align: center;
+    border-bottom: 1px solid #ddd;
   }
   
   th {
     font-weight: bold;
+    background-color: #f8f9fa;
     color: #333;
   }
   

@@ -8,15 +8,15 @@
   <table >
     <thead>
       <tr>
-        <th style="width: 30%;">ID</th>
-        <th style="width: 30%;">FECHA</th>
-        <th style="width: 40%;">ACCIÓN</th>
+        <th style="width: 30%;">Id</th>
+        <th style="width: 30%;">Fecha</th>
+        <th style="width: 40%;">Acción</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let encuesta of listaEncuestas; let i = index">
         <td>Encuesta {{i + 1}}</td>
-        <td>{{ encuesta.fechaCreacion }}</td>
+        <td>{{ formatDate(encuesta.fechaCreacion) }}</td>
         <td>
           <button (click)="generarResultados(encuesta.idEncuesta)" class="btn-generar">Generar Resultados</button>
         </td>

@@ -19,6 +19,7 @@ export interface RespuestaComponent {
 
 export interface Questions {
   question: string;
+  mensaje?: string; 
   type: 'single' | 'multiple' | 'matrix';
   options?: Option[];
   rows?: MatrixRow[];
@@ -44,7 +45,8 @@ export interface Option {
   }
   
 export const PreguntaAutorizacion: Questions = {
-    question: ' Los datos recopilados en este estudio serán utilizados exclusivamente con fines educativos y de investigación. No se compartirán con terceros ni se expondrán de manera que permitan identificar a los participantes. Toda la información será tratada de forma anónima y confidencial, garantizando el respeto a la privacidad y seguridad de los datos.¿Desea Continuar?',
+    question: ' Los datos recopilados en este estudio serán utilizados exclusivamente con fines educativos y de investigación. No se compartirán con terceros ni se expondrán de manera que permitan identificar a los participantes. ',
+    mensaje: 'Toda la información será tratada de forma anónima y confidencial, garantizando el respeto a la privacidad y seguridad de los datos. ¿Desea Continuar?',
     type: 'single',
     options: [
       { label: 'Sí', value: 'si' },

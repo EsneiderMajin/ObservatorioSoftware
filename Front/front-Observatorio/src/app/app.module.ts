@@ -5,7 +5,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HeaderComponent } from './components/header/header.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { RouterModule, Routes } from '@angular/router';
+import { ExtraOptions, RouterModule, Routes } from '@angular/router';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
@@ -34,12 +34,11 @@ import { ModalNotificationComponent } from './components/modal-notification/moda
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatSelectModule } from '@angular/material/select';
 import { ResultsComponent } from './pages/results/results.component';
+import { AuthCallbackComponent } from './pages/auth-callback/auth-callback.component';
+import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 
 
 const routes: Routes = [
-  {
-    path:'',redirectTo:'/',pathMatch:'full'
-  },
   {
     path:'', component: HomeComponent
   },
@@ -63,10 +62,16 @@ const routes: Routes = [
   },
   {
     path: 'resultados/:id', component: ResultsComponent
-  }
-
-
+  },
+  { 
+    path: 'auth-callback', component: AuthCallbackComponent 
+  },
 ];
+
+
+const routerOptions: ExtraOptions = {
+  useHash: true // <-- Importante para GitHub Pages
+};
 
 @NgModule({
   declarations: [
@@ -84,6 +89,7 @@ const routes: Routes = [
     LoadingComponent,
     ModalNotificationComponent,
     ResultsComponent,
+    AuthCallbackComponent,
 
   ],
   imports: [
@@ -95,7 +101,7 @@ const routes: Routes = [
     MatIconModule,
     BrowserModule,
     HttpClientModule,
-    RouterModule.forRoot(routes),
+    RouterModule.forRoot(routes,routerOptions),
     AppRoutingModule,
     FormsModule,
     BrowserAnimationsModule,
@@ -110,7 +116,10 @@ const routes: Routes = [
     MatDialogModule,
     
   ],
-  providers: [],
+  providers: [
+
+    { provide: LocationStrategy, useClass: HashLocationStrategy } // <-- Se usa Hash
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

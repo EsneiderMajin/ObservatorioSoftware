@@ -45,7 +45,7 @@ export interface Option {
   }
   
 export const PreguntaAutorizacion: Questions = {
-    question: ' Los datos recopilados en este estudio serán utilizados exclusivamente con fines educativos y de investigación. No se compartirán con terceros ni se expondrán de manera que permitan identificar a los participantes. ',
+    question: 'Los datos recopilados en este estudio serán utilizados exclusivamente con fines educativos y de investigación. No se compartirán con terceros ni se expondrán de manera que permitan identificar a los participantes. ',
     mensaje: 'Toda la información será tratada de forma anónima y confidencial, garantizando el respeto a la privacidad y seguridad de los datos. ¿Desea Continuar?',
     type: 'single',
     options: [
@@ -71,7 +71,6 @@ export const PreguntaAutorizacion: Questions = {
         { label: 'Desarrollo de software personalizado', value: 'desarrollo_software' },
         { label: 'Venta de productos de software', value: 'venta_productos' },
         { label: 'Servicios de consultoría en software', value: 'consultoria_software' },
-        { label: 'Otro', value: 'otro_enfoque' }
       ]
     },
     {
@@ -80,11 +79,10 @@ export const PreguntaAutorizacion: Questions = {
       options: [
         { label: 'CMMI', value: 'cmmi' },
         { label: 'ISO 9001', value: 'iso_9001' },
-        { label: 'ISO 2500', value: 'iso_2500' },
-        { label: 'ISO/IEC 12207', value: 'iso_iec_12207' },
+        { label: 'ISO 25010', value: 'iso_25010' },
+        { label: '15504', value: 'iso_15504' },
         { label: 'ISO/IEC 29110', value: 'iso_iec_29110' },
         { label: 'No sigue un estándar formal', value: 'sin_estandar' },
-        { label: 'Otro', value: 'otro_estandar' }
       ]
     },
     {
@@ -95,7 +93,6 @@ export const PreguntaAutorizacion: Questions = {
         { label: 'Desarrollador', value: 'desarrollador' },
         { label: 'Líder técnico', value: 'lider_tecnico' },
         { label: 'Gerente de proyectos', value: 'gerente_proyectos' },
-        { label: 'Otro', value: 'otro_rol' }
       ]
     }
   ];
@@ -114,15 +111,12 @@ export const PreguntaAutorizacion: Questions = {
       question: '¿Con qué frecuencia se aplican las siguientes prácticas de gestión de calidad en sus proyectos?',
       type: 'matrix',
       rows: [
-        { label: 'Establecer una política de calidad', value: 'politica_calidad' },
-        { label: 'Definir un plan de calidad del software', value: 'plan_calidad' },
-        { label: 'Asignar responsabilidades y roles', value: 'asignar_roles' },
-        { label: 'Asegurar la implementación de procesos de calidad', value: 'procesos_calidad' },
-        { label: 'Implementar iniciativas de mejora continua', value: 'mejora_continua' },
-        { label: 'Realizar revisiones periódicas de la estrategia de calidad', value: 'revisiones_calidad' },
-        { label: 'Analizar datos y tendencias de calidad', value: 'analisis_calidad' },
-        { label: 'Capacitar al personal en estándares y mejores prácticas de calidad', value: 'capacitacion' },
-        { label: 'Garantizar el uso de herramientas y metodologías adecuadas', value: 'herramientas_metodologias' }
+        { label: 'Definición y Comunicación de la Política de Calidad', value: 'definicion_calidad' },
+        { label: 'Planificación de la Calidad y Establecimiento de Objetivos Medibles', value: 'planificacion_medibles' },
+        { label: 'Asignar Gestión de Recursos y Capacitación', value: 'asignar_capacitacion' },
+        { label: 'Documentación y Estandarización de Procesos', value: 'documentacion_procesos' },
+        { label: 'Auditorías Internas y Revisiones por la Dirección', value: 'auditorias_direccion' },
+        { label: 'Fomento de una Cultura de Mejora Continua', value: 'fomento_continua' },
       ],
       columns: PreguntasCalidad
     },
@@ -130,14 +124,11 @@ export const PreguntaAutorizacion: Questions = {
       question: '¿Con qué frecuencia se aplican las siguientes prácticas de control de calidad en sus proyectos?',
       type: 'matrix',
       rows: [
-        { label: 'Definición de una estrategia de pruebas', value: 'estrategia_pruebas' },
-        { label: 'Definir un plan de pruebas', value: 'plan_pruebas' },
-        { label: 'Realizar pruebas unitarias', value: 'pruebas_unitarias' },
-        { label: 'Realizar pruebas de integración', value: 'pruebas_integracion' },
-        { label: 'Realizar pruebas funcionales y de sistema', value: 'pruebas_funcionales' },
-        { label: 'Implementar herramientas de automatización', value: 'automatizacion' },
-        { label: 'Registrar y gestionar defectos', value: 'gestion_defectos' },
-        { label: 'Realizar pruebas de rendimiento, seguridad y usabilidad', value: 'pruebas_rendimiento' }
+        { label: 'Revisión y Validación de Requisitos', value: 'revision_requisitos' },
+        { label: 'Inspecciones y Revisiones Formales (código, diseño)', value: 'inspecciones_formales' },
+        { label: 'Ejecución de Pruebas Sistemáticas (unitarias, integración, sistema y aceptación)', value: 'ejecucion_aceptacion' },
+        { label: 'Uso de Métricas y Seguimiento de Incidencias (densidad de defectos, cobertura de pruebas)', value: 'uso_pruebas' },
+        { label: 'Automatización de Pruebas (para ejecución repetitiva y continua)', value: 'automatizacion_continua' },
       ],
       columns: PreguntasCalidad
     },
@@ -145,10 +136,10 @@ export const PreguntaAutorizacion: Questions = {
       question: '¿Con qué frecuencia se aplican las siguientes prácticas de aseguramiento de calidad en sus proyectos?',
       type: 'matrix',
       rows: [
-        { label: 'Establecer y documentar procedimientos de calidad', value: 'procedimientos_calidad' },
-        { label: 'Auditorías internas', value: 'auditorias_internas' },
-        { label: 'Revisión de artefactos', value: 'revision_artefactos' },
-        { label: 'Evaluar métricas de calidad', value: 'metricas_calidad' },
+        { label: 'Documentación y Estandarización de Procesos', value: 'documentacion_procesos' },
+        { label: 'Auditorías y Evaluaciones de Procesos (para verificar conformidad y detectar desviaciones)', value: 'auditorias_desviaciones' },
+        { label: 'Definición y Seguimiento de Indicadores de Procesos (KPIs)', value: 'definicion_kpis' },
+        { label: 'Capacitación y Sensibilización en Aseguramiento de Calidad', value: 'capacitacion_calidad' },
         { label: 'Implementar acciones preventivas y correctivas', value: 'acciones_preventivas' },
         { label: 'Identificar y analizar riesgos de calidad', value: 'analisis_riesgos' },
         { label: 'Definir planes de mitigación', value: 'planes_mitigacion' }

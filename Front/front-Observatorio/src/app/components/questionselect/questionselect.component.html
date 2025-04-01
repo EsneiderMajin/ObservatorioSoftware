@@ -55,7 +55,7 @@
         <div [ngSwitch]="questions[i].type">
           <!-- PREGUNTA DE TIPO MATRIZ -->
           <div *ngSwitchCase="'matrix'" [formGroup]="getFormGroup(i)">
-            <h5>(1 = No Implementada, 5 = Implementación Optimizada)</h5>
+            <h5>(1 = No Implementada, 5 = Totalmente implementada)</h5>
             <table class="matrix-table">
               <thead>
                 <tr>

@@ -18,7 +18,8 @@ export interface RespuestaComponent {
 }
 
 export interface Questions {
-  question: string;
+  question?: string;
+  questionText?: string;
   mensaje?: string; 
   type: 'single' | 'multiple' | 'matrix';
   options?: Option[];
@@ -45,8 +46,8 @@ export interface Option {
   }
   
 export const PreguntaAutorizacion: Questions = {
-    question: 'Los datos recopilados en este estudio serán utilizados exclusivamente con fines educativos y de investigación. No se compartirán con terceros ni se expondrán de manera que permitan identificar a los participantes. ',
-    mensaje: 'Toda la información será tratada de forma anónima y confidencial, garantizando el respeto a la privacidad y seguridad de los datos. ¿Desea Continuar?',
+    questionText: 'Los datos recopilados en este estudio serán utilizados exclusivamente con fines educativos y de investigación. No se compartirán con terceros ni se expondrán de manera que permitan identificar a los participantes. Toda la información será tratada de forma anónima y confidencial, garantizando el respeto a la privacidad y seguridad de los datos.',
+    mensaje: '¿Desea Continuar?',
     type: 'single',
     options: [
       { label: 'Sí', value: 'si' },
@@ -56,7 +57,8 @@ export const PreguntaAutorizacion: Questions = {
   
   export const PreguntasGenerales: Questions[] = [
     {
-      question: '¿Cuál es el tamaño aproximado de su organización? (Seleccione una sola opción)',
+      question: '¿Cuál es el tamaño aproximado de su organización?',
+      mensaje: '(Seleccione una sola opción)',
       type: 'single',
       options: [
         { label: 'Microempresa (1 - 10 empleados)', value: 'microempresa' },
@@ -65,7 +67,8 @@ export const PreguntaAutorizacion: Questions = {
       ]
     },
     {
-      question: '¿Cuál es el principal enfoque de su organización? (Seleccione una o varias opciones)',
+      question: '¿Cuál es el principal enfoque de su organización?',
+      mensaje: '(Seleccione una o varias opciones)',
       type: 'multiple',
       options: [
         { label: 'Desarrollo de software personalizado', value: 'desarrollo_software' },
@@ -74,7 +77,8 @@ export const PreguntaAutorizacion: Questions = {
       ]
     },
     {
-      question: '¿Su empresa sigue algún estándar o modelo de calidad? (Seleccione una o varias opciones)',
+      question: '¿Su empresa sigue algún estándar o modelo de calidad?',
+      mensaje: '(Seleccione una o varias opciones)',
       type: 'multiple',
       options: [
         { label: 'CMMI', value: 'cmmi' },
@@ -87,6 +91,7 @@ export const PreguntaAutorizacion: Questions = {
     },
     {
       question: '¿Cuál es su rol dentro de la empresa?',
+      mensaje: '(Seleccione una sola opción)',
       type: 'single',
       options: [
         { label: 'Ingeniero de QA', value: 'ingeniero_qa' },
@@ -150,38 +155,15 @@ export const PreguntaAutorizacion: Questions = {
   
   export const PreguntasEsfuerzo: Questions[] = [
     {
-      question: '¿En qué medida su organización invierte esfuerzo en las prácticas de gestión de calidad?',
+      question: 'En sus proyectos de software, ¿qué porcentaje del esfuerzo total (o horas/persona) se dedica a cada una de las siguientes actividades dentro del ciclo de desarrollo? ',
       type: 'single',
       options: [
-        { label: '1 (Muy bajo esfuerzo)', value: '1' },
-        { label: '2 (Bajo esfuerzo)', value: '2' },
-        { label: '3 (Esfuerzo moderado)', value: '3' },
-        { label: '4 (Alto esfuerzo)', value: '4' },
-        { label: '5 (Muy alto esfuerzo)', value: '5' }
+        { label: 'Ingeniería', value: '1' },
+        { label: 'Calidad (Gestión, Control, Aseguramiento)', value: '2' },
+        { label: 'Soporte', value: '3' },
+        { label: 'Innovación', value: '4' }
       ]
-    },
-    {
-      question: '¿En qué medida su organización invierte esfuerzo en las prácticas de control de calidad?',
-      type: 'single',
-      options: [
-        { label: '1 (Muy bajo esfuerzo)', value: '1' },
-        { label: '2 (Bajo esfuerzo)', value: '2' },
-        { label: '3 (Esfuerzo moderado)', value: '3' },
-        { label: '4 (Alto esfuerzo)', value: '4' },
-        { label: '5 (Muy alto esfuerzo)', value: '5' }
-      ]
-    },
-    {
-      question: '¿En qué medida su organización invierte esfuerzo en las prácticas de aseguramiento de calidad?',
-      type: 'single',
-      options: [
-        { label: '1 (Muy bajo esfuerzo)', value: '1' },
-        { label: '2 (Bajo esfuerzo)', value: '2' },
-        { label: '3 (Esfuerzo moderado)', value: '3' },
-        { label: '4 (Alto esfuerzo)', value: '4' },
-        { label: '5 (Muy alto esfuerzo)', value: '5' }
-      ]
-    }
+    },   
   ];
   
   export const PreguntasDesafios: Questions[] = [

@@ -1,22 +1,29 @@
 <div class="container" *ngIf="preguntaAutorizacion.avaliable">
   <h2>Información Importante</h2>
+  <hr>
   <app-questionselect [category]="preguntaAutorizacion.category"  [questions]="preguntaAutorizacion.questions" (answered)="answeredQuestion($event)"></app-questionselect>
 </div>
   
   <div class="container" *ngIf="preguntasGenerales.avaliable">
-    <h2>PREGUNTAS GENERALES</h2>
+    <h2 >Sección 1: Preguntas Generales</h2>
+    <hr>
+    <h3>La siguiente sección tiene como objetivo conocer un poco su organización</h3>
     <app-questionselect [category]="preguntasGenerales.category" [questions]="preguntasGenerales.questions" (answered)="answeredQuestion($event)"></app-questionselect>
   </div>
   <div class="container" *ngIf="preguntasCalidad.avaliable">
-    <h3>Este apartado tiene como fin, reconocer el nivel de implementación de las prácticas de calidad de su organización.</h3>
+    <h2>Sección 2: Prácticas de Calidad</h2>
+    <hr>
+    <h3>La siguiente sección tiene como objetivo, reconocer el nivel de implementación de las prácticas de calidad de su organización.</h3>
     <app-questionselect [category]="preguntasCalidad.category" [questions]="preguntasCalidad.questions" (answered)="answeredQuestion($event)"></app-questionselect>
   </div>
   <div class="container" *ngIf="preguntasEsfuerzo.avaliable">
-    <h2>PREGUNTAS DE ESFUERZO</h2>
+    <h2>Sección 3: Porcentaje de esfuerzo</h2>
+    <hr>
     <app-questionselect [category]="preguntasEsfuerzo.category" [questions]="preguntasEsfuerzo.questions" (answered)="answeredQuestion($event)"></app-questionselect>
   </div>
   <div class="container" *ngIf="preguntasDesafio.avaliable">
-    <h2>PREGUNTAS DE DESAFÍO</h2>
+    <h2>Desafíos de Implementación</h2>
+    <hr>
     <app-questionselect [category]="preguntasDesafio.category"   [questions]="preguntasDesafio.questions" (answered)="answeredQuestion($event)"></app-questionselect>
   </div>
 

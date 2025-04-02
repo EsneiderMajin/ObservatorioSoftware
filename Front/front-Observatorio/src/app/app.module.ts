@@ -66,6 +66,10 @@ const routes: Routes = [
   { 
     path: 'auth-callback', component: AuthCallbackComponent 
   },
+  { 
+    path: '**', component: HomeComponent 
+
+  } 
 ];
 
 

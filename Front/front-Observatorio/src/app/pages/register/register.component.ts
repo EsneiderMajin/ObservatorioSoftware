@@ -30,7 +30,9 @@ export class RegisterComponent implements OnInit {
               private router: Router
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit() {
+        // Verifica la URL actua
+
     this.registroForm = this.fb.group({
       nombre: ['', Validators.required],
       correo: ['', [Validators.required, Validators.email]],

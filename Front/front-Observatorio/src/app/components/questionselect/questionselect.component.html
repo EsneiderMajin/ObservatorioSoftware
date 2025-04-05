@@ -1,39 +1,52 @@
 <form [formGroup]="questionsForm" (ngSubmit)="onSubmit()">
   <div formArrayName="questions">
-    <div *ngFor="let questionCtrl of questionsArray.controls; let i = index" [formGroupName]="i">
-
-      <div class="container-text">
-        <h2 *ngIf="questions[i].questionText">
-          {{ questions[i].questionText }}
-          <span class="asterisk">*</span>
-        </h2> 
-      </div>
-      <div class="container-titulos">
-        <h2 *ngIf="questions[i].question">
-          {{ questions[i].question }}
-          <span class="asterisk">*</span>
-        </h2>
-
-        <div *ngIf="questions[i].mensaje">
-          <h3>{{ questions[i].mensaje }}</h3>
+    <!-- Recorremos todas las preguntas, pero solo mostramos la que coincide con currentQuestionIndex -->
+    <ng-container *ngFor="let questionCtrl of questionsArray.controls; let i = index" [formGroupName]="i">
+      <div *ngIf="i === currentQuestionIndex">
+        
+        <!-- Texto de la pregunta -->
+        <div class="container-text">
+          <p *ngIf="questions[i].questionText">
+            {{ questions[i].questionText }}
+            <span class="asterisk">*</span>
+          </p>
         </div>
-      </div>
-      
-      <div class="pregunta-container">
+        
+        <div class="container-titulos">
+          <p *ngIf="questions[i].question">
+            {{ questions[i].question }}
+            <span class="asterisk">*</span>
+          </p>
+          <div *ngIf="questions[i].mensaje">
+            <p>{{ questions[i].mensaje }}</p>
+          </div>
+        </div>
 
-
+        <!-- Dependiendo del tipo de pregunta, renderizamos su contenido -->
         <div [ngSwitch]="questions[i].type">
-          <!-- PREGUNTA DE SELECCIÓN ÚNICA -->
+          <!-- SINGLE -->
           <div *ngSwitchCase="'single'" [formGroup]="getFormGroup(i)">
             <mat-radio-group formControlName="response">
-              <mat-radio-button *ngFor="let opcion of questions[i].options" [value]="opcion.value" class="radio-opcion">
+              <mat-radio-button
+                *ngFor="let opcion of questions[i].options"
+                [value]="opcion.value"
+                class="radio-opcion">
                 {{ opcion.label }}
               </mat-radio-button>
             </mat-radio-group>
-            <div class="error-message" *ngIf="getFormGroup(i).get('response')?.touched &&
-                   getFormGroup(i).get('response')?.hasError('required')">
+
+            <!-- Validación requerida -->
+            <div
+              class="error-message"
+              *ngIf="
+                getFormGroup(i).get('response')?.touched &&
+                getFormGroup(i).get('response')?.hasError('required')
+              "
+            >
               Por favor seleccione una opción
             </div>
+
+            <!-- Campo "otro" -->
             <div *ngIf="hasOtherSelected(getFormGroup(i).value, questions[i].options)">
               <mat-form-field appearance="fill">
                 <mat-label>Especifique otro</mat-label>
@@ -42,18 +55,29 @@
             </div>
           </div>
 
-          <!-- PREGUNTA DE SELECCIÓN MÚLTIPLE -->
+          <!-- MULTIPLE -->
           <div *ngSwitchCase="'multiple'" [formGroup]="getFormGroup(i)">
             <div *ngFor="let opcion of questions[i].options">
-              <mat-checkbox (change)="onCheckboxChange($event, opcion.value, getFormGroup(i))"
-                [checked]="getFormGroup(i).value.selectedOptions.includes(opcion.value)">
+              <mat-checkbox
+                (change)="onCheckboxChange($event, opcion.value, getFormGroup(i))"
+                [checked]="getFormGroup(i).value.selectedOptions.includes(opcion.value)"
+              >
                 {{ opcion.label }}
               </mat-checkbox>
             </div>
-            <div class="error-message" *ngIf="getFormGroup(i).get('selectedOptions')?.touched &&
-               getFormGroup(i).get('selectedOptions')?.hasError('required')">
+
+            <!-- Validación requerida -->
+            <div
+              class="error-message"
+              *ngIf="
+                getFormGroup(i).get('selectedOptions')?.touched &&
+                getFormGroup(i).get('selectedOptions')?.hasError('required')
+              "
+            >
               Por favor seleccione al menos una opción
             </div>
+
+            <!-- Campo "otro" -->
             <div *ngIf="hasOtherSelected(getFormGroup(i).value, questions[i].options)">
               <mat-form-field appearance="fill">
                 <mat-label>Especifique otro</mat-label>
@@ -61,45 +85,111 @@
               </mat-form-field>
             </div>
           </div>
-        </div>
-        <!-- Final del Question-->
-      </div>
 
-      <div [ngSwitch]="questions[i].type">
-        <!-- PREGUNTA DE TIPO MATRIZ -->
-        <div class="matrix-container"  *ngSwitchCase="'matrix'" [formGroup]="getFormGroup(i)">
-          <p>(1 = No Implementada, 5 = Totalmente implementada)</p>
-          <table class="matrix-table">
-            <thead>
-              <tr>
-                <th>Prácticas</th>
-                <th *ngFor="let col of questions[i].columns" class="column-header">
-                  {{ col.label }}
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let row of questions[i].rows; let rowIndex = index">
-                <td class="row-label">{{ row.label }}</td>
-                <td *ngFor="let col of questions[i].columns" class="radio-cell">
-                  <mat-radio-button [name]="row.value" [value]="col.value"
-                    [checked]="getFormGroup(i).get('matrix')?.get(row.value)?.value === col.value"
-                    (change)="onMatrixRadioChange(row.value, col.value, getMatrixGroup(i), i)">
-                  </mat-radio-button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="error-message" *ngIf="matrixError">
-            Por favor seleccione una opción para todas las filas de la tabla
+          <!-- MATRIX -->
+          <div class="matrix-container" *ngSwitchCase="'matrix'" [formGroup]="getFormGroup(i)">
+            <p>(1 = No Implementada, 5 = Totalmente implementada)</p>
+            <table class="matrix-table">
+              <thead>
+                <tr>
+                  <th>Prácticas</th>
+                  <th
+                    *ngFor="let col of questions[i].columns"
+                    class="column-header"
+                  >
+                    {{ col.label }}
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let row of questions[i].rows; let rowIndex = index">
+                  <td class="row-label">{{ row.label }}</td>
+                  <td
+                    *ngFor="let col of questions[i].columns"
+                    class="radio-cell"
+                  >
+                    <mat-radio-button
+                      [name]="row.value"
+                      [value]="col.value"
+                      [checked]="
+                        getFormGroup(i).get('matrix')?.get(row.value)?.value ===
+                        col.value
+                      "
+                      (change)="onMatrixRadioChange(row.value, col.value, getMatrixGroup(i), i)"
+                    >
+                    </mat-radio-button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="error-message" *ngIf="matrixError">
+              Por favor seleccione una opción para todas las filas de la tabla
+            </div>
           </div>
+
+          <!-- PERCENTAGE -->
+          <div class="percentage-container" *ngSwitchCase="'percentage'" [formGroup]="getPercentageGroup(i)">
+            <div *ngFor="let opcion of questions[i].options">
+              <label>{{ opcion.label }}</label>
+              <input
+                type="number"
+                [formControlName]="opcion.value"
+                placeholder="%"
+              />
+              <hr />
+              <div
+                class="error-message"
+                *ngIf="
+                  getPercentageGroup(i).get(opcion.value)?.hasError('min') &&
+                  getPercentageGroup(i).get(opcion.value)?.touched
+                "
+              >
+                El valor no puede ser negativo.
+              </div>
+            </div>
+            <div
+              class="error-message"
+              *ngIf="
+                getFormGroup(i).get('percentage')?.errors?.['totalPercentage']
+              "
+            >
+              La sumatoria de porcentajes debe ser igual a 100% (actual:
+              {{
+                getFormGroup(i).get('percentage')?.errors?.['totalPercentage']
+                  .value
+              }}
+              )
+            </div>
+          </div>
+          <!-- FIN SWITCH -->
         </div>
+        <!-- FIN DEL CONTENIDO DE LA PREGUNTA ACTUAL -->
       </div>
-      <!-- Final de la matrix -->
-    </div>
+    </ng-container>
   </div>
-  <div class="button-container">
-    <button mat-raised-button class="button-send" type="submit">{{botonSend}}</button>
+
+  <!-- Navegación entre preguntas -->
+  <div class="button-container" style="margin-top: 1rem;">
+
+    <!-- Botón SIGUIENTE (si NO es la última pregunta) -->
+    <button
+      mat-raised-button
+      type="button"
+      class="button-send"
+      (click)="nextQuestion()"
+      *ngIf="currentQuestionIndex < questionsArray.length - 1"
+    >
+      Siguiente
+    </button>
+
+    <!-- Botón ENVIAR (solo si es la última pregunta) -->
+    <button
+      mat-raised-button
+      class="button-send"
+      type="submit"
+      *ngIf="currentQuestionIndex === questionsArray.length - 1"
+    >
+      {{ botonSend }}
+    </button>
   </div>
 </form>
-<!-- Final del formulario -->

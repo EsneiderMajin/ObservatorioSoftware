@@ -1,10 +1,16 @@
 // Definición de interfaces para las preguntas y opciones
 
+import { number } from "echarts";
+
+
+
 export interface Encuesta {
   fechacreacion: string;
   idUsuario: number;
   questions: Questions[];
 }
+
+
 
 export interface ListQuestions{
   questions: Questions[];
@@ -21,7 +27,7 @@ export interface Questions {
   question?: string;
   questionText?: string;
   mensaje?: string; 
-  type: 'single' | 'multiple' | 'matrix';
+  type: 'single' | 'multiple' | 'matrix' | 'percentage'; 
   options?: Option[];
   rows?: MatrixRow[];
   columns?: MatrixColumn[];
@@ -77,20 +83,16 @@ export const PreguntaAutorizacion: Questions = {
       ]
     },
     {
-      question: '¿Su empresa sigue algún estándar o modelo de calidad?',
-      mensaje: '(Seleccione una o varias opciones)',
-      type: 'multiple',
+      question: '¿Su organización tiene certificaciones de calidad?',
+      mensaje: '(Seleccione una opcion)',
+      type: 'single',
       options: [
-        { label: 'CMMI', value: 'cmmi' },
-        { label: 'ISO 9001', value: 'iso_9001' },
-        { label: 'ISO 25010', value: 'iso_25010' },
-        { label: '15504', value: 'iso_15504' },
-        { label: 'ISO/IEC 29110', value: 'iso_iec_29110' },
-        { label: 'No sigue un estándar formal', value: 'sin_estandar' },
+        { label: 'Sí', value: 'si' },
+        { label: 'No', value: 'no' }
       ]
     },
     {
-      question: '¿Cuál es su rol dentro de la empresa?',
+      question: '¿Cuál es su rol dentro de la organización?',
       mensaje: '(Seleccione una sola opción)',
       type: 'single',
       options: [
@@ -116,12 +118,10 @@ export const PreguntaAutorizacion: Questions = {
       question: '¿Con qué frecuencia se aplican las siguientes prácticas de gestión de calidad en sus proyectos?',
       type: 'matrix',
       rows: [
-        { label: 'Definición y Comunicación de la Política de Calidad', value: 'definicion_calidad' },
-        { label: 'Planificación de la Calidad y Establecimiento de Objetivos Medibles', value: 'planificacion_medibles' },
-        { label: 'Asignar Gestión de Recursos y Capacitación', value: 'asignar_capacitacion' },
-        { label: 'Documentación y Estandarización de Procesos', value: 'documentacion_procesos' },
-        { label: 'Auditorías Internas y Revisiones por la Dirección', value: 'auditorias_direccion' },
-        { label: 'Fomento de una Cultura de Mejora Continua', value: 'fomento_continua' },
+        { label: 'Definir una política de calidad', value: 'definicion_calidad' },
+        { label: 'Planificar y establecer objetivos', value: 'planificacion_obejtivos' },
+        { label: 'Gestionar recursos', value: 'asignar_capacitacion' },
+        { label: 'Fomentar una cultura de mejora continua', value: 'fomento_continua' },
       ],
       columns: PreguntasCalidad
     },
@@ -129,25 +129,24 @@ export const PreguntaAutorizacion: Questions = {
       question: '¿Con qué frecuencia se aplican las siguientes prácticas de control de calidad en sus proyectos?',
       type: 'matrix',
       rows: [
-        { label: 'Revisión y Validación de Requisitos', value: 'revision_requisitos' },
-        { label: 'Inspecciones y Revisiones Formales (código, diseño)', value: 'inspecciones_formales' },
-        { label: 'Ejecución de Pruebas Sistemáticas (unitarias, integración, sistema y aceptación)', value: 'ejecucion_aceptacion' },
-        { label: 'Uso de Métricas y Seguimiento de Incidencias (densidad de defectos, cobertura de pruebas)', value: 'uso_pruebas' },
-        { label: 'Automatización de Pruebas (para ejecución repetitiva y continua)', value: 'automatizacion_continua' },
+        { label: 'Revisar y validar requisitos', value: 'revision_requisitos' },
+        { label: 'Realizar inspecciones y revisiones formales (código, diseño)', value: 'inspecciones_formales' },
+        { label: 'Ejecutar pruebas(unitarias, integración, sistema y aceptación)', value: 'ejecucion_aceptacion' },
+        { label: 'Usar métricas y seguimiento de incidencias', value: 'uso_pruebas' },
+        { label: 'Automatización de pruebas', value: 'automatizacion_continua' },
       ],
       columns: PreguntasCalidad
     },
     {
       question: '¿Con qué frecuencia se aplican las siguientes prácticas de aseguramiento de calidad en sus proyectos?',
       type: 'matrix',
-      rows: [
-        { label: 'Documentación y Estandarización de Procesos', value: 'documentacion_procesos' },
-        { label: 'Auditorías y Evaluaciones de Procesos (para verificar conformidad y detectar desviaciones)', value: 'auditorias_desviaciones' },
-        { label: 'Definición y Seguimiento de Indicadores de Procesos (KPIs)', value: 'definicion_kpis' },
-        { label: 'Capacitación y Sensibilización en Aseguramiento de Calidad', value: 'capacitacion_calidad' },
+      rows: [       
+        { label: 'Definir una política de calidad', value: 'definicion_calidad' },
+        { label: 'Documentar y estandarizar procesos', value: 'documentacion_gestion' },
+        { label: 'Realizar auditorías internas', value: 'auditorias_direccion' },
+        { label: 'Definiir y dar seguimiento a indicadores (KPIs)', value: 'definicion_kpis' },
+        { label: 'Capacitación', value: 'capacitacion_calidad' },
         { label: 'Implementar acciones preventivas y correctivas', value: 'acciones_preventivas' },
-        { label: 'Identificar y analizar riesgos de calidad', value: 'analisis_riesgos' },
-        { label: 'Definir planes de mitigación', value: 'planes_mitigacion' }
       ],
       columns: PreguntasCalidad
     }
@@ -155,13 +154,14 @@ export const PreguntaAutorizacion: Questions = {
   
   export const PreguntasEsfuerzo: Questions[] = [
     {
-      question: 'En sus proyectos de software, ¿qué porcentaje del esfuerzo total (o horas/persona) se dedica a cada una de las siguientes actividades dentro del ciclo de desarrollo? ',
-      type: 'single',
+      question: 'En sus proyectos de software, ¿qué porcentaje del esfuerzo total (horas/persona) se dedica a cada una de las siguientes actividades dentro del ciclo de desarrollo? ',
+      mensaje: '(Asegúrese de que la sumatoria sea igual al 100%)',
+      type: 'percentage',
       options: [
-        { label: 'Ingeniería', value: '1' },
-        { label: 'Calidad (Gestión, Control, Aseguramiento)', value: '2' },
-        { label: 'Soporte', value: '3' },
-        { label: 'Innovación', value: '4' }
+        { label: 'Ingeniería', value: 'ingenieria' },
+        { label: 'Calidad (Gestión, Control, Aseguramiento)', value: 'calidad' },
+        { label: 'Soporte', value: 'soporte' },
+        { label: 'Innovación', value: 'innovacion' }
       ]
     },   
   ];

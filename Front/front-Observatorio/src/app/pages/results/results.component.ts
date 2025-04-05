@@ -3,7 +3,8 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Chart, CategoryScale, LinearScale, BarElement, BarController, Title, Tooltip, Legend } from 'chart.js';
 import { conclusionesEvaluacionCalidad } from 'src/app/core/enums/observatorio.enum';
-import { PreguntaResponse, questions } from 'src/app/core/models/responseQuestions.models';
+import { Answer, MatrixAnswer, MetricaMatrix } from 'src/app/core/models/requestQuestions.models';
+import { PreguntaResponse, question, MetricaResponse } from 'src/app/core/models/responseQuestions.models';
 import { AuthService } from 'src/app/core/services/login/auth.service';
 import { QuestionService } from 'src/app/core/services/question/question.service';
 
@@ -20,34 +21,35 @@ export class ResultsComponent implements OnInit {
   formGroup!: FormGroup;
   listaPreguntasEsfuerzo: PreguntaResponse[] = [];
   listaPreguntasCalidad: PreguntaResponse[] = [];
+  listaPreguntasCalidadGlobal: PreguntaResponse[] = [];
   listaPreguntasGenerales: PreguntaResponse[] = [];
   conclusionesEvaluacion: string[] = [];
+  conclusionesEvaluacionGlobal: string[] = [];
   encuestaId = 0;
+  mostrarGrafica = false;
+  averagedMetricsGlobal: { [question: string]: { [variable: string]: number } } = {};
 
+  //Calidad Individual
   calidadChart1!: Chart;
   calidadChart2!: Chart;
   calidadChart3!: Chart;
-
-    // Instancias de Chart para los gráficos de implementación total
   implementacionChart1!: Chart;
   implementacionChart2!: Chart;
   implementacionChart3!: Chart;
-
   @ViewChild('calidadChartCanvas1') calidadChartCanvas1!: ElementRef<HTMLCanvasElement>;
   @ViewChild('calidadChartCanvas2') calidadChartCanvas2!: ElementRef<HTMLCanvasElement>;
   @ViewChild('calidadChartCanvas3') calidadChartCanvas3!: ElementRef<HTMLCanvasElement>;
-
-  // Referencias a los canvas de los gráficos de implementación total
   @ViewChild('implementacionTotal1') implementacionTotal1!: ElementRef<HTMLCanvasElement>;
   @ViewChild('implementacionTotal2') implementacionTotal2!: ElementRef<HTMLCanvasElement>;
   @ViewChild('implementacionTotal3') implementacionTotal3!: ElementRef<HTMLCanvasElement>;
+
 
   constructor(
     private readonly activeRoute: ActivatedRoute,
     private readonly questionService: QuestionService,
     private readonly formBuilder: FormBuilder,
     private authService: AuthService,
-  ) { 
+  ) {
     this.formGroup = this.formBuilder.group({});
   }
 
@@ -64,107 +66,151 @@ export class ResultsComponent implements OnInit {
       this.listaPreguntasCalidad = res as PreguntaResponse[];
     });
 
-    // Obtener las tres preguntas matrix
-    const matrixQuestions = this.listaPreguntasCalidad?.[0]?.questions?.slice(0, 3);
+    console.log("listaPreguntasCalidad",this.listaPreguntasCalidad);
 
-    // Calcular métricas para cada pregunta matrix
-    matrixQuestions?.forEach((matrixQuestion, index) => {
-      this.calcularMetricasMatrix(matrixQuestion, index);
+    await this.questionService.getPreguntasPorCategoria('preguntasCalidad').then((res) => {
+      this.listaPreguntasCalidadGlobal = res as PreguntaResponse[];
     });
 
-
-    //Preguntas esfuerzo
-    // await this.questionService.getPreguntasPorCategoria('preguntasEsfuerzo').then((res) => {
-    //   this.listaPreguntasEsfuerzo = res as PreguntaResponse[];
-    //   console.log('Preguntas Esfuerzo 2:', this.listaPreguntasEsfuerzo);
-    // });
-
-  }
+    console.log("listaPreguntasCalidadGlobal",this.listaPreguntasCalidadGlobal);
 
 
-  calcularTotalImplementacion(frequencyCount: number[]): { frequencyCount: number[], totalImplementacion: number } {
-    let contPracticas = 0;
-    let contGrados = 0;
+    let listaPreguntasMetricas:question [] = this.listaPreguntasCalidadGlobal[0].questions;
 
-    frequencyCount.forEach((count, index) => {
-      frequencyCount[index] = (index + 1) * count;
-      const grado = index + 1;
-      contPracticas += count;
-      contGrados += grado * count;
-    });
+    let cantidadEncuestas = listaPreguntasMetricas.length / 3;
 
-    const totalImplementacion = contPracticas > 0 ? contGrados / contPracticas : 0;
 
-    return {
-      frequencyCount,
-      totalImplementacion
+    let metricaGlobalGestion: MetricaResponse = {
+      noImplementada: 0,
+      implementacionInicial: 0,
+      implementacionParcial: 0,
+      implementacionAvanzada: 0,
+      implementacionOptimizad: 0,
+      totalImplementacion: 0,
+      tamanioMatrix: 0,
     };
+
+    let metricaGlobalControl: MetricaResponse = {
+      noImplementada: 0,
+      implementacionInicial: 0,
+      implementacionParcial: 0,
+      implementacionAvanzada: 0,
+      implementacionOptimizad: 0,
+      totalImplementacion: 0,
+      tamanioMatrix: 0,
+    };
+
+    let metricaGlobalAseguramiento: MetricaResponse = {
+      noImplementada: 0,
+      implementacionInicial: 0,
+      implementacionParcial: 0,
+      implementacionAvanzada: 0,
+      implementacionOptimizad: 0,
+      totalImplementacion: 0,
+      tamanioMatrix: 0,
+    };
+
+    for (let i = 0; i < listaPreguntasMetricas.length; i++) {
+      if (listaPreguntasMetricas[i].metrica) {
+        if(listaPreguntasMetricas[i].question == "¿Con qué frecuencia se aplican las siguientes prácticas de gestión de calidad en sus proyectos?"){
+          metricaGlobalGestion = this.calcularMetricas(listaPreguntasMetricas[i].metrica, metricaGlobalGestion);
+          metricaGlobalGestion.tamanioMatrix = listaPreguntasMetricas[i].metrica.tamanioMatrix;
+        }
+        else if(listaPreguntasMetricas[i].question == "¿Con qué frecuencia se aplican las siguientes prácticas de control de calidad en sus proyectos?"){
+          metricaGlobalControl = this.calcularMetricas(listaPreguntasMetricas[i].metrica, metricaGlobalControl);
+          metricaGlobalControl.tamanioMatrix = listaPreguntasMetricas[i].metrica.tamanioMatrix;
+        }
+        else if(listaPreguntasMetricas[i].question == "¿Con qué frecuencia se aplican las siguientes prácticas de aseguramiento de calidad en sus proyectos?"){
+          metricaGlobalAseguramiento = this.calcularMetricas(listaPreguntasMetricas[i].metrica, metricaGlobalAseguramiento);
+          metricaGlobalAseguramiento.tamanioMatrix = listaPreguntasMetricas[i].metrica.tamanioMatrix;
+        }
+
+      }
+
+    }
+
+    metricaGlobalGestion = this.calcularTotalMetrica(metricaGlobalGestion);
+    metricaGlobalControl = this.calcularTotalMetrica(metricaGlobalControl);
+    metricaGlobalAseguramiento = this.calcularTotalMetrica(metricaGlobalAseguramiento);    
+
+    metricaGlobalGestion.totalImplementacion = metricaGlobalGestion.noImplementada + metricaGlobalGestion.implementacionInicial + metricaGlobalGestion.implementacionParcial + metricaGlobalGestion.implementacionAvanzada + metricaGlobalGestion.implementacionOptimizad;
+    metricaGlobalGestion.totalImplementacion = metricaGlobalGestion.totalImplementacion / cantidadEncuestas;
+    metricaGlobalControl.totalImplementacion = metricaGlobalControl.noImplementada + metricaGlobalControl.implementacionInicial + metricaGlobalControl.implementacionParcial + metricaGlobalControl.implementacionAvanzada + metricaGlobalControl.implementacionOptimizad;
+    metricaGlobalControl.totalImplementacion = metricaGlobalControl.totalImplementacion / cantidadEncuestas;
+    metricaGlobalAseguramiento.totalImplementacion = metricaGlobalAseguramiento.noImplementada + metricaGlobalAseguramiento.implementacionInicial + metricaGlobalAseguramiento.implementacionParcial + metricaGlobalAseguramiento.implementacionAvanzada + metricaGlobalAseguramiento.implementacionOptimizad;
+    metricaGlobalAseguramiento.totalImplementacion = metricaGlobalAseguramiento.totalImplementacion / cantidadEncuestas;
+
+    metricaGlobalGestion.totalImplementacionIndividual = this.listaPreguntasCalidad[0].questions[0].metrica?.totalImplementacion || 0;
+    metricaGlobalControl.totalImplementacionIndividual = this.listaPreguntasCalidad[0].questions[1].metrica?.totalImplementacion || 0;
+    metricaGlobalAseguramiento.totalImplementacionIndividual = this.listaPreguntasCalidad[0].questions[2].metrica?.totalImplementacion || 0;
+
+    const listaMatrix = [metricaGlobalGestion, metricaGlobalControl, metricaGlobalAseguramiento];
+
+    this.crearGraficos(listaMatrix);
+
   }
 
-  calcularMetricasMatrix(matrixQuestion: questions | undefined, index: number) {
-    let frecuenciaTexto = '';
-    switch (index) {
-      case 0:
-        frecuenciaTexto = 'Frecuencia relativa del grado de implementación de prácticas de gestión de calidad';
-        break;
-      case 1:
-        frecuenciaTexto = 'Frecuencia relativa del grado de implementación de prácticas de control de calidad';
-        break;
-      case 2:
-        frecuenciaTexto = 'Frecuencia relativa del grado de implementación de prácticas de aseguramiento de calidad';
-        break;
-      default:
-        break;
+    calcularMetricas(answer: MetricaResponse, metrica: MetricaResponse): MetricaResponse {
+
+      metrica = {
+        noImplementada: metrica.noImplementada + answer.noImplementada,
+        implementacionInicial: metrica.implementacionInicial + answer.implementacionInicial,
+        implementacionParcial: metrica.implementacionParcial + answer.implementacionParcial,
+        implementacionAvanzada: metrica.implementacionAvanzada + answer.implementacionAvanzada,
+        implementacionOptimizad: metrica.implementacionOptimizad + answer.implementacionOptimizad,
+        tamanioMatrix: metrica.tamanioMatrix,
+        totalImplementacion: 0,
+      };
+      return metrica;
+  }
+
+  calcularTotalMetrica(metrica: MetricaResponse): MetricaResponse {
+
+    metrica ={
+      noImplementada: metrica.noImplementada / metrica.tamanioMatrix,
+      implementacionInicial: metrica.implementacionInicial / metrica.tamanioMatrix,
+      implementacionParcial: metrica.implementacionParcial / metrica.tamanioMatrix,
+      implementacionAvanzada: metrica.implementacionAvanzada / metrica.tamanioMatrix,
+      implementacionOptimizad: metrica.implementacionOptimizad / metrica.tamanioMatrix,
+      tamanioMatrix: metrica.tamanioMatrix,
+      totalImplementacion: 0,
     }
 
-    if (!matrixQuestion || matrixQuestion.type !== 'matrix') {
-      console.warn('No hay pregunta matrix disponible para graficar');
-      return;
-    }
+    return metrica;
 
-    const frequencyCount = [0, 0, 0, 0, 0]; // Índice 0-4 corresponden a los grados 1-5
+  }
 
-    Object.values(matrixQuestion.matrix).forEach(level => {
-      if (typeof level === 'number' && level >= 1 && level <= 5) {
-        frequencyCount[level - 1]++;
-      }
+    
+  crearGraficos(listaMatrix: MetricaResponse[]) {
+    listaMatrix.forEach((metrica, index) => {
+      this.crearGrafico(metrica, index);
+      // Pasar ambos valores al método crearGraficoImplementacionTotal
+      this.crearGraficoImplementacionTotal(
+        metrica.totalImplementacion,
+        metrica.totalImplementacionIndividual || 0,
+        index
+      );
     });
+  }
 
-    // Calcular la implementación y obtener el total
-    const { frequencyCount: updatedFrequencyCount, totalImplementacion } = this.calcularTotalImplementacion(frequencyCount);
-
-    // Asignar la conclusión según el total de implementación
-    let conclusion = '';
-    if (totalImplementacion < 1) {
-      conclusion = conclusionesEvaluacionCalidad.baja;
-    } else if (totalImplementacion < 2) {
-      conclusion = conclusionesEvaluacionCalidad.inicial;
-    } else if (totalImplementacion < 3) {
-      conclusion = conclusionesEvaluacionCalidad.parcial;
-    } else if (totalImplementacion < 4) {
-      conclusion = conclusionesEvaluacionCalidad.avanzada;
-    } else {
-      conclusion = conclusionesEvaluacionCalidad.total;
-    }
-
-    // Almacenar la conclusión en el array
-    if (index >= 0 && index < this.conclusionesEvaluacion.length) {
-      this.conclusionesEvaluacion[index] = conclusion;
-    } else {
-      this.conclusionesEvaluacion.push(conclusion);
-    }
-
+  crearGrafico(metrica: MetricaResponse, index: number) {
     // Etiquetas y valores
     const labels = [
-      "1 (No implementada)",
-      "2 (Implementación inicial)",
-      "3 (Implementación parcial)",
-      "4 (Implementación avanzada)",
-      "5 (Implementación optimizada)"
+      "1",
+      "2",
+      "3",
+      "4",
+      "5"
     ];
-
-    const values = frequencyCount;
-
+  
+    const values = [
+      metrica.noImplementada,
+      metrica.implementacionInicial,
+      metrica.implementacionParcial,
+      metrica.implementacionAvanzada,
+      metrica.implementacionOptimizad
+    ];
+  
     // Destruir el gráfico existente si existe
     if (index === 0 && this.calidadChart1) {
       this.calidadChart1.destroy();
@@ -173,7 +219,7 @@ export class ResultsComponent implements OnInit {
     } else if (index === 2 && this.calidadChart3) {
       this.calidadChart3.destroy();
     }
-
+  
     // Crear la instancia del gráfico de barras vertical
     const chart = new Chart(
       index === 0 ? this.calidadChartCanvas1.nativeElement :
@@ -188,14 +234,15 @@ export class ResultsComponent implements OnInit {
               label: 'Frecuencia',
               data: values,
               backgroundColor: [
-                'rgba(255, 99, 132, 0.8)', // Rojo
-                'rgba(255, 159, 64, 0.8)', // Naranja
-                'rgba(255, 205, 86, 0.8)', // Amarillo
-                'rgba(75, 192, 192, 0.8)', // Verde
-                'rgba(54, 162, 235, 0.8)'  // Azul
+                '#ffc7ff',
+                '#dd9ddc',
+                '#ba74b9',
+                '#984a97',
+                '#752174'
               ],
               borderColor: 'rgba(0, 0, 0, 1)',
-              borderWidth: 1
+              barThickness: 40, // Ajustar el grosor de las barras
+              borderWidth: 1, // Ajustar el grosor de las barras
             }
           ]
         },
@@ -204,9 +251,10 @@ export class ResultsComponent implements OnInit {
           plugins: {
             title: {
               display: true,
-              text: frecuenciaTexto,
+              text: this.obtenerTitulo(index),
               font: {
-                size: 14
+                size: 14, // Ajustar el tamaño de la fuente del título
+                weight: 'bold' // Hacer el título más grueso
               }
             },
             tooltip: {
@@ -223,13 +271,25 @@ export class ResultsComponent implements OnInit {
           scales: {
             y: {
               beginAtZero: true,
-              max: Math.max(...values) + 1 // Ajustar el rango según la frecuencia máxima
+              max: Math.max(...values) + 1,
+              ticks: {
+                font: {
+                  size: 12 // Ajustar el tamaño de la fuente de los ejes
+                }
+              }
+            },
+            x: {
+              ticks: {
+                font: {
+                  size: 12 // Ajustar el tamaño de la fuente de los ejes
+                }
+              }
             }
           }
         }
       }
     );
-
+  
     // Guardar la referencia al gráfico
     if (index === 0) {
       this.calidadChart1 = chart;
@@ -238,12 +298,9 @@ export class ResultsComponent implements OnInit {
     } else if (index === 2) {
       this.calidadChart3 = chart;
     }
-
-    // Crear el gráfico de implementación total
-    this.crearGraficoImplementacionTotal(totalImplementacion, index);
   }
-
-  crearGraficoImplementacionTotal(totalImplementacion: number, index: number) {
+  
+  crearGraficoImplementacionTotal(totalImplementacion: number, totalImplementacionIndividual: number, index: number) {
     // Destruir el gráfico existente si existe
     if (index === 0 && this.implementacionChart1) {
       this.implementacionChart1.destroy();
@@ -252,7 +309,7 @@ export class ResultsComponent implements OnInit {
     } else if (index === 2 && this.implementacionChart3) {
       this.implementacionChart3.destroy();
     }
-
+  
     // Crear la instancia del gráfico de implementación total
     const chart = new Chart(
       index === 0 ? this.implementacionTotal1.nativeElement.getContext('2d')! :
@@ -261,14 +318,17 @@ export class ResultsComponent implements OnInit {
       {
         type: 'bar',
         data: {
-          labels: ['Implementación Total'],
+          labels: ['Población Global', 'Su Empresa'],
           datasets: [
             {
-              label: 'Implementación Total',
-              data: [totalImplementacion],
-              backgroundColor: 'rgba(75, 192, 192, 0.8)', // Verde
-              borderColor: 'rgba(0, 0, 0, 1)',
-              barThickness: 100, 
+              label: 'Nivel de Implementación',
+              data: [totalImplementacion, totalImplementacionIndividual],
+              backgroundColor: [
+                '#4b0082', // Color para Población Global
+                '#19306e'  // Color para Individual
+              ],
+              borderColor: 'rgb(120, 44, 44)',
+              barThickness: 40, // Ajustar el grosor de las barras
               borderWidth: 1
             }
           ]
@@ -278,32 +338,47 @@ export class ResultsComponent implements OnInit {
           plugins: {
             title: {
               display: true,
-              text: 'Implementación Total',
+              text: this.obtenerTituloImplementacion(index),
               font: {
-                size: 14
+                size: 14, // Ajustar el tamaño de la fuente del título
+                weight: 'bold' // Hacer el título más grueso
               }
             },
             tooltip: {
               callbacks: {
-                label: function(context: { raw: any; }) {
-                  return `Implementación Total: ${context.raw}`;
+                label: function(context) {
+                  const label = context.label || '';
+                  const value = context.raw || 0;
+                  return `${label}: ${value}`;
                 }
               }
             },
             legend: {
-              display: false // Deshabilitar la leyenda
+              display: true
             }
           },
           scales: {
             y: {
               beginAtZero: true,
-              max: 5 // Ajustar el rango según la escala de implementación
+              max: 5,
+              ticks: {
+                font: {
+                  size: 12 // Ajustar el tamaño de la fuente de los ejes
+                }
+              }
+            },
+            x: {
+              ticks: {
+                font: {
+                  size: 12 // Ajustar el tamaño de la fuente de los ejes
+                }
+              }
             }
           }
         }
       }
     );
-
+  
     // Guardar la referencia al gráfico
     if (index === 0) {
       this.implementacionChart1 = chart;
@@ -313,6 +388,34 @@ export class ResultsComponent implements OnInit {
       this.implementacionChart3 = chart;
     }
   }
+
+  obtenerTitulo(index: number): string {
+    switch (index) {
+      case 0:
+        return 'Grado de implementación poblacional';
+      case 1:
+        return 'Grado de implementación de prácticas de control de calidad poblacional';
+      case 2:
+        return 'Grado de implementación de prácticas de aseguramiento de calidad poblacional';
+      default:
+        return '';
+    }
+  }
+
+
+  obtenerTituloImplementacion(index: number): string {
+    switch (index) {
+      case 0:
+        return 'Comparación del grado de implementación de las prácticas de gestión de calidad';
+      case 1:
+        return 'Comparación del grado de implementación de las prácticas de control de calidad';
+      case 2:
+        return 'Comparación del grado de implementación de las prácticas de aseguramiento de calidad';
+      default:
+        return '';
+    }
+  }
+
 
 
   regresar() {

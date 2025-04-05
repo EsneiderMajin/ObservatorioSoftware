@@ -1,13 +1,27 @@
+h1 {
+  font-size: 200%;
+  font-family: 'Roboto', sans-serif; 
+  font-weight: bold;
+}
+
+h1, h2{
+  margin-left: 20px; 
+  max-width: 800px; 
+}
+
+p {
+  font-size: 100%;
+}
 .banner-image {
     width: 100%;
     height: 280px;      
     object-fit: cover; 
     display: block;
   }
-
+  
 .registro-container {
-    max-width: 400px; /* Ajusta según tus necesidades */
-    margin: auto; /* Centra el contenedor vertical y horizontalmente */
+    max-width: 700px;
+    margin: auto;
     padding: 1rem;
   }
   
@@ -17,7 +31,7 @@
   
   .registro-container p {
     margin-bottom: 2rem;
-    color: #555; /* color de texto secundario */
+    color: #555;
   }
   
   .full-width {
@@ -25,9 +39,15 @@
     margin-bottom: 1rem;
   }
   
-  /* Opcional: estilizar el botón */
-  button[type="submit"] {
-    display: block;
-    margin: 1rem auto 0; /* centra el botón horizontalmente */
-  }
-  
+   button[type="submit"] {
+    margin: 20px auto; 
+    width: 20%;
+    background-color: #6C0954;
+    color: white;
+    border-radius: 10px;
+    font-size: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    }
+    

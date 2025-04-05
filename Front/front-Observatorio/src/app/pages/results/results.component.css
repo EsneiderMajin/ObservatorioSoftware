@@ -1,53 +1,43 @@
-h1 {
-  font-size: 200%;
-  font-family: 'Roboto', sans-serif;
-  font-weight: bold; 
-}
-
-h1, h2, h3, h4 {
-  text-align: left;
-  margin-bottom: 0; 
-  margin-top: 0;
-  max-width: 800px;
-}
-
-h1, h2{ 
-  padding: 5px;
-}
-
-h4{
-  color: white; 
-  padding: 10px;
-  max-width: 800px;
-  text-align: justify;
-  font-size: 15px;
-}
-
-p {
-  max-width: 800px;
-  text-align: justify;
-  color: #333;
-}
-
+/* Estilos generales */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
 }
 
-button {
-  margin: 20px auto;
-  background-color: red;
-  color: white;
-  width: 20%;
-  border-radius: 10px;
-  padding: 10px;
-  font-size: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+/* Encabezados */
+h1 {
+  font-size: 200%;
+  font-family: 'Roboto', sans-serif;
+  font-weight: bold;
 }
 
+h1, h2, h3, h4 {
+  text-align: left;
+  margin: 0;
+  max-width: 800px;
+}
+
+h1, h2 { 
+  padding: 5px;
+}
+
+h4 {
+  color: white;
+  padding: 10px;
+  max-width: 800px;
+  text-align: justify;
+  font-size: 15px;
+}
+
+/* Párrafos */
+p {
+  max-width: 800px;
+  text-align: justify;
+  color: #333;
+}
+
+/* Contenedor principal del reporte */
 .report-container {
   max-width: 800px;
   margin: 0 auto;
@@ -56,11 +46,13 @@ button {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.486);
 }
 
+/* Contenedor de descripción */
 .description-container {
   color: white;
   background-color: #6C0954;
 }
 
+/* Contenedor para las gráficas */
 .chart-row {
   max-width: 60%;
   display: flex;
@@ -69,6 +61,7 @@ button {
   margin: 30px 0;
 }
 
+/* Estilo para los canvas de las gráficas */
 .small-chart {
   width: 100%;
   height: 300px;
@@ -78,8 +71,21 @@ button {
   box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
 }
 
+/* Botón Atrás con estilo forzado */
+.custom-button {
+  margin: 20px auto !important;
+  background-color: red !important;
+  color: white !important;
+  width: 20% !important;
+  border-radius: 10px !important;
+  padding: 10px !important;
+  font-size: 16px !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
 
-/* Pantallas moviles */
+/* Estilos para pantallas móviles */
 @media (max-width: 768px) {
   .chart-row {
     flex-direction: column;
@@ -100,10 +106,6 @@ button {
 
   h3 {
     font-size: 18px;
-  }
-
-  h5 {
-    font-size: 16px;
   }
 
   p {

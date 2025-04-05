@@ -1,18 +1,16 @@
-  <mat-toolbar class="toolbar">
-    <img src="assets/logoqondor.png" alt="Flag Icon" class="icon">
+<mat-toolbar class="toolbar">
+  <button mat-button routerLink="/" class="qondor-logo">QONDOR</button>
 
-    <span class="spacer"></span> 
-    <div *ngIf="!logueado">
-      <button mat-button routerLink="/">Inicio</button>
-      <button mat-button routerLink="/state">Estado</button>
-      <button mat-button routerLink="/login">Iniciar Sesion</button>
-      <button mat-button routerLink="/register">Registrarse</button>
-    </div>
-    <div *ngIf="logueado">
-      <button mat-button routerLink="/mainview">Perfil</button>
-      <button mat-button (click)="logout()">Cerrar Sesion</button>
-    </div>
+  <span class="spacer"></span>
 
+  <div *ngIf="!logueado">
+    <button mat-button routerLink="/state">Reporte poblacional</button>
+    <button mat-button routerLink="/login">Iniciar Sesion</button>
+    <button mat-button routerLink="/register">Registrarse</button>
+  </div>
 
-  </mat-toolbar>
-
+  <div *ngIf="logueado">
+    <button mat-button routerLink="/mainview">Perfil</button>
+    <button mat-button (click)="logout()">Cerrar Sesion</button>
+  </div>
+</mat-toolbar>

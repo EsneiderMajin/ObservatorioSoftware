@@ -24,15 +24,15 @@ export class QuestionService {
           fechaCreacion: encuestaObjet.fechacreacion,
           idUsuario: encuestaObjet.idUsuario
         })
-        .select(); // Eliminado para optimizar, pero si se necesita el ID, mantenerlo
-      
+        .select();
+  
       if (encuestaError) {
         console.error('Error al insertar encuesta:', encuestaError);
         return { success: false, error: encuestaError };
       }
-      
+  
       const idEncuesta = encuestaData[0].idEncuesta;
-      
+  
       let preguntasBatch = [];
       let respuestasBatch: {
         single: { response: any; idPregunta: any }[];
@@ -40,7 +40,10 @@ export class QuestionService {
         matrix: { matrixKey: string; value: any; idPregunta: any }[];
       } = { single: [], multiple: [], matrix: [] };
   
-      // Recorrer cada grupo de preguntas
+      // Nuevo arreglo para insertar la métrica en metricaMatrix
+      let metricaMatrixBatch: any[] = [];
+  
+      // Recorrer cada grupo de preguntas para armar el batch de preguntas
       for (const grupo of encuestaObjet.questions) {
         const category = grupo.category;
         for (const pregunta of grupo.answers) {
@@ -53,11 +56,11 @@ export class QuestionService {
         }
       }
   
-      // Insertar todas las preguntas en un solo lote
+      // Insertar todas las preguntas en un solo lote para obtener sus IDs
       const { data: preguntasData, error: preguntasError } = await supabase
         .from('Pregunta')
         .insert(preguntasBatch)
-        .select(); // Necesario para obtener los IDs de las preguntas
+        .select();
   
       if (preguntasError) {
         console.error('Error al insertar preguntas:', preguntasError);
@@ -82,7 +85,29 @@ export class QuestionService {
               });
             });
           } else if (pregunta.type === 'matrix') {
+            // Insertar las respuestas de la matriz en respuestaMatrix
             Object.entries(pregunta.matrix).forEach(([key, value]) => {
+              respuestasBatch.matrix.push({
+                matrixKey: key,
+                value: value,
+                idPregunta: idPregunta
+              });
+            });
+            // Insertar la métrica en metricaMatrix
+            if (pregunta.metrica) {
+              metricaMatrixBatch.push({
+                noImplementada: pregunta.metrica.grados?.noImplementada || 0,
+                implementacionInicial: pregunta.metrica.grados?.implementacionInicial || 0,
+                implementacionParcial: pregunta.metrica.grados?.implementacionParcial || 0,
+                implementacionAvanzada: pregunta.metrica.grados?.implementacionAvanzada || 0,
+                implementacionOptimizad: pregunta.metrica.grados?.implementacionOptimizad || 0,
+                tamanioMatrix: pregunta.metrica.tamanioMatrix || 0,
+                totalImplementacion: pregunta.metrica.totalImplementacion || 0,
+                idPregunta: idPregunta
+              });
+            }
+          } else if (pregunta.type === 'percentage') {
+            Object.entries(pregunta.percentage).forEach(([key, value]) => {
               respuestasBatch.matrix.push({
                 matrixKey: key,
                 value: value,
@@ -93,12 +118,26 @@ export class QuestionService {
         }
       }
   
-      // Insertar respuestas en paralelo usando Promise.all
+      // Insertar respuestas en paralelo
       await Promise.all([
-        respuestasBatch.single.length > 0 && supabase.from('respuestaSimple').insert(respuestasBatch.single),
-        respuestasBatch.multiple.length > 0 && supabase.from('respuestaMultiple').insert(respuestasBatch.multiple),
-        respuestasBatch.matrix.length > 0 && supabase.from('respuestaMatrix').insert(respuestasBatch.matrix)
+        respuestasBatch.single.length > 0 &&
+          supabase.from('respuestaSimple').insert(respuestasBatch.single),
+        respuestasBatch.multiple.length > 0 &&
+          supabase.from('respuestaMultiple').insert(respuestasBatch.multiple),
+        respuestasBatch.matrix.length > 0 &&
+          supabase.from('respuestaMatrix').insert(respuestasBatch.matrix)
       ]);
+  
+      // Insertar las métricas en la tabla metricaMatrix si existen
+      if (metricaMatrixBatch.length > 0) {
+        const { error: metricaError } = await supabase
+          .from('metricaMatrix')
+          .insert(metricaMatrixBatch);
+        if (metricaError) {
+          console.error('Error al insertar metricaMatrix:', metricaError);
+          return { success: false, error: metricaError };
+        }
+      }
   
       console.log('Datos guardados correctamente.');
       return { success: true };
@@ -163,14 +202,15 @@ export class QuestionService {
     const supabase = this.supabaseService.getClient();
   
     // Usamos la sintaxis de Supabase para "expandir" las relaciones
-    // Ten en cuenta que debes tener definidas las FK y el 'select' anidado
+    // Ahora incluimos metricaMatrix en la consulta
     const { data, error } = await supabase
       .from('Pregunta')
       .select(`
         *,
         respuestaSimple(*),
         respuestaMultiple(*),
-        respuestaMatrix(*)
+        respuestaMatrix(*),
+        metricaMatrix(*) // Incluir metricaMatrix en la consulta
       `)
       .eq('category', categoria)
       .eq('idEncuesta', idEncuesta); // Añadimos el filtro por idEncuesta
@@ -183,25 +223,24 @@ export class QuestionService {
     const questionsTransformadas = data.map((pregunta: any) => {
       // Según el tipo de pregunta, estructuramos las respuestas
       if (pregunta.type === 'single') {
-        // De la tabla respuestaSimple, normalmente habrá 0 o 1 registro
         const simpleResp = pregunta.respuestaSimple?.[0];
         return {
           idPregunta: pregunta.idPregunta,
           question: pregunta.question,
           type: pregunta.type,
-          response: simpleResp ? simpleResp.response : undefined
+          response: simpleResp ? simpleResp.response : undefined,
+          metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
         };
       } else if (pregunta.type === 'multiple') {
-        // De la tabla respuestaMultiple, puede haber varias opciones
         const multipleResp = pregunta.respuestaMultiple || [];
         return {
           idPregunta: pregunta.idPregunta,
           question: pregunta.question,
           type: pregunta.type,
-          selectedOptions: multipleResp.map((item: any) => item.optionSelected)
+          selectedOptions: multipleResp.map((item: any) => item.optionSelected),
+          metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
         };
       } else if (pregunta.type === 'matrix') {
-        // De la tabla respuestaMatrix, armamos un objeto clave-valor
         const matrixResp = pregunta.respuestaMatrix || [];
         const matrix: { [key: string]: number } = {};
         matrixResp.forEach((item: any) => {
@@ -211,14 +250,15 @@ export class QuestionService {
           idPregunta: pregunta.idPregunta,
           question: pregunta.question,
           type: pregunta.type,
-          matrix
+          matrix,
+          metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
         };
       } else {
-        // Si hubiera otro tipo de pregunta no contemplado
         return {
           idPregunta: pregunta.idPregunta,
           question: pregunta.question,
-          type: pregunta.type
+          type: pregunta.type,
+          metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
         };
       }
     });
@@ -229,78 +269,110 @@ export class QuestionService {
       avaliable: true
     }];
   }
+  
+  // Función auxiliar para obtener la métrica
+  getMetrica(metricaMatrix: any[]): any {
+    if (!metricaMatrix || metricaMatrix.length === 0) {
+      return null; // O el objeto vacío, según lo que necesites
+    }
+    const metrica = metricaMatrix[0]; // Suponiendo que solo hay una métrica por pregunta
+    return {
+      noImplementada: metrica?.noImplementada || 0,
+      implementacionInicial: metrica?.implementacionInicial || 0,
+      implementacionParcial: metrica?.implementacionParcial || 0,
+      implementacionAvanzada: metrica?.implementacionAvanzada || 0,
+      implementacionOptimizad: metrica?.implementacionOptimizad || 0,
+      tamanioMatrix: metrica?.tamanioMatrix || 0,
+      totalImplementacion: metrica?.totalImplementacion || 0
+    };
+  }
 
 
   //consultar preguntas por categoria 
- async getPreguntasPorCategoria(categoria: string): Promise<ListQuestions[]> {
-  const supabase = this.supabaseService.getClient();
-
-  // Usamos la sintaxis de Supabase para "expandir" las relaciones
-  // Ten en cuenta que debes tener definidas las FK y el 'select' anidado
-  const { data, error } = await supabase
-    .from('Pregunta')
-    .select(`
-      *,
-      respuestaSimple(*),
-      respuestaMultiple(*),
-      respuestaMatrix(*)
-    `)
-    .eq('category', categoria);
-
-  if (error) {
-    console.error('Error al obtener preguntas por categoría:', error);
-    return [];
-  }
-
-  const questionsTransformadas = data.map((pregunta: any) => {
-    // Según el tipo de pregunta, estructuramos las respuestas
-    if (pregunta.type === 'single') {
-      // De la tabla respuestaSimple, normalmente habrá 0 o 1 registro
-      const simpleResp = pregunta.respuestaSimple?.[0];
-      return {
-        idPregunta: pregunta.idPregunta,
-        question: pregunta.question,
-        type: pregunta.type,
-        response: simpleResp ? simpleResp.response : undefined
-      };
-    } else if (pregunta.type === 'multiple') {
-      // De la tabla respuestaMultiple, puede haber varias opciones
-      const multipleResp = pregunta.respuestaMultiple || [];
-      return {
-        idPregunta: pregunta.idPregunta,
-        question: pregunta.question,
-        type: pregunta.type,
-        selectedOptions: multipleResp.map((item: any) => item.optionSelected)
-      };
-    } else if (pregunta.type === 'matrix') {
-      // De la tabla respuestaMatrix, armamos un objeto clave-valor
-      const matrixResp = pregunta.respuestaMatrix || [];
-      const matrix: { [key: string]: number } = {};
-      matrixResp.forEach((item: any) => {
-        matrix[item.matrixKey] = item.value;
-      });
-      return {
-        idPregunta: pregunta.idPregunta,
-        question: pregunta.question,
-        type: pregunta.type,
-        matrix
-      };
-    } else {
-      // Si hubiera otro tipo de pregunta no contemplado
-      return {
-        idPregunta: pregunta.idPregunta,
-        question: pregunta.question,
-        type: pregunta.type
-      };
+  async getPreguntasPorCategoria(categoria: string): Promise<ListQuestions[]> {
+    const supabase = this.supabaseService.getClient();
+  
+    // Usamos la sintaxis de Supabase para "expandir" las relaciones
+    // Ahora incluimos metricaMatrix en la consulta
+    const { data, error } = await supabase
+      .from('Pregunta')
+      .select(`
+        *,
+        respuestaSimple(*),
+        respuestaMultiple(*),
+        respuestaMatrix(*),
+        metricaMatrix(*) // Incluir metricaMatrix en la consulta
+      `)
+      .eq('category', categoria);
+  
+    if (error) {
+      console.error('Error al obtener preguntas por categoría:', error);
+      return [];
     }
-  });
-
-  return [{
-    category: categoria,
-    questions: questionsTransformadas,
-    avaliable: true
-  }];
-}
+  
+    const questionsTransformadas = data.map((pregunta: any) => {
+      // Según el tipo de pregunta, estructuramos las respuestas
+      if (pregunta.type === 'single') {
+        const simpleResp = pregunta.respuestaSimple?.[0];
+        return {
+          idPregunta: pregunta.idPregunta,
+          question: pregunta.question,
+          type: pregunta.type,
+          response: simpleResp ? simpleResp.response : undefined,
+          metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
+        };
+      } else if (pregunta.type === 'multiple') {
+        const multipleResp = pregunta.respuestaMultiple || [];
+        return {
+          idPregunta: pregunta.idPregunta,
+          question: pregunta.question,
+          type: pregunta.type,
+          selectedOptions: multipleResp.map((item: any) => item.optionSelected),
+          metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
+        };
+      } else if (pregunta.type === 'matrix') {
+        const matrixResp = pregunta.respuestaMatrix || [];
+        const matrix: { [key: string]: number } = {};
+        matrixResp.forEach((item: any) => {
+          matrix[item.matrixKey] = item.value;
+        });
+        return {
+          idPregunta: pregunta.idPregunta,
+          question: pregunta.question,
+          type: pregunta.type,
+          matrix,
+          metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
+        };
+      } else if (pregunta.type === 'percentage') {
+        const matrixResp = pregunta.respuestaMatrix || [];
+        const matrix: { [key: string]: number } = {};
+        matrixResp.forEach((item: any) => {
+          matrix[item.matrixKey] = item.value;
+        });
+        return {
+          idPregunta: pregunta.idPregunta,
+          question: pregunta.question,
+          type: pregunta.type,
+          matrix,
+        };
+      
+      }
+      else {
+        return {
+          idPregunta: pregunta.idPregunta,
+          question: pregunta.question,
+          type: pregunta.type,
+          metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
+        };
+      }
+    });
+  
+    return [{
+      category: categoria,
+      questions: questionsTransformadas,
+      avaliable: true
+    }];
+  }
 
 //consultar si usuario tiene encuesta
 async getEncuestaPorUsuario(idUsuario: string): Promise<any> {

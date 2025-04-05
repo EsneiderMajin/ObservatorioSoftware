@@ -1,3 +1,4 @@
+<div class="cuestionario-container">
 <div class="container" *ngIf="preguntaAutorizacion.avaliable">
   <h2>Información Importante</h2>
   <hr>
@@ -15,6 +16,9 @@
     <hr>
     <h3>La siguiente sección tiene como objetivo, reconocer el nivel de implementación de las prácticas de calidad de su organización.</h3>
     <app-questionselect [category]="preguntasCalidad.category" [questions]="preguntasCalidad.questions" (answered)="answeredQuestion($event)"></app-questionselect>
+    <p>Nota: Las prácticas mencionadas son las más utilizadas por la industria segun la  SQuaRE (Software Product Quality
+      Requirements and Evaluation)
+    </p>
   </div>
   <div class="container" *ngIf="preguntasEsfuerzo.avaliable">
     <h2>Sección 3: Porcentaje de esfuerzo</h2>
@@ -22,15 +26,15 @@
     <app-questionselect [category]="preguntasEsfuerzo.category" [questions]="preguntasEsfuerzo.questions" (answered)="answeredQuestion($event)"></app-questionselect>
   </div>
   <div class="container" *ngIf="preguntasDesafio.avaliable">
-    <h2>Desafíos de Implementación</h2>
+    <h2>Sección 4: Desafíos de Implementación</h2>
     <hr>
     <app-questionselect [category]="preguntasDesafio.category"   [questions]="preguntasDesafio.questions" (answered)="answeredQuestion($event)"></app-questionselect>
   </div>
+</div>
 
   <div *ngIf="loading">
     <app-loading></app-loading>
   </div>
-
 
   <app-modal-notification 
   [nofiticationData]="notificationData"

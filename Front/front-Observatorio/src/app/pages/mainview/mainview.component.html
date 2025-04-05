@@ -1,10 +1,7 @@
 <img src="assets/imagenbase.jpg" alt="Observatorio de Calidad de Software" class="banner-image" />
-<h1>Observatorio Software</h1>
-<hr>
-
-
-<div *ngIf="listaEncuestas.length > 0">
-  <p>Para generar ver los resultados de la encuesta, haga clic en el botón "Generar Resultados".</p>
+<h1>Observatorio de Software</h1>
+<h2>Para generar ver los resultados de la encuesta, haga clic en el botón "Generar Resultados".</h2>
+<div class ="contenedor-tabla" *ngIf="listaEncuestas.length">
   <table >
     <thead>
       <tr>
@@ -24,8 +21,6 @@
     </tbody>
   </table>
 </div>
-
-
 
 <div class="encuesta-container">
     <button mat-button class="survey-button" routerLink="/cuestionario">

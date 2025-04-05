@@ -1,23 +1,66 @@
+<div class="report-container">
+  <h1>Reporte de Resultados</h1>
+  <div class="description-container">
+    <h2>Descripción</h2>
+  <h4>
+    Este informe tiene como objetivo evaluar el nivel de implementación de prácticas de calidad dentro del proceso de
+    desarrollo, conocer el nivel de esfuerzo que invierten las organizaciones de software en su implementación, y
+    finalmente conocer el estado general de los mayores desafíos que enfrentan al implementar estas prácticas. Para cada
+    uno se utiliza la scala LIKERT con el fin de dar una descripción detallada para facilitar su comprensión y
+    aplicación en la evaluación de calidad.
+  </h4>
+  <hr>
+  </div>
+  <h2>Prácticas de calidad  </h2>
+  <p>  
+    Las siguientes gráficas muestran el grado de implementación de las prácticas de calidad en las empresas PYMEs desarrolladoras del suroccidente colombiano.
+   </p>
+  <h3>Prácticas de gestión de calidad</h3>
+       <div class="chart-row" >
+      <canvas #calidadChartCanvas1 class="small-chart"></canvas>
+    </div>
+
+  <h3>Conclusión</h3>
+  <p>{{ conclusionesEvaluacion[0] }}</p>
+  <hr>
+
+  <h3>Prácticas de control de calidad</h3>
+  <div class="chart-row">
+    <canvas #calidadChartCanvas2 class="small-chart"></canvas>
+  </div>
+  <h3>Conclusión</h3>
+  <p>{{ conclusionesEvaluacion[1] }}</p>
+  <hr>
+
+  <h3>Prácticas de aseguramiento de calidad</h3>
+  <div class="chart-row">
+    <canvas #calidadChartCanvas3 class="small-chart"></canvas>
+  </div>
+  <h3>Conclusión</h3>
+  <p>{{ conclusionesEvaluacion[2] }}</p>
+  <hr>
+  <h2>Esfuerzo invertido en calidad</h2>
+  <p>  
+    Las siguientes gráficas muestran el porcentaje de esfuerzo que invirtien las PYMES desarrolladoras del suroccidente colombiano en prácticas de calidad.
+   </p>
+    <div class="chart-row" >
+        <canvas #calidadChartEsfuerzo class="small-chart"></canvas>
+      </div>
+   <hr>
+   <h2>Desafíos</h2>
+   <p>  
+     Las siguientes gráficas muestran los mayores desafíos que enfrentan las PYMES desarrolladoras del suroccidente colombiano para implementar prácticas de calidad en sus proyectos.
+    </p>
+
+    <div class="chart-row" >
+          <canvas #calidadChartDesafiosCanvas class="small-chart"></canvas>
+        </div>
 
 
-<div class="mission-container">
-    <h3 class="title-one">Nuestra Misión</h3>
-    <h1 class="text-one">
-        Qóndor busca evaluar el estado de la calidad del software en las PYMES de la región.
-        A través de la recolección de datos estructurada, se pretende identificar el nivel de implementación de prácticas de calidad y los principales desafíos que enfrentan estas organizaciones.
-    </h1>
-</div>
+    
 
-<div class="features-container">
-    <h1 class="title-two">Características de Qóndor</h1>
-    <h2 class="text-two">
-        Flexible y adaptable: Puede aplicarse a diversas organizaciones sin interrumpir sus prácticas actuales.
-        Orientado a la mejora continua: Su propósito es permitir a las empresas reflexionar y mejorar sus procesos de calidad.
-    </h2 >
-    <h2 class="text-two">
-        Enfocado en la medición objetiva: Utiliza métricas cuantificables para evaluar el estado de la calidad del software.
-    </h2>
-    <h2 class="text-two">
-        Basado en estándares reconocidos: Considera normas como CMMI, ISO/IEC 12207, ISO 29110 e ISO 25000.
-    </h2>
+
+
+
+  <button mat-raised-button (click)="regresar()">Atrás</button>
 </div>

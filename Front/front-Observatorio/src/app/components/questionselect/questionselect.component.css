@@ -1,4 +1,3 @@
-/* pregunta-radio.component.css */
 .pregunta-container {
   margin: 1rem auto;
   max-width: 500px;
@@ -9,30 +8,15 @@
   justify-content: space-between;
   align-items: center;
   margin-bottom: 1rem;
-  text-align: center;
+  text-align: left;
 }
 
 .container-text{
   justify-content: space-between;
-  align-items: center;
+  align-items: left;
   margin-bottom: 1rem;
   text-align: justify;
 }
-
-.h3 {
-  margin-bottom: 1rem;
-  font-weight: normal;
-  text-align: justify;
-  font-family: 'Roboto', sans-serif; /* Cambia la fuente a Roboto */
-  text-align: justify;
-}
-
-.pregunta-container h3 {
-  margin-bottom: 1rem;
-  font-weight: normal;
-  text-align: justify;
-}
-
 
 h2 {
   font-family: 'Roboto', sans-serif; /* Cambia la fuente a Roboto */
@@ -66,11 +50,17 @@ mat-radio-group {
   margin-bottom: 1rem;
 }
 
-
 .button-send {
-  align-items: center;
-  background-color: #4CAF50;
+  margin: 20px auto; /* Centra horizontalmente */
+  background-color: #029007;
   color: white;
+  width: 20%;
+  border-radius: 10px;
+  padding: 10px;
+  font-size: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .matrix-table {
@@ -103,13 +93,6 @@ th {
   padding: 10px;
   border-bottom: 1px solid #ddd;
 }
-
-/* .column-header {
-  text-align: center;
-  padding: 10px;
-  border-bottom: 1px solid #ddd;
-  font-weight: normal;
-} */
 
 .row-label {
   text-align: left;
@@ -146,5 +129,49 @@ th {
 .button-container {
   max-width: 800px;
   margin: 2rem auto;
+  text-align: center;
+}
+
+
+/* Estilos para el contenedor de porcentaje */
+.percentage-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1rem;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: #f9f9f9;
+}
+
+/* Cada fila (opción) dentro del contenedor */
+.percentage-container > div {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+}
+
+/* Estilos para la etiqueta de la opción */
+.percentage-container label {
+  flex: 1;
+  font-weight: bold;
+  font-size: 1rem;
+  color: #333;
+}
+
+/* Estilos para el input numérico */
+.percentage-container input[type="number"] {
+  width: 80px;
+  padding: 0.25rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  text-align: right;
+}
+
+/* Mensaje de error */
+.percentage-container .error-message {
+  font-size: 0.9rem;
+  color: red;
+  margin-top: 0.5rem;
   text-align: center;
 }

@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
 import { Questions, Option, MatrixRow, } from 'src/app/core/models/observatorio.model';
 
 @Component({
@@ -11,15 +11,19 @@ export class QuestionselectComponent implements OnInit, OnChanges  {
   @Input() questions!: Questions[];
   @Input() category!: string;
   @Output() answered = new EventEmitter<any>();
-  botonSend = "Siguiente";
+
+
+  botonSend = 'Siguiente';
   matrixError = false;
+
+  // NUEVO: índice de la pregunta actual
+  currentQuestionIndex = 0;
 
   questionsForm!: FormGroup;
 
   constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
-
     this.initForm();
   }
 
@@ -41,11 +45,16 @@ export class QuestionselectComponent implements OnInit, OnChanges  {
     return this.getFormGroup(i).get('matrix') as FormGroup;
   }
 
+  getPercentageGroup(index: number): FormGroup {
+    return this.getFormGroup(index).get('percentage') as FormGroup;
+  }
+
   private initForm(): void {
-    if(this.category === "preguntasDesafios"){
-      this.botonSend = "Enviar";
+    if (this.category === 'preguntasDesafios') {
+      this.botonSend = 'Enviar';
     }
     const questionsArray = this.fb.array<FormGroup>([]);
+
     this.questions.forEach((question) => {
       let group: FormGroup;
 
@@ -53,49 +62,78 @@ export class QuestionselectComponent implements OnInit, OnChanges  {
         case 'single':
           group = this.fb.group({
             response: ['', Validators.required],
-            otroTexto: ['']
+            otroTexto: [''],
           });
           break;
 
         case 'multiple':
           group = this.fb.group({
-            selectedOptions: [[],Validators.required],
-            otroTexto: ['']
+            selectedOptions: [[], Validators.required],
+            otroTexto: [''],
           });
           break;
 
-          case 'matrix':
-            // Para cada fila, creamos un control dentro de un grupo
-            const matrixGroup = this.fb.group({});
-            question.rows?.forEach((row: MatrixRow) => {
-              matrixGroup.addControl(row.value, this.fb.control(null, Validators.required)); // Asegurarse de que cada fila tenga required
-            });
-            group = this.fb.group({
-              matrix: matrixGroup
-            });
-            break;
+        case 'matrix':
+          // Se crea un grupo para cada fila de la matriz
+          const matrixGroup = this.fb.group({});
+          question.rows?.forEach((row: MatrixRow) => {
+            matrixGroup.addControl(row.value, this.fb.control(null, Validators.required));
+          });
+          group = this.fb.group({
+            matrix: matrixGroup,
+          });
+          break;
+
+        case 'percentage':
+          // Se crea un grupo para los porcentajes con un validador global
+          const percentageGroup = this.fb.group(
+            {},
+            { validators: this.validadorPorcentajeTotal() }
+          );
+          question.options?.forEach((option: Option) => {
+            percentageGroup.addControl(
+              option.value,
+              this.fb.control(null, [Validators.required, Validators.min(0)])
+            );
+          });
+          group = this.fb.group({
+            percentage: percentageGroup,
+          });
+          break;
 
         default:
           group = this.fb.group({});
           break;
       }
 
-      // Cada elemento del array tendrá además información extra (como la pregunta y el tipo)
-      questionsArray.push(this.fb.group({
-        questionText: [question.question],
-        type: [question.type],
-        form: group
-      }));
+      questionsArray.push(
+        this.fb.group({
+          questionText: [question.questionText || question.question],
+          type: [question.type],
+          form: group,
+        })
+      );
     });
 
     this.questionsForm = this.fb.group({
-      questions: questionsArray
+      questions: questionsArray,
     });
   }
 
   /**
-   * Maneja el cambio de estado en los checkboxes para preguntas de selección múltiple.
+   * Validador que suma los valores ingresados en el grupo de porcentaje y verifica que sean 100.
    */
+  validadorPorcentajeTotal(): ValidatorFn {
+    return (control: AbstractControl): { [clave: string]: any } | null => {
+      let total = 0;
+      Object.keys((control as FormGroup).controls).forEach((key) => {
+        const val = control.get(key)?.value;
+        total += Number(val) || 0;
+      });
+      return total === 100 ? null : { totalPercentage: { value: total } };
+    };
+  }
+
   onCheckboxChange(event: any, value: string, questionGroup: FormGroup): void {
     const selectedOptions: string[] = questionGroup.value.selectedOptions;
     if (event.checked) {
@@ -109,19 +147,13 @@ export class QuestionselectComponent implements OnInit, OnChanges  {
     questionGroup.patchValue({ selectedOptions });
   }
 
-  /**
-   * Devuelve true si se seleccionó alguna opción que requiere input (por ejemplo, "Otro")
-   */
   hasOtherSelected(formValue: any, options?: Option[]): boolean {
     if (!options) return false;
-    
-    // Para preguntas de selección única
     if (formValue.response) {
       return options.some(
         (option) => option.hasInput && formValue.response === option.value
       );
     }
-    // Para preguntas de selección múltiple
     if (formValue.selectedOptions) {
       return options.some(
         (option) => option.hasInput && formValue.selectedOptions.includes(option.value)
@@ -130,89 +162,51 @@ export class QuestionselectComponent implements OnInit, OnChanges  {
     return false;
   }
 
-  /**
-   * Maneja la selección en la matriz para cada fila
-   */
- 
+  // MÉTODOS NUEVOS PARA NAVEGACIÓN ENTRE PREGUNTAS
+  nextQuestion(): void {
+    // Validamos la pregunta actual antes de avanzar
+    const currentGroup = this.questionsArray.at(this.currentQuestionIndex);
+    currentGroup.markAllAsTouched();
 
-  onSubmit(): void {
-    if (this.questionsForm.valid) {
-      // Obtenemos el valor completo del formulario
-      const formValue = this.questionsForm.value; 
-  
-      // Recorremos cada elemento del array y construimos la respuesta final
-      const answers = formValue.questions.map((questionData: any, index: number) => {
-        const questionText = questionData.questionText;
-        const type = questionData.type;
-        const form = questionData.form; 
-  
-        let result: any = {
-          question: questionText,
-          type: type
-        };
-  
-        switch (type) {
-          case 'single':
-            result.response = form.response;   // Opción seleccionada
-            // result.otroTexto = form.otroTexto; // Texto ingresado en "Otro"
-            break;
-  
-          case 'multiple':
-            result.selectedOptions = form.selectedOptions; // Array de opciones marcadas
-            // result.otroTexto = form.otroTexto;             // Texto ingresado en "Otro"
-            break;
-  
-          case 'matrix':
-            result.matrix = form.matrix; // Objeto con { [rowValue]: numberSeleccionado }
-            break;
-        }
-  
-        return result;
-      });
-  
-      const finalPayload = {
-        category: this.category,
-        answers: answers
-      };
-  
-      // Emitimos la información al componente padre
-      this.answered.emit(finalPayload);
-  
-    } else {
-      // Marca todos los controles como tocados para mostrar los errores
-      (this.questionsForm.get('questions') as FormArray).controls.forEach((control) => 
-        control.markAllAsTouched()
+    // Si esta pregunta es de tipo 'matrix', comprobamos que esté completa
+    if (this.questions[this.currentQuestionIndex].type === 'matrix') {
+      const matrixGroup = this.getMatrixGroup(this.currentQuestionIndex);
+      const isComplete = this.isMatrixComplete(
+        matrixGroup,
+        this.questions[this.currentQuestionIndex].rows || []
       );
+      this.matrixError = !isComplete;
+      if (!isComplete) {
+        return; // No avanza si la matriz no está completa
+      }
+    }
 
-            // Verificar si hay errores en la matriz
-            this.questions.forEach((question, index) => {
-              if (question.type === 'matrix') {
-                const matrixGroup = this.getMatrixGroup(index);
-                const isMatrixComplete = this.isMatrixComplete(matrixGroup, question.rows || []);
-                if (!isMatrixComplete) {
-                  this.matrixError = true;
-                }
-              }
-            });
-          
+    // Si el form de la pregunta actual es válido, avanzamos
+    if (currentGroup.valid) {
+      this.currentQuestionIndex++;
     }
   }
 
-    // Método para actualizar el estado de matrixError
-    updateMatrixError(index: number) {
-      const matrixGroup = this.getMatrixGroup(index);
-      const isComplete = this.isMatrixComplete(matrixGroup, this.questions[index].rows || []);
-      this.matrixError = !isComplete;
+  previousQuestion(): void {
+    if (this.currentQuestionIndex > 0) {
+      this.currentQuestionIndex--;
     }
-  
-    // Manejar el cambio en la matriz
-    onMatrixRadioChange(rowValue: string, colValue: number, matrixGroup: FormGroup, index: number): void {
-      const rowControl = matrixGroup.get(rowValue);
-      if (rowControl) {
-        rowControl.setValue(colValue);
-      }
-      this.updateMatrixError(index); // Actualizar el estado de matrixError
+  }
+
+  // Se invoca al cambiar un radio button en la matriz
+  onMatrixRadioChange(rowValue: string, colValue: number, matrixGroup: FormGroup, index: number): void {
+    const rowControl = matrixGroup.get(rowValue);
+    if (rowControl) {
+      rowControl.setValue(colValue);
     }
+    this.updateMatrixError(index);
+  }
+
+  updateMatrixError(index: number) {
+    const matrixGroup = this.getMatrixGroup(index);
+    const isComplete = this.isMatrixComplete(matrixGroup, this.questions[index].rows || []);
+    this.matrixError = !isComplete;
+  }
 
   isMatrixComplete(matrixGroup: FormGroup, rows: MatrixRow[]): boolean {
     for (const row of rows) {
@@ -224,6 +218,64 @@ export class QuestionselectComponent implements OnInit, OnChanges  {
     return true;
   }
 
+
+  // ENVÍO FINAL DEL FORMULARIO (solo ocurre en la última pregunta)
+  onSubmit(): void {
+    // Antes de enviar, marcamos todo como tocado para no omitir errores
+    this.questionsArray.controls.forEach((control) => control.markAllAsTouched());
+
+    if (this.questionsForm.valid) {
+      const formValue = this.questionsForm.value;
+      const answers = formValue.questions.map((questionData: any, index: number) => {
+        const questionText = questionData.questionText;
+        const type = questionData.type;
+        const form = questionData.form;
+
+        let result: any = {
+          question: questionText,
+          type: type,
+        };
+
+        switch (type) {
+          case 'single':
+            result.response = form.response;
+            break;
+          case 'multiple':
+            result.selectedOptions = form.selectedOptions;
+            break;
+          case 'matrix':
+            result.matrix = form.matrix;
+            break;
+          case 'percentage':
+            result.percentage = form.percentage;
+            break;
+        }
+        return result;
+      });
+
+      const finalPayload = {
+        category: this.category,
+        answers: answers,
+      };
+
+      this.answered.emit(finalPayload);
+    } else {
+      // Marca todos los controles como tocados para mostrar errores
+      (this.questionsForm.get('questions') as FormArray).controls.forEach((control) => 
+        control.markAllAsTouched()
+      );
+      // Verifica errores en matrices, si existen
+      this.questions.forEach((question, index) => {
+        if (question.type === 'matrix') {
+          const matrixGroup = this.getMatrixGroup(index);
+          const isMatrixComplete = this.isMatrixComplete(matrixGroup, question.rows || []);
+          if (!isMatrixComplete) {
+            this.matrixError = true;
+          }
+        }
+      });
+    }
+  }
 
 
 }

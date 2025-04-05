@@ -5,9 +5,6 @@
   min-height: 100vh; 
 }
 
-app-header {
-}
-
 .main-content {
   flex: 1; 
   padding: 0;

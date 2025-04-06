@@ -15,28 +15,29 @@ export class RegisterComponent implements OnInit {
 
   registroForm!: FormGroup;
   register: Register = {} as Register;
+  // Variable para controlar la visibilidad de la contraseña
+  hide: boolean = true;
 
-    notificationData: NotificationData = {
-      title: "",
-      description: "",
-      isError: false
-    };
+  notificationData: NotificationData = {
+    title: "",
+    description: "",
+    isError: false
+  };
   loading = false;
   visibleAlert = false;
 
-  constructor(private readonly fb: FormBuilder,
-              private readonly registerService: RegisterService,
-              private supabaseService: SupabaseService,
-              private router: Router
+  constructor(
+    private readonly fb: FormBuilder,
+    private readonly registerService: RegisterService,
+    private supabaseService: SupabaseService,
+    private router: Router
   ) {}
 
   ngOnInit() {
-        // Verifica la URL actua
-
     this.registroForm = this.fb.group({
       nombre: ['', Validators.required],
       correo: ['', [Validators.required, Validators.email]],
-      contrasena: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(15)] ],
+      contrasena: ['', [Validators.required, Validators.minLength(6), Validators.maxLength(15)]],
     });
   }
 
@@ -53,19 +54,15 @@ export class RegisterComponent implements OnInit {
   }
 
   async onRegister(): Promise<void> { 
-
-
-      await this.registerService.postCreateUsuario(this.register).then((response) => {
-        this.loading = false
-        this.notificationData.title = "Registro exitoso"
-        this.notificationData.description = "Se ha enviado un correo de verificación a su correo electrónico."
-        this.visibleAlert = true
-      }
-      ).catch((error) => {
-        console.error('Error al guardar el registro:', error);
-      }
-      );
-
+    try {
+      await this.registerService.postCreateUsuario(this.register);
+      this.loading = false;
+      this.notificationData.title = "Registro exitoso";
+      this.notificationData.description = "Se ha enviado un correo de verificación a su correo electrónico.";
+      this.visibleAlert = true;
+    } catch (error) {
+      console.error('Error al guardar el registro:', error);
+    }
   }
 
   buttonOption(response: any): void {
@@ -73,8 +70,10 @@ export class RegisterComponent implements OnInit {
       this.registroForm.reset();
       this.visibleAlert = false; 
     }
-
   }
 
-
+  // Método para alternar la visibilidad de la contraseña
+  togglePasswordVisibility(): void {
+    this.hide = !this.hide;
+  }
 }

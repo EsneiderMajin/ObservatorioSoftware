@@ -1,24 +1,15 @@
-<div class="report-container">
-  <h1>Reporte de Resultados</h1>
+<body>
+  <div class="report-container">
+  <h1>Reporte de Resultados de la encuesta</h1>
   <div class="description-container">
     <h2>Descripción</h2>
     <h4>
-      Este informe tiene como objetivo evaluar el nivel de implementación de prácticas de calidad dentro del proceso de
-      desarrollo, conocer el nivel de esfuerzo que invierten las organizaciones de software en su implementación, y
-      finalmente conocer el estado general de los mayores desafíos que enfrentan al implementar estas prácticas. Para cada
-      uno se utiliza la scala LIKERT con el fin de dar una descripción detallada para facilitar su comprensión y
-      aplicación en la evaluación de calidad.
+      Esta sección presenta los resultados obtenidos individualmente para su organización. El propósito es proporcionar un diagnóstico detallado del nivel de implementación de prácticas de calidad de software en cada empresa, permitiendo identificar sus fortalezas, debilidades y áreas de mejora. Los resultados se generan automáticamente con base en las respuestas suministradas, y están representados mediante gráficos que facilitan su análisis e interpretación.
     </h4>
   </div>
   <hr>
-  <h2>Evaluación de prácticas de calidad</h2>
-  <p>  
-    Las siguientes gráficas muestran el grado de implementación de las prácticas de calidad en las PYMEs desarrolladoras de software del suroccidente colombiano.
-  </p>
-  <p>
-    El propósito de esta evaluación es conocer cuál es el nivel de implementación de dichas prácticas en las distintas áreas del proceso de desarrollo, así como identificar fortalezas, debilidades y oportunidades de mejora en la gestión, aseguramiento y control de calidad del software. 
-  </p>
-  <h3>Prácticas de gestión de calidad</h3>
+  <h2>Prácticas de calidad</h2>
+   <h3>Prácticas de gestión de calidad</h3>
   <div class="chart-row">
     <canvas #calidadChartCanvas1 class="small-chart"></canvas>
   </div>
@@ -41,3 +32,4 @@
   <!-- Se agrega la clase custom-button para forzar estilos -->
   <button mat-raised-button class="custom-button" (click)="regresar()">Atrás</button>
 </div>
+</body>

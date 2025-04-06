@@ -112,15 +112,15 @@ export class ResultsComponent implements OnInit {
 
     for (let i = 0; i < listaPreguntasMetricas.length; i++) {
       if (listaPreguntasMetricas[i].metrica) {
-        if(listaPreguntasMetricas[i].question == "¿Con qué frecuencia se aplican las siguientes prácticas de gestión de calidad en sus proyectos?"){
+        if(listaPreguntasMetricas[i].question == "¿Cuál es el nivel de aplicación de las siguientes prácticas de gestión de calidad en sus proyectos?"){
           metricaGlobalGestion = this.calcularMetricas(listaPreguntasMetricas[i].metrica, metricaGlobalGestion);
           metricaGlobalGestion.tamanioMatrix = listaPreguntasMetricas[i].metrica.tamanioMatrix;
         }
-        else if(listaPreguntasMetricas[i].question == "¿Con qué frecuencia se aplican las siguientes prácticas de control de calidad en sus proyectos?"){
+        else if(listaPreguntasMetricas[i].question == "¿Cuál es el nivel de aplicación de las siguientes prácticas de control de calidad en sus proyectos?"){
           metricaGlobalControl = this.calcularMetricas(listaPreguntasMetricas[i].metrica, metricaGlobalControl);
           metricaGlobalControl.tamanioMatrix = listaPreguntasMetricas[i].metrica.tamanioMatrix;
         }
-        else if(listaPreguntasMetricas[i].question == "¿Con qué frecuencia se aplican las siguientes prácticas de aseguramiento de calidad en sus proyectos?"){
+        else if(listaPreguntasMetricas[i].question == "¿Cuál es el nivel de aplicación de las siguientes prácticas de aseguramiento de calidad en sus proyectos?"){
           metricaGlobalAseguramiento = this.calcularMetricas(listaPreguntasMetricas[i].metrica, metricaGlobalAseguramiento);
           metricaGlobalAseguramiento.tamanioMatrix = listaPreguntasMetricas[i].metrica.tamanioMatrix;
         }
@@ -234,11 +234,11 @@ export class ResultsComponent implements OnInit {
               label: 'Frecuencia',
               data: values,
               backgroundColor: [
-                '#ffc7ff',
-                '#dd9ddc',
-                '#ba74b9',
-                '#984a97',
-                '#752174'
+                '#1976D2',
+                '#2196F3',
+                '#03A9F4',
+                '#BBDEFB',
+                '#BDBDBD'
               ],
               borderColor: 'rgba(0, 0, 0, 1)',
               barThickness: 40, // Ajustar el grosor de las barras
@@ -272,6 +272,10 @@ export class ResultsComponent implements OnInit {
             y: {
               beginAtZero: true,
               max: Math.max(...values) + 1,
+              title: {
+                display: true,
+                text: 'Frecuencia'
+              },
               ticks: {
                 font: {
                   size: 12 // Ajustar el tamaño de la fuente de los ejes
@@ -279,6 +283,10 @@ export class ResultsComponent implements OnInit {
               }
             },
             x: {
+              title: {
+                display: true,
+                text: 'Nivel de implementación (1-5)'
+              },
               ticks: {
                 font: {
                   size: 12 // Ajustar el tamaño de la fuente de los ejes
@@ -321,7 +329,7 @@ export class ResultsComponent implements OnInit {
           labels: ['Población Global', 'Su Empresa'],
           datasets: [
             {
-              label: 'Nivel de Implementación',
+              label: 'Nivel de Implementación de las prácticas (1-5)',
               data: [totalImplementacion, totalImplementacionIndividual],
               backgroundColor: [
                 '#4b0082', // Color para Población Global
@@ -354,11 +362,15 @@ export class ResultsComponent implements OnInit {
               }
             },
             legend: {
-              display: true
+              display: false
             }
           },
           scales: {
             y: {
+              title: {
+                display: true,
+                text: 'Frecuencia'
+              },
               beginAtZero: true,
               max: 5,
               ticks: {
@@ -368,6 +380,10 @@ export class ResultsComponent implements OnInit {
               }
             },
             x: {
+              title: {
+                display: true,
+                text: 'Muestra'
+              },
               ticks: {
                 font: {
                   size: 12 // Ajustar el tamaño de la fuente de los ejes

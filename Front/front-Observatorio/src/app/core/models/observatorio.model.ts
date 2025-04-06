@@ -2,14 +2,11 @@
 
 import { number } from "echarts";
 
-
-
 export interface Encuesta {
   fechacreacion: string;
   idUsuario: number;
   questions: Questions[];
 }
-
 
 
 export interface ListQuestions{
@@ -115,7 +112,7 @@ export const PreguntaAutorizacion: Questions = {
   // Listado de preguntas de matriz
   export const matrixQuestions: Questions[] = [
     {
-      question: '¿Con qué frecuencia se aplican las siguientes prácticas de gestión de calidad en sus proyectos?',
+      question: '¿Cuál es el nivel de aplicación de las siguientes prácticas de gestión de calidad en sus proyectos?',
       type: 'matrix',
       rows: [
         { label: 'Definir una política de calidad', value: 'definicion_calidad' },
@@ -126,7 +123,7 @@ export const PreguntaAutorizacion: Questions = {
       columns: PreguntasCalidad
     },
     {
-      question: '¿Con qué frecuencia se aplican las siguientes prácticas de control de calidad en sus proyectos?',
+      question: '¿Cuál es el nivel de aplicación de las siguientes prácticas de control de calidad en sus proyectos?',
       type: 'matrix',
       rows: [
         { label: 'Revisar y validar requisitos', value: 'revision_requisitos' },
@@ -138,7 +135,7 @@ export const PreguntaAutorizacion: Questions = {
       columns: PreguntasCalidad
     },
     {
-      question: '¿Con qué frecuencia se aplican las siguientes prácticas de aseguramiento de calidad en sus proyectos?',
+      question: '¿Cuál es el nivel de aplicación de las siguientes prácticas de aseguramiento de calidad en sus proyectos?',
       type: 'matrix',
       rows: [       
         { label: 'Definir una política de calidad', value: 'definicion_calidad' },

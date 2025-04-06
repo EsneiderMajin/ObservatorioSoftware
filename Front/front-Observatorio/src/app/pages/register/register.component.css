@@ -1,53 +1,97 @@
-h1 {
-  font-size: 200%;
-  font-family: 'Roboto', sans-serif; 
-  font-weight: bold;
+/* Contenedor general */
+.register-wrapper {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px 20px;
+  background-color: #f5f5f5;
+  font-family: 'Poppins', sans-serif;
 }
 
-h1, h2{
-  margin-left: 20px; 
-  max-width: 800px; 
+/* Encabezado */
+.content-container {
+  text-align: center;
+  margin-bottom: 30px;
 }
 
-p {
-  font-size: 100%;
+.content-container h1 {
+  font-size: clamp(2rem, 4vw, 2.5rem); /* Mínimo 2rem, ideal 4vw, máximo 2.5rem */
+  font-weight: 600;
+  color: #212121;
 }
-.banner-image {
-    width: 100%;
-    height: 280px;      
-    object-fit: cover; 
-    display: block;
-  }
-  
+
+.content-container h2 {
+  font-size: clamp(1.2rem, 3vw, 1.8rem); /* Mínimo 1.2rem, ideal 3vw, máximo 1.8rem */
+  font-weight: 400;
+  color: #757575;
+  margin-top: 10px;
+}
+
+/* Formulario */
 .registro-container {
-    max-width: 700px;
-    margin: auto;
-    padding: 1rem;
-  }
-  
-  .registro-container h2 {
-    margin-bottom: 0.5rem;
-  }
-  
-  .registro-container p {
-    margin-bottom: 2rem;
-    color: #555;
-  }
-  
-  .full-width {
+  width: 100%;
+  max-width: 500px;
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Campos */
+mat-form-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.full-width {
+  width: 100%;
+}
+
+/* Botón */
+.register-button {
+  background-color: #3F51B5;
+  color: white;
+  width: 100%;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.register-button:hover {
+  background-color: #448AFF;
+}
+
+
+@media (max-width: 768px) {
+  .login-container,
+  .registro-container {
+    padding: 20px;
     width: 100%;
-    margin-bottom: 1rem;
   }
-  
-   button[type="submit"] {
-    margin: 20px auto; 
-    width: 20%;
-    background-color: #6C0954;
-    color: white;
-    border-radius: 10px;
+
+  .login-button,
+  button[type="submit"] {
+    width: 100%;
     font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    }
-    
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    text-align: center;
+  }
+}

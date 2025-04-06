@@ -1,66 +1,49 @@
 <div class="report-container">
-  <h1>Reporte de Resultados</h1>
+  <h1>Informe de resultados de la población encuestada</h1>
+
   <div class="description-container">
     <h2>Descripción</h2>
-  <h4>
-    Este informe tiene como objetivo evaluar el nivel de implementación de prácticas de calidad dentro del proceso de
-    desarrollo, conocer el nivel de esfuerzo que invierten las organizaciones de software en su implementación, y
-    finalmente conocer el estado general de los mayores desafíos que enfrentan al implementar estas prácticas. Para cada
-    uno se utiliza la scala LIKERT con el fin de dar una descripción detallada para facilitar su comprensión y
-    aplicación en la evaluación de calidad.
-  </h4>
-  <hr>
+    <h4>
+      Esta sección muestra los resultados consolidados de todas las empresas encuestadas en el suroccidente colombiano. Su objetivo es ofrecer una visión global del estado de la calidad del software en la región, identificando tendencias, brechas comunes y patrones en la implementación de prácticas de calidad. Los datos presentados permiten establecer líneas base, fomentar la toma de decisiones estratégicas y promover el fortalecimiento del ecosistema de desarrollo de software regional.
+    </h4>
   </div>
-  <h2>Prácticas de calidad  </h2>
-  <p>  
-    Las siguientes gráficas muestran el grado de implementación de las prácticas de calidad en las empresas PYMEs desarrolladoras del suroccidente colombiano.
-   </p>
-  <h3>Prácticas de gestión de calidad</h3>
-       <div class="chart-row" >
-      <canvas #calidadChartCanvas1 class="small-chart"></canvas>
-    </div>
+  <hr>
 
-  <h3>Conclusión</h3>
-  <p>{{ conclusionesEvaluacion[0] }}</p>
+  <h2>Prácticas de calidad</h2>
+
+  <h3>Prácticas de gestión de calidad</h3>
+  <div class="chart-row">
+    <canvas #calidadChartCanvas1 class="small-chart"></canvas>
+  </div>
   <hr>
 
   <h3>Prácticas de control de calidad</h3>
   <div class="chart-row">
     <canvas #calidadChartCanvas2 class="small-chart"></canvas>
   </div>
-  <h3>Conclusión</h3>
-  <p>{{ conclusionesEvaluacion[1] }}</p>
-  <hr>
+   <hr>
 
   <h3>Prácticas de aseguramiento de calidad</h3>
   <div class="chart-row">
     <canvas #calidadChartCanvas3 class="small-chart"></canvas>
   </div>
-  <h3>Conclusión</h3>
-  <p>{{ conclusionesEvaluacion[2] }}</p>
-  <hr>
+ <hr>
   <h2>Esfuerzo invertido en calidad</h2>
-  <p>  
-    Las siguientes gráficas muestran el porcentaje de esfuerzo que invirtien las PYMES desarrolladoras del suroccidente colombiano en prácticas de calidad.
-   </p>
-    <div class="chart-row" >
-        <canvas #calidadChartEsfuerzo class="small-chart"></canvas>
-      </div>
-   <hr>
-   <h2>Desafíos</h2>
-   <p>  
-     Las siguientes gráficas muestran los mayores desafíos que enfrentan las PYMES desarrolladoras del suroccidente colombiano para implementar prácticas de calidad en sus proyectos.
-    </p>
-
-    <div class="chart-row" >
-          <canvas #calidadChartDesafiosCanvas class="small-chart"></canvas>
-        </div>
-
-
-    
-
-
-
-
-  <button mat-raised-button (click)="regresar()">Atrás</button>
+  <p>
+    Las siguientes gráficas muestran el porcentaje de esfuerzo que invierten las PYMES desarrolladoras del suroccidente colombiano en prácticas de calidad.
+  </p>
+  <div class="chart-row">
+    <canvas #calidadChartEsfuerzo class="small-chart"></canvas>
+  </div>
+  <hr>
+  <h2>Desafíos</h2>
+  <p>
+    Las siguientes gráficas muestran los mayores desafíos que enfrentan las PYMES desarrolladoras del suroccidente colombiano para implementar prácticas de calidad en sus proyectos.
+  </p>
+  <div class="chart-row">
+    <canvas #calidadChartDesafiosCanvas class="small-chart"></canvas>
+  </div>
+  <h3>Conclusiones</h3>
+  <p>{{ conclusionesEvaluacion[2] }}</p>
+  <button mat-raised-button class="custom-button" (click)="regresar()">Atrás</button>
 </div>

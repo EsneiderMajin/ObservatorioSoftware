@@ -1,53 +1,98 @@
-h1 {
-  font-size: 200%;
-  font-family: 'Roboto', sans-serif;
-  font-weight: bold;
-}
-
-h1, h2{
-  margin-left: 20px; /* Margen desde la izquierda */
-  max-width: 800px; /* Controla el ancho del contenido */
-}
-
-.banner-image {
-  width: 100%;
-  height: 400px;      
-  object-fit: cover; 
-  display: block;
-}
-
-.login-container {
-  max-width: 700px;
+/* General wrapper para centrar la vista */
+.login-wrapper {
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  text-align: center;
-  margin: auto;
-  padding: 0;
-  margin-top: 0;
+  background-color: #f5f5f5;
+  font-family: 'Poppins', sans-serif;
+  padding: 40px 20px;
 }
 
-mat-form-field {
-  width: 100%;
+/* Títulos */
+.content-container {
+  text-align: center;
+  margin-bottom: 30px;
+}
+
+.content-container h1 {
+  font-size: clamp(2rem, 4vw, 2.5rem); /* Mínimo 2rem, ideal 4vw, máximo 2.5rem */
+  font-weight: 600;
+  color: #212121;
   margin-bottom: 10px;
 }
 
-.full-width {
-  width: 100%;
+.content-container h2 {
+  font-size: clamp(1.2rem, 3vw, 1.8rem); /* Mínimo 1.2rem, ideal 3vw, máximo 1.8rem */
+  font-weight: 400;
+  color: #757575;
 }
 
+/* Contenedor del formulario */
+.login-container {
+  width: 100%;
+  max-width: 450px;
+  background-color: #ffffff;
+  padding: 40px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* Campos */
+mat-form-field {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Botón */
 .login-button {
-  margin: 20px auto; /* Centra horizontalmente */
-  background-color: #6C0954;
+  background-color: #3F51B5;
   color: white;
-  width: 20%;
-  border-radius: 10px;
-  font-size: 16px;
+  width: 100%;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
+.login-button:hover {
+  background-color: #448AFF;
+}
+
+/* Spinner dentro del botón */
 .mat-spinner {
   margin-left: 10px;
+}
+
+
+@media (max-width: 768px) {
+  .login-container,
+  .registro-container {
+    padding: 20px;
+    width: 100%;
+  }
+
+  .login-button,
+  button[type="submit"] {
+    width: 100%;
+    font-size: 16px;
+  }
+
+  mat-form-field {
+    width: 100%;
+  }
+
+  h1 {
+    font-size: 1.8rem;
+    text-align: center;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+    text-align: center;
+  }
 }

@@ -1,33 +1,42 @@
-<img src="assets/imagenbase.jpg" alt="Observatorio de Calidad de Software" class="banner-image" />
-<h1>Iniciar Sesión</h1>
-<h2>Por favor inicie sesión para continuar</h2>
-<div class="login-container">
-  <form [formGroup]="loginForm" (ngSubmit)="login()">
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Correo</mat-label>
-      <mat-icon matPrefix>person</mat-icon>
-      <input matInput type="text" formControlName="email" required>
-      <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
-        El correo es obligatorio
-      </mat-error>
-      <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
-        Correo inválido
-      </mat-error>
-    </mat-form-field>
+<div class="login-wrapper">
+  <div class="content-container">
+    <h1>Iniciar Sesión</h1>
+    <h2>Por favor inicie sesión para continuar</h2>
+  </div>
 
-    <mat-form-field appearance="outline" class="full-width">
-      <mat-label>Contraseña</mat-label>
-      <mat-icon matPrefix>lock</mat-icon>
-      <input matInput type="password" formControlName="password" required>
-      <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
-        La contraseña es obligatoria
-      </mat-error>
-    </mat-form-field>
-  
-    <button mat-raised-button color="primary" class="login-button" type="submit" 
-            [disabled]="loading || loginForm.invalid">
-      Ingresar
-      <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
-    </button>
-  </form>
+  <div class="login-container">
+    <form [formGroup]="loginForm" (ngSubmit)="login()">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Correo</mat-label>
+        <mat-icon matPrefix>person</mat-icon>
+        <input matInput type="text" formControlName="email" required>
+        <mat-error *ngIf="loginForm.get('email')?.hasError('required')">
+          El correo es obligatorio
+        </mat-error>
+        <mat-error *ngIf="loginForm.get('email')?.hasError('email')">
+          Correo inválido
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Contraseña</mat-label>
+        <mat-icon matPrefix>lock</mat-icon>
+        <!-- El input utiliza la propiedad "hide" para definir el tipo -->
+        <input matInput [type]="hide ? 'password' : 'text'" formControlName="password" required>
+        <!-- Botón para alternar la visibilidad de la contraseña -->
+        <button mat-icon-button matSuffix type="button" (click)="togglePasswordVisibility()" tabindex="-1">
+          <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
+        <mat-error *ngIf="loginForm.get('password')?.hasError('required')">
+          La contraseña es obligatoria
+        </mat-error>
+      </mat-form-field>
+
+      <button mat-raised-button color="primary" class="login-button" type="submit" 
+              [disabled]="loading || loginForm.invalid">
+        Ingresar
+        <mat-spinner *ngIf="loading" diameter="20"></mat-spinner>
+      </button>
+    </form>
+  </div>
 </div>

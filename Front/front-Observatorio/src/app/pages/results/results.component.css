@@ -1,114 +1,149 @@
-/* Estilos generales */
+/* Fuente general y reinicio de márgenes */
 body {
-  font-family: Arial, sans-serif;
+  font-family: 'Poppins', sans-serif;
   margin: 0;
   padding: 0;
-}
-
-/* Encabezados */
-h1 {
-  font-size: 200%;
-  font-family: 'Roboto', sans-serif;
-  font-weight: bold;
-}
-
-h1, h2, h3, h4 {
-  text-align: left;
-  margin: 0;
-  max-width: 800px;
-}
-
-h1, h2 { 
-  padding: 5px;
-}
-
-h4 {
-  color: white;
-  padding: 10px;
-  max-width: 800px;
-  text-align: justify;
-  font-size: 15px;
-}
-
-/* Párrafos */
-p {
-  max-width: 800px;
-  text-align: justify;
-  color: #333;
+  background-color: #f9f9f9;
 }
 
 /* Contenedor principal del reporte */
 .report-container {
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: rgba(255, 255, 255, 0.363);
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.486);
+  max-width: 1000px;
+  margin: 2rem auto;
+  padding: 2rem;
+  background-color: #f9f9f9;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+  border-radius: 12px;
+}
+
+/* Títulos principales */
+h1 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: #303F9F;
+  margin-bottom: 1rem;
+  text-align: left;
+}
+
+h2 {
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: #303F9F;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+}
+
+h3 {
+  font-size: 1.3rem;
+  font-weight: 500;
+  color: #333;
+  margin-top: 2rem;
+  margin-bottom: 0.8rem;
+}
+
+h4 {
+  font-size: 1rem;
+  font-weight: 400;
+  color: white;
+  text-align: justify;
+  line-height: 1.6;
+  margin: 0;
+}
+
+/* Párrafos */
+p {
+  font-size: 1rem;
+  color: #444;
+  text-align: justify;
+  line-height: 1.6;
+  margin-bottom: 1rem;
+  max-width: 850px;
+}
+
+/* Línea divisoria */
+hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 2rem 0;
 }
 
 /* Contenedor de descripción */
 .description-container {
-  color: white;
-  background-color: #6C0954;
+  background-color: #303F9F;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  margin-bottom: 2rem;
 }
 
-/* Contenedor para las gráficas */
+.description-container h2{
+  color: #FFFFFF;
+}
+
+/* Contenedor de gráficas */
+/* Contenedor de gráficas */
 .chart-row {
-  max-width: 60%;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  margin: 30px 0;
+  flex-direction: column; /* Ahora siempre estarán en columna */
+  gap: 2rem;
+  margin-bottom: 2rem;
 }
 
-/* Estilo para los canvas de las gráficas */
+/* Canvas de gráficas */
 .small-chart {
   width: 100%;
   height: 300px;
-  margin-bottom: 20px;
-  border: 1px solid #ddd;
   background-color: white;
-  box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  padding: 10px;
 }
 
-/* Botón Atrás con estilo forzado */
+
+/* Botón personalizado */
 .custom-button {
-  margin: 20px auto !important;
-  background-color: red !important;
+  display: block;
+  margin: 2rem auto 0 auto;
+  background-color: #3F51B5 !important;
   color: white !important;
-  width: 20% !important;
+  padding: 12px 24px !important;
+  font-size: 1rem !important;
+  font-weight: 500 !important;
   border-radius: 10px !important;
-  padding: 10px !important;
-  font-size: 16px !important;
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  border: none !important;
+  cursor: pointer;
+  transition: background-color 0.3s ease !important;
+  font-family: 'Poppins', sans-serif !important;
 }
 
-/* Estilos para pantallas móviles */
+.custom-button:hover {
+  background-color: #448AFF !important;
+}
+
+/* Responsividad */
 @media (max-width: 768px) {
   .chart-row {
     flex-direction: column;
+    gap: 1.5rem;
   }
 
   .small-chart {
     width: 100%;
-    margin-bottom: 20px;
   }
 
   h1 {
-    font-size: 24px;
+    font-size: 2rem;
   }
 
   h2 {
-    font-size: 20px;
+    font-size: 1.4rem;
   }
 
   h3 {
-    font-size: 18px;
+    font-size: 1.2rem;
   }
 
   p {
-    font-size: 16px;
+    font-size: 0.95rem;
   }
 }

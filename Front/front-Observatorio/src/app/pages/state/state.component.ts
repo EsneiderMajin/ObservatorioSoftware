@@ -197,15 +197,15 @@ export class StateComponent implements OnInit{
 
     for (let i = 0; i < listaPreguntasMetricas.length; i++) {
       if (listaPreguntasMetricas[i].metrica) {
-        if(listaPreguntasMetricas[i].question == "¿Con qué frecuencia se aplican las siguientes prácticas de gestión de calidad en sus proyectos?"){
+        if(listaPreguntasMetricas[i].question == "¿Cuál es el nivel de aplicación de las siguientes prácticas de gestión de calidad en sus proyectos?"){
           metricaGlobalGestion = this.calcularMetricas(listaPreguntasMetricas[i].metrica, metricaGlobalGestion);
           metricaGlobalGestion.tamanioMatrix = listaPreguntasMetricas[i].metrica.tamanioMatrix;
         }
-        else if(listaPreguntasMetricas[i].question == "¿Con qué frecuencia se aplican las siguientes prácticas de control de calidad en sus proyectos?"){
+        else if(listaPreguntasMetricas[i].question == "¿Cuál es el nivel de aplicación de las siguientes prácticas de control de calidad en sus proyectos?"){
           metricaGlobalControl = this.calcularMetricas(listaPreguntasMetricas[i].metrica, metricaGlobalControl);
           metricaGlobalControl.tamanioMatrix = listaPreguntasMetricas[i].metrica.tamanioMatrix;
         }
-        else if(listaPreguntasMetricas[i].question == "¿Con qué frecuencia se aplican las siguientes prácticas de aseguramiento de calidad en sus proyectos?"){
+        else if(listaPreguntasMetricas[i].question == "¿Cuál es el nivel de aplicación de las siguientes prácticas de aseguramiento de calidad en sus proyectos?"){
           metricaGlobalAseguramiento = this.calcularMetricas(listaPreguntasMetricas[i].metrica, metricaGlobalAseguramiento);
           metricaGlobalAseguramiento.tamanioMatrix = listaPreguntasMetricas[i].metrica.tamanioMatrix;
         }
@@ -270,14 +270,7 @@ export class StateComponent implements OnInit{
 
   crearGrafico(metrica: MetricaResponse, index: number) {
     // Etiquetas y valores
-    const labels = [
-      "1",
-      "2",
-      "3",
-      "4",
-      "5"
-    ];
-  
+    const labels = ["1", "2", "3", "4", "5"];
     const values = [
       metrica.noImplementada,
       metrica.implementacionInicial,
@@ -308,16 +301,17 @@ export class StateComponent implements OnInit{
             {
               label: 'Frecuencia',
               data: values,
+              // Usamos una paleta de colores similar para todas las barras
               backgroundColor: [
-                '#ffc7ff',
-                '#dd9ddc',
-                '#ba74b9',
-                '#984a97',
-                '#752174'
+                '#1976D2',
+                '#2196F3',
+                '#03A9F4',
+                '#BBDEFB',
+                '#BDBDBD'
               ],
               borderColor: 'rgba(0, 0, 0, 1)',
-              barThickness: 40, // Ajustar el grosor de las barras
-              borderWidth: 1, // Ajustar el grosor de las barras
+              borderWidth: 1,
+              barThickness: 40
             }
           ]
         },
@@ -326,10 +320,10 @@ export class StateComponent implements OnInit{
           plugins: {
             title: {
               display: true,
-              text: this.obtenerTitulo(index),
+              text: this.obtenerTituloGrafico(index),
               font: {
-                size: 14, // Ajustar el tamaño de la fuente del título
-                weight: 'bold' // Hacer el título más grueso
+                size: 16,
+                weight: 'bold'
               }
             },
             tooltip: {
@@ -340,23 +334,31 @@ export class StateComponent implements OnInit{
               }
             },
             legend: {
-              display: false // Deshabilitar la leyenda
+              display: false
             }
           },
           scales: {
             y: {
               beginAtZero: true,
               max: Math.max(...values) + 1,
+              title: {
+                display: true,
+                text: 'Frecuencia'
+              },
               ticks: {
                 font: {
-                  size: 12 // Ajustar el tamaño de la fuente de los ejes
+                  size: 12
                 }
               }
             },
             x: {
+              title: {
+                display: true,
+                text: 'Nivel de implementación de prácticas (1-5)'
+              },
               ticks: {
                 font: {
-                  size: 12 // Ajustar el tamaño de la fuente de los ejes
+                  size: 12
                 }
               }
             }
@@ -375,18 +377,20 @@ export class StateComponent implements OnInit{
     }
   }
 
-  obtenerTitulo(index: number): string {
+
+  obtenerTituloGrafico(index: number): string {
     switch (index) {
       case 0:
-        return 'Grado de implementación poblacional';
+        return 'Grado de implementación en Gestión de calidad';
       case 1:
-        return 'Grado de implementación poblacional';
+        return 'Grado de implementación en Control de calidad';
       case 2:
-        return 'Grado de implementación poblacional';
+        return 'Grado de implementación en Aseguramiento de calidad';
       default:
         return '';
     }
   }
+  
 
 
   obtenerTituloImplementacion(index: number): string {
@@ -402,15 +406,14 @@ export class StateComponent implements OnInit{
     }
   }
 
-  // Crear gráfico de esfuerzo global
   crearGraficoEsfuerzoGlobal(metrica: MetricaEsfuerzo) {
     // Etiquetas y valores
     const labels = [
-      'Menor a 5',
-      'Entre 5 y 10',
-      'Entre 10 y 15',
-      'Entre 15 y 20',
-      'Mayor a 20'
+      '<5%',
+      '5-10%',
+      '10-15%',
+      '15-20%',
+      '≥20%'
     ];
   
     const values = [
@@ -433,18 +436,19 @@ export class StateComponent implements OnInit{
         labels: labels,
         datasets: [
           {
-            label: 'Frecuencia',
+            label: 'Número de empresas',
             data: values,
+            // Usar la misma paleta de colores que en las otras gráficas
             backgroundColor: [
-              '#ffc7ff',
-              '#dd9ddc',
-              '#ba74b9',
-              '#984a97',
-              '#752174'
+              '#1976D2',
+                '#2196F3',
+                '#03A9F4',
+                '#BBDEFB',
+                '#BDBDBD'
             ],
             borderColor: 'rgba(0, 0, 0, 1)',
-            barThickness: 40, // Ajustar el grosor de las barras
-            borderWidth: 1, // Ajustar el grosor de las barras
+            borderWidth: 1,
+            barThickness: 40 // Grosor de las barras
           }
         ]
       },
@@ -455,59 +459,61 @@ export class StateComponent implements OnInit{
             display: true,
             text: 'Grado de esfuerzo poblacional',
             font: {
-              size: 14, // Ajustar el tamaño de la fuente del título
-              weight: 'bold' // Hacer el título más grueso
+              size: 16,
+              weight: 'bold'
             }
           },
           tooltip: {
             callbacks: {
               label: function(context) {
-                return `Frecuencia: ${context.raw}`;
+                return `Número de empresas: ${context.raw}`;
               }
             }
           },
           legend: {
-            display: false // Deshabilitar la leyenda
+            display: false // Oculta la leyenda (en este caso innecesaria)
           }
         },
         scales: {
           y: {
             beginAtZero: true,
             max: Math.max(...values) + 1,
+            title: {
+              display: true,
+              text: 'Número de empresas'
+            },
             ticks: {
               font: {
-                size: 12 // Ajustar el tamaño de la fuente de los ejes
+                size: 12
               }
             }
           },
           x: {
+            title: {
+              display: true,
+              text: 'Rango de esfuerzo dedicado a calidad (%)'
+            },
             ticks: {
               font: {
-                size: 12 // Ajustar
-                // el tamaño de la fuente de los ejes
-                // y el color de las etiquetas
-                // color: '#000000' // Cambiar el color de las etiquetas
-                // fontColor: '#000000' // Cambiar el color de las etiquetas
+                size: 12
               }
             }
           }
         }
       }
     });
-
   }
 
   // Crear gráfico de desafíos globales
   crearGraficoDesafiosGlobal(metrica: MetricaDesafios) {
-
     // Etiquetas y valores
     const labels = [
       'Recursos limitados',
-      'Dificultad para adaptar estándares de calidad internacionales',
+      'Dificultad para adaptar estándares',
       'Falta de conocimiento',
-      'Falta de personal capacitado o especializado',
+      'Falta de personal capacitado',
       'Resistencia al cambio',
-      'Dificultad para encontrar metodologías'
+      'Dificultad metodológica'
     ];
   
     const values = [
@@ -534,15 +540,16 @@ export class StateComponent implements OnInit{
             label: 'Frecuencia',
             data: values,
             backgroundColor: [
-              '#ffc7ff',
-              '#dd9ddc',
-              '#ba74b9',
-              '#984a97',
-              '#752174'
+              '#1976D2',
+                '#2196F3',
+                '#03A9F4',
+                '#BBDEFB',
+                '#BDBDBD',
+              '#5e3c58'
             ],
             borderColor: 'rgba(0, 0, 0, 1)',
-            barThickness: 40, // Ajustar el grosor de las barras
-            borderWidth: 1, // Ajustar el grosor de las barras
+            borderWidth: 1,
+            barThickness: 40
           }
         ]
       },
@@ -551,10 +558,10 @@ export class StateComponent implements OnInit{
         plugins: {
           title: {
             display: true,
-            text: 'Desafíos globales en la implementación de prácticas de calidad',
+            text: 'Desafíos en la implementación de prácticas de calidad',
             font: {
-              size: 14, // Ajustar el tamaño de la fuente del título
-              weight: 'bold' // Hacer el título más grueso
+              size: 16,
+              weight: 'bold'
             }
           },
           tooltip: {
@@ -565,24 +572,31 @@ export class StateComponent implements OnInit{
             }
           },
           legend: {
-            display: false // Deshabilitar la leyenda
+            display: false
           }
         },
         scales: {
           y: {
             beginAtZero: true,
-            max: Math
-.max(...values) + 1,
+            max: Math.max(...values) + 1,
+            title: {
+              display: true,
+              text: 'Frecuencia'
+            },
             ticks: {
               font: {
-                size: 12 // Ajustar el tamaño de la fuente de los ejes
+                size: 12
               }
             }
           },
           x: {
+            title: {
+              display: true,
+              text: 'Tipo de desafío'
+            },
             ticks: {
               font: {
-                size: 12 // Ajustar el tamaño de la fuente de los ejes
+                size: 12
               }
             }
           }
@@ -590,7 +604,6 @@ export class StateComponent implements OnInit{
       }
     });
   }
-
 
 
   regresar() {

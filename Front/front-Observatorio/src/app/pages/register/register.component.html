@@ -1,7 +1,10 @@
-<img src="assets/imagenbase.jpg" alt="Observatorio de Calidad de Software" class="banner-image" />
-<h1>Registro</h1>
-<h2>Por favor complete los siguientes campos obligatorios</h2>
-<div class="registro-container">
+<div class="register-wrapper">
+  <div class="content-container">
+    <h1>Registro</h1>
+    <h2>Por favor complete los siguientes campos obligatorios</h2>
+  </div>
+
+  <div class="registro-container">
     <form [formGroup]="registroForm" (ngSubmit)="onSubmit()">
       <!-- Campo Nombre -->
       <mat-form-field appearance="outline" class="full-width">
@@ -12,7 +15,7 @@
           El nombre es obligatorio
         </mat-error>
       </mat-form-field>
-  
+
       <!-- Campo Correo -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Correo</mat-label>
@@ -25,37 +28,35 @@
           Formato de correo inválido
         </mat-error>
       </mat-form-field>
-  
+
       <!-- Campo Contraseña -->
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Contraseña</mat-label>
         <mat-icon matPrefix>lock</mat-icon>
-        <input
-          matInput
-          placeholder="Contraseña"
-          formControlName="contrasena"
-          type="password"
-        />
+        <input matInput [type]="hide ? 'password' : 'text'" formControlName="contrasena" placeholder="Contraseña" />
+        <button mat-icon-button matSuffix (click)="hide = !hide" tabindex="-1">
+          <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+        </button>
         <mat-error *ngIf="registroForm.get('contrasena')?.hasError('required') && registroForm.get('contrasena')?.touched">
           La contraseña es obligatoria
         </mat-error>
       </mat-form-field>
-  
-      <!-- Botón Registrarse -->
-      <button mat-raised-button color="primary" type="submit">
+      
+
+      <!-- Botón -->
+      <button mat-raised-button color="primary" type="submit" class="register-button" [disabled]="registroForm.invalid || loading">
         Registrarse
       </button>
     </form>
+
     <div *ngIf="loading">
       <app-loading></app-loading>
     </div>
   </div>
-  
 
   <app-modal-notification 
-  [nofiticationData]="notificationData"
-  *ngIf="visibleAlert"
-  (ResponseOptionText)="buttonOption($event)"
-  >
-</app-modal-notification>
-
+    [nofiticationData]="notificationData"
+    *ngIf="visibleAlert"
+    (ResponseOptionText)="buttonOption($event)">
+  </app-modal-notification>
+</div>

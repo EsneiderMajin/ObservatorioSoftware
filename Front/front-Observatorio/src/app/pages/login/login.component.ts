@@ -12,6 +12,8 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   loginForm: FormGroup;
   loading = false;
+  // Propiedad para controlar la visibilidad de la contraseña
+  hide: boolean = true;
 
   constructor(
     private fb: FormBuilder,
@@ -37,7 +39,6 @@ export class LoginComponent {
       next: (response) => {
         this.snackBar.open('Inicio de sesión exitoso', 'Cerrar', { duration: 3000 });
         this.loading = false;
-        console.log('Router:',  this.router.navigate(['/mainview']));
         this.router.navigate(['/mainview']);
       },
       error: (error) => {
@@ -45,5 +46,10 @@ export class LoginComponent {
         this.loading = false;
       }
     });
+  }
+
+  // Método para alternar la visibilidad de la contraseña
+  togglePasswordVisibility(): void {
+    this.hide = !this.hide;
   }
 }

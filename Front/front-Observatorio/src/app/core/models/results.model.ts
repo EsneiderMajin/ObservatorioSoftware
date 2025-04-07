@@ -35,8 +35,9 @@
 
 export interface listaPracticas {
     nivel: number;
-    nombre: string;
-    interpretacion: string;
+    practica: string;
+    interpretacion: string; 
+    nivel_nombre: string;
 }
  
 

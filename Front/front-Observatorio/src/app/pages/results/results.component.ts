@@ -2,6 +2,7 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Chart, CategoryScale, LinearScale, BarElement, BarController, Title, Tooltip, Legend } from 'chart.js';
+import { TituloPracticasGestion, InterpretacionPracticasGestion, TituloPracticasControl, TituloPracticasAseguramiento } from 'src/app/core/enums/interpretacion.enum';
 import { conclusionesEvaluacionCalidad, recomendacionesAseguramiento, recomendacionesControl, recomendacionesGestion } from 'src/app/core/enums/observatorio.enum';
 import { Answer, MatrixAnswer, MetricaMatrix } from 'src/app/core/models/requestQuestions.models';
 import { PreguntaResponse, question, MetricaResponse, listaConclusiones } from 'src/app/core/models/responseQuestions.models';
@@ -32,7 +33,7 @@ export class ResultsComponent implements OnInit {
   listaConclusiones: listaConclusiones[] = [];
 
   //listas Interpretacion
-
+  listaPracticasTotal: any[] = [];
   listaPracticasGestion: listaPracticas[] = [];
   listaPracticasControl: listaPracticas[] = [];
   listaPracticasAseguramiento: listaPracticas[] = [];
@@ -97,9 +98,112 @@ export class ResultsComponent implements OnInit {
   }
     
   tablaInterpretaciones() {
+    // Definir un mapeo entre los niveles y sus valores
+    const interpretacionNiveles = {
+      1: {
+        contenido: InterpretacionPracticasGestion.nivel_1_contenido,
+        nombre: InterpretacionPracticasGestion.nivel_1_nombre
+      },
+      2: {
+        contenido: InterpretacionPracticasGestion.nivel_2_contenido,
+        nombre: InterpretacionPracticasGestion.nivel_2_nombre
+      },
+      3: {
+        contenido: InterpretacionPracticasGestion.nivel_3_contenido,
+        nombre: InterpretacionPracticasGestion.nivel_3_nombre
+      },
+      4: {
+        contenido: InterpretacionPracticasGestion.nivel_4_contenido,
+        nombre: InterpretacionPracticasGestion.nivel_4_nombre
+      },
+      5: {
+        contenido: InterpretacionPracticasGestion.nivel_5_contenido,
+        nombre: InterpretacionPracticasGestion.nivel_5_nombre
+      }
+    };
+  
+    // Definir un mapeo para cada categoría de prácticas
+    const categorias = {
+      gestion: {
+        array: this.listaPracticasGestion,
+        tituloPracticas: {
+          [TituloPracticasGestion.definicion_calidad_gestion]: TituloPracticasGestion.definicion_calidad_contenido,
+          [TituloPracticasGestion.asignar_capacitacion]: TituloPracticasGestion.asignar_capacitacion_contenido,
+          [TituloPracticasGestion.fomento_continua]: TituloPracticasGestion.fomento_continua_contenido,
+          [TituloPracticasGestion.planificacion_objetivos]: TituloPracticasGestion.planificacion_objetivos_contenido
+        }
+      },
+      control: {
+        array: this.listaPracticasControl,
+        tituloPracticas: {
+          [TituloPracticasControl.revision_requisitos]: TituloPracticasControl.revision_requisitos_contenido,
+          [TituloPracticasControl.inspecciones_formales]: TituloPracticasControl.inspecciones_formales_contenido,
+          [TituloPracticasControl.ejecucion_aceptacion]: TituloPracticasControl.ejecucion_aceptacion_contenido,
+          [TituloPracticasControl.uso_pruebas]: TituloPracticasControl.uso_pruebas_contenido,
+          [TituloPracticasControl.automatizacion_continua]: TituloPracticasControl.automatizacion_continua_contenido
+        }
+      },
+      aseguramiento: {
+        array: this.listaPracticasAseguramiento,
+        tituloPracticas: {
+          [TituloPracticasAseguramiento.definicion_calidad_aseguramiento]: TituloPracticasAseguramiento.definicion_calidad_contenido,
+          [TituloPracticasAseguramiento.documentacion_gestion]: TituloPracticasAseguramiento.documentacion_gestion_contenido,
+          [TituloPracticasAseguramiento.auditorias_direccion]: TituloPracticasAseguramiento.auditorias_direccion_contenido,
+          [TituloPracticasAseguramiento.definicion_kpis]: TituloPracticasAseguramiento.definicion_kpis_contenido,
+          [TituloPracticasAseguramiento.capacitacion_calidad]: TituloPracticasAseguramiento.capacitacion_calidad_contenido,
+          [TituloPracticasAseguramiento.acciones_preventivas]: TituloPracticasAseguramiento.acciones_preventivas_contenido
+          
+        }
+      }
+    };
+  
+    // Definir las prácticas a verificar para cada categoría
+    const practicasAVerificar = {
+      gestion: [
+        TituloPracticasGestion.definicion_calidad_gestion,
+        TituloPracticasGestion.asignar_capacitacion,
+        TituloPracticasGestion.fomento_continua,
+        TituloPracticasGestion.planificacion_objetivos
+      ],
+      control: [
+        TituloPracticasControl.revision_requisitos,
+        TituloPracticasControl.inspecciones_formales,
+        TituloPracticasControl.ejecucion_aceptacion,
+        TituloPracticasControl.uso_pruebas,
+        TituloPracticasControl.automatizacion_continua
+      ],
+      aseguramiento: [
+        TituloPracticasAseguramiento.definicion_calidad_aseguramiento,
+        TituloPracticasAseguramiento.documentacion_gestion,
+        TituloPracticasAseguramiento.auditorias_direccion,
+        TituloPracticasAseguramiento.definicion_kpis,
+        TituloPracticasAseguramiento.capacitacion_calidad,
+        TituloPracticasAseguramiento.acciones_preventivas
 
-    console.log("lista practicas:", this.listaPracticasGestion); 
-    
+      ]
+    };
+  
+    // Procesar cada categoría
+    for (const categoria in categorias) {
+      const { array, tituloPracticas } = categorias[categoria as keyof typeof categorias];
+      const practicas = practicasAVerificar[categoria as keyof typeof practicasAVerificar];
+  
+      for (const practica of practicas) {
+        for (const item of this.listaPracticasTotal) {
+          if (item.hasOwnProperty(practica)) {
+            const nivel = item[practica] as keyof typeof interpretacionNiveles;
+            if (interpretacionNiveles[nivel]) {
+              array.push({
+                practica: tituloPracticas[practica as keyof typeof tituloPracticas],
+                nivel: nivel,
+                interpretacion: interpretacionNiveles[nivel].contenido,
+                nivel_nombre: interpretacionNiveles[nivel].nombre
+              });
+            }
+          }
+        }
+      }
+    }
   }
 
   calculoGlobal() {
@@ -223,20 +327,20 @@ export class ResultsComponent implements OnInit {
 
 
     for (let i = 0; i < listaPreguntasMetricas.length; i++) {
-      console.log("linea 226",listaPreguntasMetricas[i]);
       if (listaPreguntasMetricas[i].metrica) {
         if(listaPreguntasMetricas[i].question == "¿Cuál es el nivel de aplicación de las siguientes prácticas de gestión de calidad en sus proyectos?"){
           metricaIndividualGestion = listaPreguntasMetricas[i].metrica;
-          this.listaPracticasGestion = listaPreguntasMetricas[i].matrix; 
+
+          this.listaPracticasTotal.push(listaPreguntasMetricas[i].matrix); 
         }
         else if(listaPreguntasMetricas[i].question == "¿Cuál es el nivel de aplicación de las siguientes prácticas de control de calidad en sus proyectos?"){
           metricaIndividualControl = listaPreguntasMetricas[i].metrica;
-          this.listaPracticasControl = listaPreguntasMetricas[i].matrix;
+          this.listaPracticasTotal.push(listaPreguntasMetricas[i].matrix);
 
         }
         else if(listaPreguntasMetricas[i].question == "¿Cuál es el nivel de aplicación de las siguientes prácticas de aseguramiento de calidad en sus proyectos?"){
           metricaIndividualAseguramiento = listaPreguntasMetricas[i].metrica;
-          this.listaPracticasAseguramiento = listaPreguntasMetricas[i].matrix;
+          this.listaPracticasTotal.push(listaPreguntasMetricas[i].matrix);
 
         }
 
@@ -257,11 +361,7 @@ export class ResultsComponent implements OnInit {
   }
 
 
-
-
   recomendacionesEvaluacionCalidad() {
-
-    console.log(this.metricaIndividual);
     
     this.metricaIndividual.forEach((metrica, index) => {
       let recomendacion = '';
@@ -312,21 +412,6 @@ export class ResultsComponent implements OnInit {
     });      
 
 
-    // this.listaConclusiones.push({
-    //   area: "Gestión de calidad",
-    //   puntaje: metricaGestion.totalImplementacionIndividual ?? 0,
-    //   recomendacion: 'hola'
-    // });
-    // this.listaConclusiones.push({
-    //   area: "Control de calidad",
-    //   puntaje: metricaControl.totalImplementacionIndividual ?? 0,
-    //   recomendacion: 'como'
-    // });
-    // this.listaConclusiones.push({
-    //   area: "Aseguramiento de calidad",
-    //   puntaje: metricaAseguramiento.totalImplementacionIndividual ?? 0,
-    //   recomendacion: 'vas'
-    // });
 
   }
 

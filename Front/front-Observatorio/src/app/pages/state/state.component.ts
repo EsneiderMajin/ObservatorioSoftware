@@ -4,9 +4,11 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Chart, CategoryScale, LinearScale, BarElement, BarController, Title, Tooltip, Legend } from 'chart.js';
-import { conclusionesEvaluacionCalidad } from 'src/app/core/enums/observatorio.enum';
+import { InterpretacionPracticasGestion, TituloPracticasAseguramiento, TituloPracticasControl, TituloPracticasGestion } from 'src/app/core/enums/interpretacion.enum';
+import { conclusionesEvaluacionCalidad, recomendacionesAseguramiento, recomendacionesControl, recomendacionesGestion } from 'src/app/core/enums/observatorio.enum';
 import { Answer, MatrixAnswer, MetricaMatrix } from 'src/app/core/models/requestQuestions.models';
-import { PreguntaResponse, question, MetricaResponse, MetricaEsfuerzo, MetricaDesafios } from 'src/app/core/models/responseQuestions.models';
+import { PreguntaResponse, question, MetricaResponse, MetricaEsfuerzo, MetricaDesafios, listaConclusiones } from 'src/app/core/models/responseQuestions.models';
+import { listaPracticas } from 'src/app/core/models/results.model';
 import { AuthService } from 'src/app/core/services/login/auth.service';
 import { QuestionService } from 'src/app/core/services/question/question.service';
 
@@ -24,11 +26,17 @@ export class StateComponent implements OnInit{
   listaPreguntasEsfuerzo: PreguntaResponse[] = [];
   listaPreguntasCalidadGlobal: PreguntaResponse[] = [];
   listaPreguntasDesafios: PreguntaResponse[] = [];
-  conclusionesEvaluacion: string[] = [];
-  conclusionesEvaluacionGlobal: string[] = [];
   anioId = 0;
   mostrarGrafica = false;
   averagedMetricsGlobal: { [question: string]: { [variable: string]: number } } = {};
+  metricaGlobal: any[] = [];
+  listaConclusiones: listaConclusiones[] = [];
+
+  //listas Interpretacion
+  listaPracticasTotal: any[] = [];
+  listaPracticasGestion: listaPracticas[] = [];
+  listaPracticasControl: listaPracticas[] = [];
+  listaPracticasAseguramiento: listaPracticas[] = [];
 
   //Calidad
   calidadChart1!: Chart;
@@ -70,20 +78,13 @@ export class StateComponent implements OnInit{
       this.listaPreguntasCalidadGlobal = res as PreguntaResponse[];
     });
 
-    console.log(this.listaPreguntasCalidadGlobal);
-
     await this.questionService.getPreguntasPorCategoriaanio('preguntasEsfuerzo',this.anioId).then((res) => {
       this.listaPreguntasEsfuerzo = res as PreguntaResponse[];
     });
 
-    console.log(this.listaPreguntasEsfuerzo);
-
     await this.questionService.getPreguntasPorCategoriaanio('preguntasDesafios',this.anioId).then((res) => {
       this.listaPreguntasDesafios = res as PreguntaResponse[];
     });
-
-    console.log(this.listaPreguntasDesafios);
-
 
     this.calcularCalidadGlobal();
 
@@ -91,7 +92,173 @@ export class StateComponent implements OnInit{
 
     this.calcularDesafiosGlobal();
 
+    this.recomendacionesEvaluacionCalidad();
+
+    this.tablaInterpretaciones();
+
   }
+
+    recomendacionesEvaluacionCalidad() {
+
+      this.metricaGlobal.forEach((metrica, index) => {
+        let recomendacion = '';
+        let area = '';
+        if (index === 0) {
+          area = 'Gestión de calidad';
+          if ((metrica.totalImplementacion ?? 0) <= 2) {
+            recomendacion = recomendacionesGestion.entre12;
+          } else if ((metrica.totalImplementacion ?? 0) <= 3) {
+            recomendacion = recomendacionesGestion.entre23;
+          } else if ((metrica.totalImplementacion ?? 0) <= 4) {
+            recomendacion = recomendacionesGestion.entre34;
+          } else if ((metrica.totalImplementacion ?? 0) <= 5) {
+            recomendacion = recomendacionesGestion.entre45;
+          }
+  
+        } else if (index === 1) {
+          area = 'Control de calidad';
+          if ((metrica.totalImplementacion ?? 0) <= 2) {
+            recomendacion = recomendacionesControl.entre12;
+          } else if ((metrica.totalImplementacion ?? 0) <= 3) {
+            recomendacion = recomendacionesControl.entre23;
+          } else if ((metrica.totalImplementacion ?? 0) <= 4) {
+            recomendacion = recomendacionesControl.entre34;
+          }
+          else if ((metrica.totalImplementacion ?? 0) <= 5) {
+            recomendacion = recomendacionesControl.entre45;
+          }        
+        } else if (index === 2) {
+          area = 'Aseguramiento de calidad';
+          if ((metrica.totalImplementacion ?? 0) <= 2) {
+            recomendacion = recomendacionesAseguramiento.entre12;
+          } else if ((metrica.totalImplementacion ?? 0) <= 3) {
+            recomendacion = recomendacionesAseguramiento.entre23;
+          } else if ((metrica.totalImplementacion ?? 0) <= 4) {
+            recomendacion = recomendacionesAseguramiento.entre34;
+          } else if ((metrica.totalImplementacion ?? 0) <= 5) {
+            recomendacion = recomendacionesAseguramiento.entre45;
+          }
+        }
+  
+  
+        this.listaConclusiones.push({
+          area: area,
+          puntaje: metrica.totalImplementacion ?? 0,
+          recomendacion: recomendacion
+        });
+      });      
+  
+    }
+
+    tablaInterpretaciones() {
+
+      // Definir un mapeo entre los niveles y sus valores
+      const interpretacionNiveles = {
+        1: {
+          contenido: InterpretacionPracticasGestion.nivel_1_contenido,
+          nombre: InterpretacionPracticasGestion.nivel_1_nombre
+        },
+        2: {
+          contenido: InterpretacionPracticasGestion.nivel_2_contenido,
+          nombre: InterpretacionPracticasGestion.nivel_2_nombre
+        },
+        3: {
+          contenido: InterpretacionPracticasGestion.nivel_3_contenido,
+          nombre: InterpretacionPracticasGestion.nivel_3_nombre
+        },
+        4: {
+          contenido: InterpretacionPracticasGestion.nivel_4_contenido,
+          nombre: InterpretacionPracticasGestion.nivel_4_nombre
+        },
+        5: {
+          contenido: InterpretacionPracticasGestion.nivel_5_contenido,
+          nombre: InterpretacionPracticasGestion.nivel_5_nombre
+        }
+      };
+    
+      // Definir un mapeo para cada categoría de prácticas
+      const categorias = {
+        gestion: {
+          array: this.listaPracticasGestion,
+          tituloPracticas: {
+            [TituloPracticasGestion.definicion_calidad_gestion]: TituloPracticasGestion.definicion_calidad_contenido,
+            [TituloPracticasGestion.asignar_capacitacion]: TituloPracticasGestion.asignar_capacitacion_contenido,
+            [TituloPracticasGestion.fomento_continua]: TituloPracticasGestion.fomento_continua_contenido,
+            [TituloPracticasGestion.planificacion_objetivos]: TituloPracticasGestion.planificacion_objetivos_contenido
+          }
+        },
+        control: {
+          array: this.listaPracticasControl,
+          tituloPracticas: {
+            [TituloPracticasControl.revision_requisitos]: TituloPracticasControl.revision_requisitos_contenido,
+            [TituloPracticasControl.inspecciones_formales]: TituloPracticasControl.inspecciones_formales_contenido,
+            [TituloPracticasControl.ejecucion_aceptacion]: TituloPracticasControl.ejecucion_aceptacion_contenido,
+            [TituloPracticasControl.uso_pruebas]: TituloPracticasControl.uso_pruebas_contenido,
+            [TituloPracticasControl.automatizacion_continua]: TituloPracticasControl.automatizacion_continua_contenido
+          }
+        },
+        aseguramiento: {
+          array: this.listaPracticasAseguramiento,
+          tituloPracticas: {
+            [TituloPracticasAseguramiento.definicion_calidad_aseguramiento]: TituloPracticasAseguramiento.definicion_calidad_contenido,
+            [TituloPracticasAseguramiento.documentacion_gestion]: TituloPracticasAseguramiento.documentacion_gestion_contenido,
+            [TituloPracticasAseguramiento.auditorias_direccion]: TituloPracticasAseguramiento.auditorias_direccion_contenido,
+            [TituloPracticasAseguramiento.definicion_kpis]: TituloPracticasAseguramiento.definicion_kpis_contenido,
+            [TituloPracticasAseguramiento.capacitacion_calidad]: TituloPracticasAseguramiento.capacitacion_calidad_contenido,
+            [TituloPracticasAseguramiento.acciones_preventivas]: TituloPracticasAseguramiento.acciones_preventivas_contenido
+            
+          }
+        }
+      };
+    
+      // Definir las prácticas a verificar para cada categoría
+      const practicasAVerificar = {
+        gestion: [
+          TituloPracticasGestion.definicion_calidad_gestion,
+          TituloPracticasGestion.asignar_capacitacion,
+          TituloPracticasGestion.fomento_continua,
+          TituloPracticasGestion.planificacion_objetivos
+        ],
+        control: [
+          TituloPracticasControl.revision_requisitos,
+          TituloPracticasControl.inspecciones_formales,
+          TituloPracticasControl.ejecucion_aceptacion,
+          TituloPracticasControl.uso_pruebas,
+          TituloPracticasControl.automatizacion_continua
+        ],
+        aseguramiento: [
+          TituloPracticasAseguramiento.definicion_calidad_aseguramiento,
+          TituloPracticasAseguramiento.documentacion_gestion,
+          TituloPracticasAseguramiento.auditorias_direccion,
+          TituloPracticasAseguramiento.definicion_kpis,
+          TituloPracticasAseguramiento.capacitacion_calidad,
+          TituloPracticasAseguramiento.acciones_preventivas
+  
+        ]
+      };
+    
+      // Procesar cada categoría
+      for (const categoria in categorias) {
+        const { array, tituloPracticas } = categorias[categoria as keyof typeof categorias];
+        const practicas = practicasAVerificar[categoria as keyof typeof practicasAVerificar];
+    
+        for (const practica of practicas) {
+          for (const item of this.listaPracticasTotal) {
+            if (item.hasOwnProperty(practica)) {
+              const nivel = item[practica] as keyof typeof interpretacionNiveles;
+              if (interpretacionNiveles[nivel]) {
+                array.push({
+                  practica: tituloPracticas[practica as keyof typeof tituloPracticas],
+                  nivel: nivel,
+                  interpretacion: interpretacionNiveles[nivel].contenido,
+                  nivel_nombre: interpretacionNiveles[nivel].nombre
+                });
+              }
+            }
+          }
+        }
+      }
+    }
 
 
   calcularDesafiosGlobal() {
@@ -206,14 +373,17 @@ export class StateComponent implements OnInit{
         if(listaPreguntasMetricas[i].question == "¿Cuál es el nivel de aplicación de las siguientes prácticas de gestión de calidad en sus proyectos?"){
           metricaGlobalGestion = this.calcularMetricas(listaPreguntasMetricas[i].metrica, metricaGlobalGestion);
           metricaGlobalGestion.tamanioMatrix = listaPreguntasMetricas[i].metrica.tamanioMatrix;
+          this.listaPracticasTotal.push(listaPreguntasMetricas[i].matrix);
         }
         else if(listaPreguntasMetricas[i].question == "¿Cuál es el nivel de aplicación de las siguientes prácticas de control de calidad en sus proyectos?"){
           metricaGlobalControl = this.calcularMetricas(listaPreguntasMetricas[i].metrica, metricaGlobalControl);
           metricaGlobalControl.tamanioMatrix = listaPreguntasMetricas[i].metrica.tamanioMatrix;
+          this.listaPracticasTotal.push(listaPreguntasMetricas[i].matrix);
         }
         else if(listaPreguntasMetricas[i].question == "¿Cuál es el nivel de aplicación de las siguientes prácticas de aseguramiento de calidad en sus proyectos?"){
           metricaGlobalAseguramiento = this.calcularMetricas(listaPreguntasMetricas[i].metrica, metricaGlobalAseguramiento);
           metricaGlobalAseguramiento.tamanioMatrix = listaPreguntasMetricas[i].metrica.tamanioMatrix;
+          this.listaPracticasTotal.push(listaPreguntasMetricas[i].matrix);
         }
 
       }
@@ -230,12 +400,12 @@ export class StateComponent implements OnInit{
     metricaGlobalControl.totalImplementacion = metricaGlobalControl.totalImplementacion / cantidadEncuestas;
     metricaGlobalAseguramiento.totalImplementacion = metricaGlobalAseguramiento.noImplementada + metricaGlobalAseguramiento.implementacionInicial + metricaGlobalAseguramiento.implementacionParcial + metricaGlobalAseguramiento.implementacionAvanzada + metricaGlobalAseguramiento.implementacionOptimizad;
     metricaGlobalAseguramiento.totalImplementacion = metricaGlobalAseguramiento.totalImplementacion / cantidadEncuestas;
-    const listaMatrix = [metricaGlobalGestion, metricaGlobalControl, metricaGlobalAseguramiento];
+    this.metricaGlobal = [metricaGlobalGestion, metricaGlobalControl, metricaGlobalAseguramiento];
 
-    this.crearGraficos(listaMatrix);
+    this.crearGraficos(this.metricaGlobal);
   }
 
-    calcularMetricas(answer: MetricaResponse, metrica: MetricaResponse): MetricaResponse {
+    calcularMetricas(answer: MetricaResponse, metrica: MetricaResponse): MetricaResponse {  
 
       metrica = {
         noImplementada: metrica.noImplementada + answer.noImplementada,

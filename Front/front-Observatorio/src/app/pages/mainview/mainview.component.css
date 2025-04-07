@@ -1,4 +1,4 @@
-/* Títulos */
+/* =================== TÍTULOS =================== */
 h1, h2 {
   font-family: 'Poppins', sans-serif;
   max-width: 800px;
@@ -6,10 +6,13 @@ h1, h2 {
   text-align: center;
 }
 
+
 h1 {
   font-size: clamp(2rem, 4vw, 2.5rem);
   font-weight: 600;
   color: #212121;
+  margin-top: 0;
+  padding-top: 3rem;
 }
 
 h2 {
@@ -19,7 +22,14 @@ h2 {
   margin-bottom: 1.5rem;
 }
 
-/* Tabla */
+/* =================== CONTENEDOR PRINCIPAL =================== */
+.body-container {
+  background-color: #e8eaf6; /* Fondo similar al footer */
+  min-height: 100vh;
+  padding-bottom: 2rem;
+}
+
+/* =================== TABLA DE ENCUESTAS =================== */
 .contenedor-tabla {
   width: 90%;
   margin: 2rem auto;
@@ -45,7 +55,7 @@ th, td {
 }
 
 th {
-  background-color: #303F9F;
+  background-color: #040c42; /* Azul oscuro */
   color: white;
   font-weight: 500;
   text-transform: uppercase;
@@ -60,9 +70,9 @@ tr:hover {
   background-color: #BDBDBD;
 }
 
-/* Botón de acción */
+/* =================== BOTONES DE ACCIÓN =================== */
 .btn-generar {
-  background-color: #3F51B5;
+  background-color: #040c42; /* Azul Material */
   color: white;
   padding: 10px 16px;
   border-radius: 8px;
@@ -78,7 +88,17 @@ tr:hover {
   cursor: pointer;
 }
 
-/* Botón de iniciar encuesta */
+/* Botón adicional para editar */
+.editar-btn {
+  background-color: #5C6BC0; /* Un azul un poco más claro */
+  margin-left: 10px;
+}
+
+.editar-btn:hover {
+  background-color: #9FA8DA;
+}
+
+/* =================== BOTÓN INICIAR ENCUESTA =================== */
 .encuesta-container {
   max-width: 800px;
   margin: 2rem auto;
@@ -86,7 +106,7 @@ tr:hover {
 }
 
 .survey-button {
-  background-color: #3F51B5;
+  background-color: #040c42;
   color: white;
   padding: 12px 24px;
   border-radius: 10px;
@@ -97,9 +117,23 @@ tr:hover {
 
 .survey-button:hover {
   background-color: #C5CAE9;
+  cursor: pointer;
 }
 
-/* Responsive */
+.mensaje-error {
+  color: #d32f2f;
+  font-weight: 500;
+  font-size: 1rem;
+  font-family: 'Poppins', sans-serif;
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #fdecea;
+  border-left: 5px solid #d32f2f;
+  border-radius: 6px;
+}
+
+
+/* =================== RESPONSIVE =================== */
 @media (max-width: 768px) {
   .contenedor-tabla {
     width: 100%;
@@ -110,9 +144,17 @@ tr:hover {
     font-size: 0.85rem;
   }
 
-  .btn-generar {
+  th, td {
+    padding: 12px;
+  }
+
+  .btn-generar,
+  .editar-btn {
     font-size: 0.8rem;
     padding: 8px 12px;
+    display: block;
+    width: 100%;
+    margin: 6px 0;
   }
 
   .survey-button {

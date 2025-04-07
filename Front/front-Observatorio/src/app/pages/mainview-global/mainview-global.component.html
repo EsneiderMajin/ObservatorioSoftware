@@ -1,0 +1,29 @@
+<div class="body-container">
+    <h1>Encuestas realizadas por las PYMEs</h1>
+    <div class="contenedor-tabla" *ngIf="listadoAnios.length">
+      <h2>Para ver los resultados de la encuesta poblacional haga clic en "Generar Resultados" en la encuesta que desea visualizar.</h2>
+      <p>Los resultados aqui mostrados pertenecen al año 2025</p>
+      <table>
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Fecha</th>
+            <th>Acciones</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let encuesta of listadoAnios; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{encuesta.anio}}</td>
+            <td>
+              <button (click)="generarResultados(encuesta.anio)" class="btn-generar">
+                Ver Resultados
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+  
+  

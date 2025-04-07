@@ -1,18 +1,53 @@
-.qondor-logo {
-  font-size: 1.5rem;
-  font-weight: bold;
-  letter-spacing: 1px;
-  color: #ffffff; 
+.custom-toolbar {
+  background-color: #040c42; /* tono principal */
+  color: #ffffff;
+  font-family: 'Roboto', sans-serif;
+  padding: 0 2rem;
+  height: 70px;
+  display: flex;
+  align-items: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
-.toolbar {
-  background-color: #303f9f;
+.qondor-logo {
+  font-size: 24px;
+  font-weight: 700;
+  letter-spacing: 1.5px;
   color: #ffffff;
-  font-family: 'Inter', sans-serif; 
-  font-weight: normal; 
-  font-size: small;
 }
 
 .spacer {
   flex: 1 1 auto;
+}
+
+.nav-links a {
+  margin: 0 0.5rem;
+  font-size: 16px;
+  font-weight: 500;
+  color: #ffffff;
+  text-transform: none;
+}
+
+.nav-links a:hover {
+  color: #bbdefb; /* azul más claro al pasar el mouse */
+}
+
+@media (max-width: 768px) {
+  .custom-toolbar {
+    flex-direction: column;
+    height: auto;
+    padding: 1rem;
+  }
+
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .nav-links a {
+    margin: 0.3rem 0;
+  }
 }

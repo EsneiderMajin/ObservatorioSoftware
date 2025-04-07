@@ -1,35 +1,99 @@
 <body>
   <div class="report-container">
-  <h1>Reporte de Resultados de la encuesta</h1>
-  <div class="description-container">
-    <h2>Descripción</h2>
-    <h4>
-      Esta sección presenta los resultados obtenidos individualmente para su organización. El propósito es proporcionar un diagnóstico detallado del nivel de implementación de prácticas de calidad de software en cada empresa, permitiendo identificar sus fortalezas, debilidades y áreas de mejora. Los resultados se generan automáticamente con base en las respuestas suministradas, y están representados mediante gráficos que facilitan su análisis e interpretación.
-    </h4>
-  </div>
-  <hr>
-  <h2>Prácticas de calidad</h2>
-   <h3>Prácticas de gestión de calidad</h3>
-  <div class="chart-row">
-    <canvas #calidadChartCanvas1 class="small-chart"></canvas>
-  </div>
-  <div class="chart-row">
-    <canvas #implementacionTotal1 class="small-chart"></canvas>
-  </div>
-  <h3>Prácticas de control de calidad</h3>
-  <div class="chart-row">
-    <canvas #calidadChartCanvas2 class="small-chart"></canvas>
-    <canvas #implementacionTotal2 class="small-chart"></canvas>
-  </div>
-  <h3>Prácticas de aseguramiento de calidad</h3>
-  <div class="chart-row">
-    <canvas #calidadChartCanvas3 class="small-chart"></canvas>
-    <canvas #implementacionTotal3 class="small-chart"></canvas>
-  </div>
-  <h3>Conclusiones de la evaluación</h3>
-  <p>{{ conclusionesEvaluacion[2] }}</p>
+    <h1>Informe del Estado General de la Calidad del Software</h1>
 
-  <!-- Se agrega la clase custom-button para forzar estilos -->
-  <button mat-raised-button class="custom-button" (click)="regresar()">Atrás</button>
+    <!-- Sección de introducción -->
+    <div class="description-container">
+      <h2>Introducción</h2>
+      <p>
+        Este informe presenta los resultados individuales obtenidos a partir de la encuesta aplicada a su organización.
+        El objetivo es diagnosticar el nivel de implementación de prácticas de calidad de software en tres áreas clave:
+        <strong>Gestión de la Calidad</strong>, <strong>Control de la Calidad</strong> y <strong>Aseguramiento de la Calidad</strong>.
+        La información recolectada ha sido procesada y representada en gráficos que facilitan su comprensión y análisis.
+      </p>
+    </div>
+    <hr>
+
+    <!-- Sección general de prácticas -->
+    <section>
+      <h2>Evaluación de Prácticas de Calidad</h2>
+      <p>Los siguientes resultados representan el nivel de implementación en cada una de las áreas evaluadas.</p>
+
+      <!-- Gestión de calidad -->
+      <div class="area-section">
+        <h3>1. Prácticas de Gestión de Calidad</h3>
+        <p>
+          Evalúa el enfoque estratégico y organizacional con respecto a la calidad del software, incluyendo liderazgo,
+          planificación, gestión de recursos y revisión de procesos.
+        </p>
+        <div class="chart-row">
+          <canvas #calidadChartCanvas1 class="small-chart"></canvas>
+          <canvas #implementacionTotal1 class="small-chart"></canvas>
+          <div>
+            <h2>Interpretación</h2>            
+          </div>
+        </div>
+      </div>
+
+      <!-- Control de calidad -->
+      <div class="area-section">
+        <h3>2. Prácticas de Control de Calidad</h3>
+        <p>
+          Evalúa las acciones técnicas realizadas para verificar que el producto cumple con los requisitos especificados.
+          Incluye actividades como pruebas, validaciones y métricas de defectos.
+        </p>
+        <div class="chart-row">
+          <canvas #calidadChartCanvas2 class="small-chart"></canvas>
+          <canvas #implementacionTotal2 class="small-chart"></canvas>
+        </div>
+        <div>
+          <h2>Interpretación</h2>            
+        </div>
+      </div>
+
+      <!-- Aseguramiento de calidad -->
+      <div class="area-section">
+        <h3>3. Prácticas de Aseguramiento de Calidad</h3>
+        <p>
+          Evalúa el conjunto de actividades sistemáticas implementadas para garantizar que los procesos y productos
+          del software cumplan con los estándares de calidad establecidos por la organización.
+        </p>
+        <div class="chart-row">
+          <canvas #calidadChartCanvas3 class="small-chart"></canvas>
+          <canvas #implementacionTotal3 class="small-chart"></canvas>
+        </div>
+        <div>
+          <h2>Interpretación</h2>            
+        </div>
+      </div>
+    </section>
+<hr>
+<div class="conclusion-section">
+  <h2>Conclusión</h2>
+  <p>
+    La siguiente tabla presenta un resumen por área evaluada, incluyendo el puntaje obtenido y una recomendación personalizada para mejorar la calidad del software en cada aspecto.
+  </p>
+
+  <div class="table-container">
+    <table class="styled-table">
+      <thead>
+        <tr>
+          <th>Área</th>
+          <th>Puntaje</th>
+          <th>Recomendación</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let conclusiones of listaConclusiones">
+          <td>{{ conclusiones.area }}</td>
+          <td>{{ conclusiones.puntaje }}</td>
+          <td>{{ conclusiones.recomendacion }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
 </div>
+
+<button mat-raised-button class="custom-button" (click)="regresar()">Volver al Inicio</button>
+  </div>
 </body>

@@ -1,31 +1,48 @@
-<h1>Observatorio de Software</h1>
-
-<div class="contenedor-tabla" *ngIf="listaEncuestas.length">
-  <h2>Para ver los resultados de la encuesta, haga clic en "Generar Resultados".</h2>
-  <table>
-    <thead>
-      <tr>
-        <th>Id</th>
-        <th>Fecha</th>
-        <th>Acción</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let encuesta of listaEncuestas; let i = index">
-        <td>Encuesta {{i + 1}}</td>
-        <td>{{ formatDate(encuesta.fechaCreacion) }}</td>
-        <td>
-          <button (click)="generarResultados(encuesta.idEncuesta)" class="btn-generar">
-            Generar Resultados
-          </button>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<div class="encuesta-container">
-  <button mat-button class="survey-button" routerLink="/cuestionario">
-    Iniciar Encuesta
-  </button>
+<div class="body-container">
+  <h1>Encuestas anuales realizadas por su organización</h1>
+  <div class="user-container">
+    <h2>Bienvenido {{ usuario.user_metadata.nombre }}</h2>
+  </div>
+  <div class="contenedor-tabla" *ngIf="listaEncuestas.length">
+    <h2>Para ver los resultados de la encuesta, haga clic en "Generar Resultados".</h2>
+    <table>
+      <thead>
+        <tr>
+          <th>Id</th>
+          <th>Fecha</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let encuesta of listaEncuestas; let i = index">
+          <td>Encuesta {{ i + 1 }}</td>
+          <td>{{ formatDate(encuesta.fechaCreacion) }}</td>
+          <td>
+            <button (click)="generarResultados(encuesta.idEncuesta)" class="btn-generar">
+              Generar Resultados
+            </button>
+            <!--  
+            <button (click)="editarEncuesta(encuesta.idEncuesta)" class="btn-generar editar-btn">
+              Editar Encuesta
+            </button>
+            -->
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="encuesta-container">
+    <div *ngIf="mostrarBotonEncuesta; else encuestaRealizada">
+      <button mat-button class="survey-button" routerLink="/cuestionario">
+        Iniciar Encuesta
+      </button>
+    </div>
+    <ng-template #encuestaRealizada>
+      <p class="mensaje-error">
+        La encuesta ya se realizó el día {{ fechaEncuestaRealizada }}.<br>
+        Estará habilitada nuevamente el {{ fechaHabilitadaProxima }}.
+      </p>
+    </ng-template>
+  </div>
+  
 </div>

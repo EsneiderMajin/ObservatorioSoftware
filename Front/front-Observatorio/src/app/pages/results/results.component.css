@@ -11,46 +11,50 @@ body {
   max-width: 1000px;
   margin: 2rem auto;
   padding: 2rem;
-  background-color: #f9f9f9;
+  background-color: #ffffff;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
 }
 
-/* Títulos principales */
-h1 {
+/* Título principal */
+.report-container h1 {
   font-size: 2.5rem;
   font-weight: 700;
-  color: #303F9F;
+  color: #040c42;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Títulos de segundo nivel */
+.report-container h2 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #040c42;
   margin-bottom: 1rem;
   text-align: left;
 }
 
-h2 {
-  font-size: 1.7rem;
+/* Títulos de tercer nivel */
+.area-section h3 {
+  font-size: 1.4rem;
   font-weight: 600;
-  color: #303F9F;
+  color: #040c42;
   margin-top: 2rem;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
-h3 {
-  font-size: 1.3rem;
-  font-weight: 500;
-  color: #333;
-  margin-top: 2rem;
-  margin-bottom: 0.8rem;
-}
-
-h4 {
+/* Texto explicativo debajo de cada sección */
+.area-section p,
+.description-container p {
   font-size: 1rem;
   font-weight: 400;
-  color: white;
+  color: #555;
   text-align: justify;
   line-height: 1.6;
-  margin: 0;
+  margin-bottom: 1.5rem;
 }
 
-/* Párrafos */
+/* Párrafos generales */
 p {
   font-size: 1rem;
   color: #444;
@@ -67,23 +71,32 @@ hr {
   margin: 2rem 0;
 }
 
-/* Contenedor de descripción */
+/* Sección de descripción */
 .description-container {
-  background-color: #303F9F;
+  background-color: #040c42;
   padding: 1rem 1.5rem;
   border-radius: 10px;
   margin-bottom: 2rem;
 }
 
-.description-container h2{
+.description-container h2 {
   color: #FFFFFF;
 }
 
-/* Contenedor de gráficas */
+.description-container p {
+  max-width: 100%;
+  color: #ffffff;
+}
+
+/* Sección de cada área */
+.area-section {
+  margin-top: 2rem;
+}
+
 /* Contenedor de gráficas */
 .chart-row {
   display: flex;
-  flex-direction: column; /* Ahora siempre estarán en columna */
+  flex-direction: column;
   gap: 2rem;
   margin-bottom: 2rem;
 }
@@ -99,12 +112,11 @@ hr {
   padding: 10px;
 }
 
-
 /* Botón personalizado */
 .custom-button {
   display: block;
   margin: 2rem auto 0 auto;
-  background-color: #3F51B5 !important;
+  background-color: #040c42 !important;
   color: white !important;
   padding: 12px 24px !important;
   font-size: 1rem !important;
@@ -119,6 +131,74 @@ hr {
 .custom-button:hover {
   background-color: #448AFF !important;
 }
+
+/* Sección de conclusiones */
+.conclusion-section {
+  margin-top: 3rem;
+}
+
+.conclusion-section p {
+  margin-bottom: 1.5rem;
+  color: #555;
+  font-size: 1rem;
+  text-align: justify;
+}
+
+/* Contenedor de tabla responsiva */
+.table-container {
+  overflow-x: auto;
+}
+
+/* Estilo de tabla */
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Encabezado */
+.styled-table thead {
+  background-color: #040c42;
+  color: #ffffff;
+  text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 14px 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Filas alternadas */
+.styled-table tbody tr:nth-child(even) {
+  background-color: #f4f6fa;
+}
+
+/* Última fila sin borde inferior */
+.styled-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Texto claro y limpio */
+.styled-table td {
+  color: #333;
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+/* Responsive ajustes */
+@media (max-width: 768px) {
+  .styled-table th,
+  .styled-table td {
+    padding: 12px 14px;
+    font-size: 0.9rem;
+  }
+}
+
 
 /* Responsividad */
 @media (max-width: 768px) {
@@ -136,7 +216,7 @@ hr {
   }
 
   h2 {
-    font-size: 1.4rem;
+    font-size: 1.5rem;
   }
 
   h3 {
@@ -145,5 +225,9 @@ hr {
 
   p {
     font-size: 0.95rem;
+  }
+
+  .custom-button {
+    width: 100%;
   }
 }

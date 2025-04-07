@@ -26,7 +26,7 @@ export class StateComponent implements OnInit{
   listaPreguntasDesafios: PreguntaResponse[] = [];
   conclusionesEvaluacion: string[] = [];
   conclusionesEvaluacionGlobal: string[] = [];
-  encuestaId = 0;
+  anioId = 0;
   mostrarGrafica = false;
   averagedMetricsGlobal: { [question: string]: { [variable: string]: number } } = {};
 
@@ -56,25 +56,29 @@ export class StateComponent implements OnInit{
   }
 
   async ngOnInit() {
+    
+    this.activeRoute.params.subscribe(params => {
+      this.anioId = params?.['id'] ?? 0;
+    });
 
     await this.cargarDatos();
   }
 
   async cargarDatos() {
 
-    await this.questionService.getPreguntasPorCategoria('preguntasCalidad').then((res) => {
+    await this.questionService.getPreguntasPorCategoriaanio('preguntasCalidad',this.anioId).then((res) => {
       this.listaPreguntasCalidadGlobal = res as PreguntaResponse[];
     });
 
     console.log(this.listaPreguntasCalidadGlobal);
 
-    await this.questionService.getPreguntasPorCategoria('preguntasEsfuerzo').then((res) => {
+    await this.questionService.getPreguntasPorCategoriaanio('preguntasEsfuerzo',this.anioId).then((res) => {
       this.listaPreguntasEsfuerzo = res as PreguntaResponse[];
     });
 
     console.log(this.listaPreguntasEsfuerzo);
 
-    await this.questionService.getPreguntasPorCategoria('preguntasDesafios').then((res) => {
+    await this.questionService.getPreguntasPorCategoriaanio('preguntasDesafios',this.anioId).then((res) => {
       this.listaPreguntasDesafios = res as PreguntaResponse[];
     });
 
@@ -87,8 +91,8 @@ export class StateComponent implements OnInit{
 
     this.calcularDesafiosGlobal();
 
-
   }
+
 
   calcularDesafiosGlobal() {
 
@@ -160,6 +164,8 @@ export class StateComponent implements OnInit{
   }  
 
   calcularCalidadGlobal() {
+
+    
     let listaPreguntasMetricas:question [] = this.listaPreguntasCalidadGlobal[0].questions;
 
     let cantidadEncuestas = listaPreguntasMetricas.length / 3;
@@ -343,7 +349,7 @@ export class StateComponent implements OnInit{
               max: Math.max(...values) + 1,
               title: {
                 display: true,
-                text: 'Frecuencia'
+                text: 'Número de prácticas por nivel'
               },
               ticks: {
                 font: {
@@ -381,11 +387,11 @@ export class StateComponent implements OnInit{
   obtenerTituloGrafico(index: number): string {
     switch (index) {
       case 0:
-        return 'Grado de implementación en Gestión de calidad';
+        return 'Distribución del nivel de implementación de prácticas';
       case 1:
-        return 'Grado de implementación en Control de calidad';
+        return 'Distribución del nivel de implementación de prácticas';
       case 2:
-        return 'Grado de implementación en Aseguramiento de calidad';
+        return 'Distribución del nivel de implementación de prácticas';
       default:
         return '';
     }
@@ -396,11 +402,11 @@ export class StateComponent implements OnInit{
   obtenerTituloImplementacion(index: number): string {
     switch (index) {
       case 0:
-        return 'Comparación del grado de implementación';
+        return 'Comparación de las prácticas de gestión de calidad';
       case 1:
-        return 'Comparación del grado de implementación';
+        return 'Comparación de las prácticas de control de calidad';
       case 2:
-        return 'Comparación del grado de implementación';
+        return 'Comparación de lad prácticas de aseguramiento de calidad';
       default:
         return '';
     }
@@ -581,7 +587,7 @@ export class StateComponent implements OnInit{
             max: Math.max(...values) + 1,
             title: {
               display: true,
-              text: 'Frecuencia'
+              text: 'Número de empresas'
             },
             ticks: {
               font: {
@@ -592,7 +598,7 @@ export class StateComponent implements OnInit{
           x: {
             title: {
               display: true,
-              text: 'Tipo de desafío'
+              text: 'Desafíos'
             },
             ticks: {
               font: {

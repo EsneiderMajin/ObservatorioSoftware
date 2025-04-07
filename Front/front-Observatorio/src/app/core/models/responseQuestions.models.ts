@@ -1,3 +1,13 @@
+export interface listaConclusiones {
+  area: string;
+  puntaje: number;
+  recomendacion: string;
+}
+
+export interface listaAnios{
+  anio: number;
+}
+
 export interface EncuestaResponse {
   idEncuesta: number;
   idUsuario: number;

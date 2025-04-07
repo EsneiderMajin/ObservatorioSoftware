@@ -36,9 +36,13 @@ import { MatSelectModule } from '@angular/material/select';
 import { ResultsComponent } from './pages/results/results.component';
 import { AuthCallbackComponent } from './pages/auth-callback/auth-callback.component';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { MainviewGlobalComponent } from './pages/mainview-global/mainview-global.component';
 
 
 const routes: Routes = [
+  {
+    path: 'mainview-global', component: MainviewGlobalComponent
+  } ,
   {
     path:'', component: HomeComponent
   },
@@ -52,7 +56,7 @@ const routes: Routes = [
     path: 'contact', component: ContactComponent
   },
   {
-    path: 'state', component: StateComponent
+    path: 'state/:id', component: StateComponent
   },
   {
     path: 'register', component: RegisterComponent
@@ -69,7 +73,8 @@ const routes: Routes = [
   { 
     path: '**', component: HomeComponent 
 
-  } 
+  },
+
 ];
 
 
@@ -94,6 +99,7 @@ const routerOptions: ExtraOptions = {
     ModalNotificationComponent,
     ResultsComponent,
     AuthCallbackComponent,
+    MainviewGlobalComponent,
 
   ],
   imports: [

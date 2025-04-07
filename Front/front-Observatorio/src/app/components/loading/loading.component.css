@@ -1,24 +1,50 @@
 .spinner-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%; /* Ajusta según el contenedor, por ejemplo, 100vh para pantalla completa */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh; /* Ocupa toda la pantalla */
+  background-color: #f4f6fc; /* Color de fondo suave */
+  font-family: 'Segoe UI', 'Roboto', sans-serif;
+}
+
+.spinner-box {
+  text-align: center;
+}
+
+.spinner {
+  border: 6px solid #e0e4f0; /* Borde claro */
+  border-top: 6px solid #19306e; /* Color primario animado */
+  border-radius: 50%;
+  width: 70px;
+  height: 70px;
+  margin: 0 auto;
+  animation: spin 4s ease-in-out infinite;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
-  
-  .spinner {
-    border: 8px solid #f3f3f3; /* Color claro para el fondo */
-    border-top: 8px solid #3498db; /* Color para la parte animada */
-    border-radius: 50%;
-    width: 60px;
-    height: 60px;
-    animation: spin 1s linear infinite;
+  100% {
+    transform: rotate(360deg);
   }
-  
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
+}
+
+.loading-text {
+  margin-top: 15px;
+  font-size: 1.1rem;
+  color: #19306e;
+  font-weight: 500;
+  animation: fadeIn 1.2s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
   }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

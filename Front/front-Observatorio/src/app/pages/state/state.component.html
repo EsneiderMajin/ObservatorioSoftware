@@ -1,34 +1,36 @@
+<body>
 <div class="report-container">
-  <h1>Informe de resultados de la población encuestada</h1>
-
+  <h1>Informe de Evaluación de Calidad de Software</h1>
+  <!-- Sección de introducción -->
   <div class="description-container">
-    <h2>Descripción</h2>
-    <h4>
-      Esta sección muestra los resultados consolidados de todas las empresas encuestadas en el suroccidente colombiano. Su objetivo es ofrecer una visión global del estado de la calidad del software en la región, identificando tendencias, brechas comunes y patrones en la implementación de prácticas de calidad. Los datos presentados permiten establecer líneas base, fomentar la toma de decisiones estratégicas y promover el fortalecimiento del ecosistema de desarrollo de software regional.
-    </h4>
+    <h2>Introducción</h2>
+    <p>
+      Esta vista proporciona un resumen integral del estado actual de la calidad del software de la 
+      empresa, basado en la evaluación realizada. Se destacan los niveles de implementación por áreas 
+      clave y el porcentaje de esfuerzo asignado a cada una.
+    </p>
   </div>
   <hr>
 
-  <h2>Prácticas de calidad</h2>
+  <h2>Gráfica de Niveles de Implementación</h2>
 
-  <h3>Prácticas de gestión de calidad</h3>
+  <h3>Gestión de calidad</h3>
   <div class="chart-row">
     <canvas #calidadChartCanvas1 class="small-chart"></canvas>
   </div>
   <hr>
-
-  <h3>Prácticas de control de calidad</h3>
+  <h3>Control de calidad</h3>
   <div class="chart-row">
     <canvas #calidadChartCanvas2 class="small-chart"></canvas>
   </div>
    <hr>
-
-  <h3>Prácticas de aseguramiento de calidad</h3>
+  <h3>Aseguramiento de calidad</h3>
   <div class="chart-row">
     <canvas #calidadChartCanvas3 class="small-chart"></canvas>
   </div>
  <hr>
-  <h2>Esfuerzo invertido en calidad</h2>
+
+  <h2>Gráfica de Porcentaje de Esfuerzo</h2>
   <p>
     Las siguientes gráficas muestran el porcentaje de esfuerzo que invierten las PYMES desarrolladoras del suroccidente colombiano en prácticas de calidad.
   </p>
@@ -36,14 +38,16 @@
     <canvas #calidadChartEsfuerzo class="small-chart"></canvas>
   </div>
   <hr>
-  <h2>Desafíos</h2>
+  <h2>Gráfica de Desafíos</h2>
   <p>
     Las siguientes gráficas muestran los mayores desafíos que enfrentan las PYMES desarrolladoras del suroccidente colombiano para implementar prácticas de calidad en sus proyectos.
   </p>
   <div class="chart-row">
     <canvas #calidadChartDesafiosCanvas class="small-chart"></canvas>
   </div>
+  <hr>
   <h3>Conclusiones</h3>
   <p>{{ conclusionesEvaluacion[2] }}</p>
   <button mat-raised-button class="custom-button" (click)="regresar()">Atrás</button>
 </div>
+</body>

@@ -116,7 +116,7 @@ export const PreguntaAutorizacion: Questions = {
       type: 'matrix',
       rows: [
         { label: 'Definir una política de calidad', value: 'definicion_calidad' },
-        { label: 'Planificar y establecer objetivos', value: 'planificacion_obejtivos' },
+        { label: 'Planificar y establecer objetivos', value: 'planificacion_objetivos' },
         { label: 'Gestionar recursos', value: 'asignar_capacitacion' },
         { label: 'Fomentar una cultura de mejora continua', value: 'fomento_continua' },
       ],

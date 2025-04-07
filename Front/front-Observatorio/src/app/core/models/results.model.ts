@@ -31,3 +31,15 @@
 //     tamanioMatrix: number;
 //     totalImplementacion: number;
 //   }
+
+
+export interface listaPracticas {
+    nivel: number;
+    nombre: string;
+    interpretacion: string;
+}
+ 
+
+
+
+

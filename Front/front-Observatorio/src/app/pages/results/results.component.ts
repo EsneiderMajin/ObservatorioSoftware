@@ -3,7 +3,7 @@ import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Chart, CategoryScale, LinearScale, BarElement, BarController, Title, Tooltip, Legend } from 'chart.js';
 import { TituloPracticasGestion, InterpretacionPracticasGestion, TituloPracticasControl, TituloPracticasAseguramiento } from 'src/app/core/enums/interpretacion.enum';
-import { conclusionesEvaluacionCalidad, recomendacionesAseguramiento, recomendacionesControl, recomendacionesGestion } from 'src/app/core/enums/observatorio.enum';
+import { recomendacionesAseguramiento, recomendacionesControl, recomendacionesGestion } from 'src/app/core/enums/recomendacion.enum';
 import { Answer, MatrixAnswer, MetricaMatrix } from 'src/app/core/models/requestQuestions.models';
 import { PreguntaResponse, question, MetricaResponse, listaConclusiones } from 'src/app/core/models/responseQuestions.models';
 import { listaPracticas } from 'src/app/core/models/results.model';
@@ -98,6 +98,7 @@ export class ResultsComponent implements OnInit {
   }
     
   tablaInterpretaciones() {
+
     // Definir un mapeo entre los niveles y sus valores
     const interpretacionNiveles = {
       1: {
@@ -146,7 +147,6 @@ export class ResultsComponent implements OnInit {
       aseguramiento: {
         array: this.listaPracticasAseguramiento,
         tituloPracticas: {
-          [TituloPracticasAseguramiento.definicion_calidad_aseguramiento]: TituloPracticasAseguramiento.definicion_calidad_contenido,
           [TituloPracticasAseguramiento.documentacion_gestion]: TituloPracticasAseguramiento.documentacion_gestion_contenido,
           [TituloPracticasAseguramiento.auditorias_direccion]: TituloPracticasAseguramiento.auditorias_direccion_contenido,
           [TituloPracticasAseguramiento.definicion_kpis]: TituloPracticasAseguramiento.definicion_kpis_contenido,
@@ -173,7 +173,6 @@ export class ResultsComponent implements OnInit {
         TituloPracticasControl.automatizacion_continua
       ],
       aseguramiento: [
-        TituloPracticasAseguramiento.definicion_calidad_aseguramiento,
         TituloPracticasAseguramiento.documentacion_gestion,
         TituloPracticasAseguramiento.auditorias_direccion,
         TituloPracticasAseguramiento.definicion_kpis,
@@ -411,36 +410,7 @@ export class ResultsComponent implements OnInit {
       });
     });      
 
-
-
   }
-
-  procesarRecomendaciones(metrica: MetricaResponse, recomendacionType: string): string {
-
-    let recomendacion = '';
-
-    if(metrica){
-
-    if ((metrica.totalImplementacionIndividual ?? 0) <= 2) {
-      recomendacion = recomendacionType
-    } else if ((metrica.totalImplementacionIndividual ?? 0) <= 3) {
-      recomendacion = conclusionesEvaluacionCalidad.inicial;
-    } else if ((metrica.totalImplementacionIndividual ?? 0) <= 4) {
-      recomendacion = conclusionesEvaluacionCalidad.parcial;
-    } else if ((metrica.totalImplementacionIndividual ?? 0) <= 5) {
-      recomendacion = conclusionesEvaluacionCalidad.avanzada;
-    } else {
-      recomendacion = conclusionesEvaluacionCalidad.total;
-    }
-
-  }
-
-  return recomendacion;
-
-  }
-
-
-
 
 
     calcularMetricas(answer: MetricaResponse, metrica: MetricaResponse): MetricaResponse {

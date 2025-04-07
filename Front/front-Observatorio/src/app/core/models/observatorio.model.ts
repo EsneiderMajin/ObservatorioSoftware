@@ -138,10 +138,9 @@ export const PreguntaAutorizacion: Questions = {
       question: '¿Cuál es el nivel de aplicación de las siguientes prácticas de aseguramiento de calidad en sus proyectos?',
       type: 'matrix',
       rows: [       
-        { label: 'Definir una política de calidad', value: 'definicion_calidad_aseguramiento' },
         { label: 'Documentar y estandarizar procesos', value: 'documentacion_gestion' },
         { label: 'Realizar auditorías internas', value: 'auditorias_direccion' },
-        { label: 'Definiir y dar seguimiento a indicadores (KPIs)', value: 'definicion_kpis' },
+        { label: 'Definir y dar seguimiento a indicadores (KPIs)', value: 'definicion_kpis' },
         { label: 'Capacitación', value: 'capacitacion_calidad' },
         { label: 'Implementar acciones preventivas y correctivas', value: 'acciones_preventivas' },
       ],

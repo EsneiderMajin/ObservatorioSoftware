@@ -4,11 +4,11 @@ import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Chart, CategoryScale, LinearScale, BarElement, BarController, Title, Tooltip, Legend } from 'chart.js';
-import { InterpretacionPracticasGestion, TituloPracticasAseguramiento, TituloPracticasControl, TituloPracticasGestion } from 'src/app/core/enums/interpretacion.enum';
-import { conclusionesEvaluacionCalidad, recomendacionesAseguramiento, recomendacionesControl, recomendacionesGestion } from 'src/app/core/enums/observatorio.enum';
+import { InterpretacionEsfuerzo, InterpretacionPracticasGestion, TituloPracticasAseguramiento, TituloPracticasControl, TituloPracticasGestion } from 'src/app/core/enums/interpretacion.enum';
+import { recomendacionesAseguramiento, recomendacionesControl, recomendacionesGestion } from 'src/app/core/enums/recomendacion.enum';
 import { Answer, MatrixAnswer, MetricaMatrix } from 'src/app/core/models/requestQuestions.models';
 import { PreguntaResponse, question, MetricaResponse, MetricaEsfuerzo, MetricaDesafios, listaConclusiones } from 'src/app/core/models/responseQuestions.models';
-import { listaPracticas } from 'src/app/core/models/results.model';
+import { listaMensajes, listaPracticas } from 'src/app/core/models/results.model';
 import { AuthService } from 'src/app/core/services/login/auth.service';
 import { QuestionService } from 'src/app/core/services/question/question.service';
 
@@ -37,6 +37,8 @@ export class StateComponent implements OnInit{
   listaPracticasGestion: listaPracticas[] = [];
   listaPracticasControl: listaPracticas[] = [];
   listaPracticasAseguramiento: listaPracticas[] = [];
+  listaEsfuerzo: listaMensajes[] = [];
+  listaDesafios: listaMensajes[] = [];
 
   //Calidad
   calidadChart1!: Chart;
@@ -94,6 +96,12 @@ export class StateComponent implements OnInit{
 
     this.recomendacionesEvaluacionCalidad();
 
+    // Calcular los promedios
+    const promedios = this.calcularPromedioPracticas();
+
+    // Organizar los promedios en un listado de 3 objetos
+    this.listaPracticasTotal = this.organizarEnListado(promedios);
+
     this.tablaInterpretaciones();
 
   }
@@ -143,14 +151,92 @@ export class StateComponent implements OnInit{
   
         this.listaConclusiones.push({
           area: area,
-          puntaje: metrica.totalImplementacion ?? 0,
+          puntaje: Math.floor(metrica.totalImplementacion * 100) / 100,
           recomendacion: recomendacion
         });
       });      
   
     }
 
+
+
+    calcularPromedioPracticas() {
+      const valoresAcumulados: Record<string, number> = {}; // Para almacenar la suma de valores de cada práctica
+      const contador: Record<string, number> = {}; // Para contar cuántas veces aparece cada práctica
+    
+      // Recorrer cada objeto en la lista
+      for (const objeto of this.listaPracticasTotal) {
+        // Recorrer cada clave-valor en el objeto
+        for (const clave in objeto) {
+          if (objeto.hasOwnProperty(clave)) {
+            const valor = objeto[clave];
+    
+            // Inicializar el acumulador y contador si es la primera vez que se ve la práctica
+            if (!valoresAcumulados[clave]) {
+              valoresAcumulados[clave] = 0;
+              contador[clave] = 0;
+            }
+    
+            // Sumar el valor y actualizar el contador
+            valoresAcumulados[clave] += valor;
+            contador[clave]++;
+          }
+        }
+      }
+    
+      // Calcular el promedio para cada práctica
+      const promedios: Record<string, number> = {};
+      for (const clave in valoresAcumulados) {
+        promedios[clave] = valoresAcumulados[clave] / contador[clave];
+      }
+    
+      return promedios;
+    }
+    
+    organizarEnListado(promedios: any) {
+      // Definir los 3 objetos de destino
+      const listado = [
+        {
+          "definicion_calidad_gestion": 0,
+          "planificacion_objetivos": 0,
+          "asignar_capacitacion": 0,
+          "fomento_continua": 0
+        },
+        {
+          "revision_requisitos": 0,
+          "inspecciones_formales": 0,
+          "ejecucion_aceptacion": 0,
+          "uso_pruebas": 0,
+          "automatizacion_continua": 0
+        },
+        {
+          "definicion_calidad_aseguramiento": 0,
+          "documentacion_gestion": 0,
+          "auditorias_direccion": 0,
+          "definicion_kpis": 0,
+          "capacitacion_calidad": 0,
+          "acciones_preventivas": 0
+        }
+      ];
+    
+      // Llenar los objetos con los promedios calculados
+      for (const clave in promedios) {
+        if (listado[0].hasOwnProperty(clave)) {
+          listado[0][clave as keyof typeof listado[0]] = promedios[clave];
+        } else if (listado[1].hasOwnProperty(clave)) {
+          listado[1][clave as keyof typeof listado[1]] = promedios[clave];
+        } else if (listado[2].hasOwnProperty(clave)) {
+          listado[2][clave as keyof typeof listado[2]] = promedios[clave];
+        }
+      }
+    
+      return listado;
+    }
+
+
     tablaInterpretaciones() {
+
+      console.log(this.listaPracticasTotal);
 
       // Definir un mapeo entre los niveles y sus valores
       const interpretacionNiveles = {
@@ -200,7 +286,6 @@ export class StateComponent implements OnInit{
         aseguramiento: {
           array: this.listaPracticasAseguramiento,
           tituloPracticas: {
-            [TituloPracticasAseguramiento.definicion_calidad_aseguramiento]: TituloPracticasAseguramiento.definicion_calidad_contenido,
             [TituloPracticasAseguramiento.documentacion_gestion]: TituloPracticasAseguramiento.documentacion_gestion_contenido,
             [TituloPracticasAseguramiento.auditorias_direccion]: TituloPracticasAseguramiento.auditorias_direccion_contenido,
             [TituloPracticasAseguramiento.definicion_kpis]: TituloPracticasAseguramiento.definicion_kpis_contenido,
@@ -227,7 +312,6 @@ export class StateComponent implements OnInit{
           TituloPracticasControl.automatizacion_continua
         ],
         aseguramiento: [
-          TituloPracticasAseguramiento.definicion_calidad_aseguramiento,
           TituloPracticasAseguramiento.documentacion_gestion,
           TituloPracticasAseguramiento.auditorias_direccion,
           TituloPracticasAseguramiento.definicion_kpis,
@@ -245,11 +329,12 @@ export class StateComponent implements OnInit{
         for (const practica of practicas) {
           for (const item of this.listaPracticasTotal) {
             if (item.hasOwnProperty(practica)) {
-              const nivel = item[practica] as keyof typeof interpretacionNiveles;
+              const nivelRaw = Math.floor(item[practica] * 100) / 100;
+              const nivel = Math.round(nivelRaw) as keyof typeof interpretacionNiveles;
               if (interpretacionNiveles[nivel]) {
                 array.push({
                   practica: tituloPracticas[practica as keyof typeof tituloPracticas],
-                  nivel: nivel,
+                  nivel: nivelRaw,
                   interpretacion: interpretacionNiveles[nivel].contenido,
                   nivel_nombre: interpretacionNiveles[nivel].nombre
                 });
@@ -291,9 +376,83 @@ export class StateComponent implements OnInit{
       });
     });
 
+    this.interpretarDesafiosGlobal(metricaDesafios);
+
     //Graficar los desafios globales
     this.crearGraficoDesafiosGlobal(metricaDesafios);
 
+  }
+
+  interpretarDesafiosGlobal(metrica: MetricaDesafios) {
+    // Sumar todos los desafíos para conocer el total
+    const total =
+      metrica.recursos_limitados +
+      metrica.dificultad_adaptar_estandares +
+      metrica.falta_conocimiento +
+      metrica.falta_personal_capacitado +
+      metrica.resistencia_cambio +
+      metrica.dificultad_metodologias;
+  
+    // Caso sin datos
+    if (total === 0) {
+      this.listaDesafios.push({mensaje: "No se han identificado desafíos en la implementación de las prácticas de calidad."}); 
+    }
+  
+    // Crear un arreglo para trabajar con los desafíos
+    const desafiosArray = [
+      { clave: "recursos_limitados", label: "Recursos limitados", valor: metrica.recursos_limitados },
+      { clave: "dificultad_adaptar_estandares", label: "Dificultad para adaptar estándares", valor: metrica.dificultad_adaptar_estandares },
+      { clave: "falta_conocimiento", label: "Falta de conocimiento", valor: metrica.falta_conocimiento },
+      { clave: "falta_personal_capacitado", label: "Falta de personal capacitado", valor: metrica.falta_personal_capacitado },
+      { clave: "resistencia_cambio", label: "Resistencia al cambio", valor: metrica.resistencia_cambio },
+      { clave: "dificultad_metodologias", label: "Dificultad en metodologías", valor: metrica.dificultad_metodologias }
+    ];
+  
+    // Ordenar de mayor a menor para identificar el desafío más citado
+    desafiosArray.sort((a, b) => b.valor - a.valor);
+    const maxDesafio = desafiosArray[0];
+    const porcentajeMax = ((maxDesafio.valor / total) * 100).toFixed(1);
+  
+    // Construir mensaje base
+    let mensaje = `Se han identificado un total de ${total} menciones de desafíos en la implementación de prácticas de calidad. El desafío más citado es "${maxDesafio.label}" con ${maxDesafio.valor} menciones (${porcentajeMax}% del total).`;
+    
+    this.listaDesafios.push({mensaje: mensaje});
+  
+    // Interpretación específica según el desafío predominante
+    switch (maxDesafio.clave) {
+      case "recursos_limitados":
+        mensaje = "Esto indica que muchas empresas se enfrentan a restricciones en recursos, lo que puede limitar las inversiones en mejoras y capacitación.";
+        this.listaDesafios.push({mensaje: mensaje});
+        break;
+      case "dificultad_adaptar_estandares":
+        mensaje = "Esto sugiere que la adopción de estándares de calidad se percibe como complicada, requiriendo asesoría o metodologías específicas para facilitar su implementación.";
+        this.listaDesafios.push({mensaje: mensaje});
+        break;
+      case "falta_conocimiento":
+        mensaje = "Esto refleja una brecha importante en la formación y conocimiento sobre prácticas de calidad, lo que resalta la necesidad de capacitaciones especializadas.";
+        this.listaDesafios.push({mensaje: mensaje});
+        break;
+      case "falta_personal_capacitado":
+        mensaje = "Indica que la ausencia de personal especializado puede estar limitando la correcta implementación de las prácticas de calidad.";
+        this.listaDesafios.push({mensaje: mensaje});
+        break;
+      case "resistencia_cambio":
+        mensaje = "Se evidencia que la resistencia al cambio es un factor significativo, sugiriendo la necesidad de trabajar en la cultura organizacional y en estrategias de gestión del cambio.";
+        this.listaDesafios.push({mensaje: mensaje});
+        break;
+      case "dificultad_metodologias":
+        mensaje = "La baja mención de dificultades en metodologías sugiere que, en general, este aspecto no se percibe como el principal obstáculo, aunque puede ser relevante en contextos específicos.";
+        this.listaDesafios.push({mensaje: mensaje});
+        break;
+      default:
+        break;
+    }
+  
+    // Agregar un resumen de la distribución completa
+    mensaje = "\nDistribución completa de desafíos: ";
+    mensaje += desafiosArray.map(desafio => `${desafio.label}: ${desafio.valor}`).join(", ") + ".";
+
+    this.listaDesafios.push({mensaje: mensaje});
   }
 
   calcularEsfuerzoGlobal() {
@@ -324,11 +483,78 @@ export class StateComponent implements OnInit{
       }
     });
 
+    console.log("esfuerzo",metricaEsfuerzoGlobal);
+
     //Graficar el esfuerzo global
     this.crearGraficoEsfuerzoGlobal(metricaEsfuerzoGlobal);
 
+    // Interpretar el esfuerzo
+
+    this.interpretarEsfuerzoGlobal(metricaEsfuerzoGlobal);
+
 
   }  
+
+  interpretarEsfuerzoGlobal(metrica: MetricaEsfuerzo) {
+    const total = metrica.menor5 + metrica.entre510 + metrica.entre1015 +
+                  metrica.entre1520 + metrica.mayor20;
+  
+    // Caso especial: no hay datos
+    if (total === 0) {
+      this.listaEsfuerzo.push({mensaje: "No se registran empresas en ninguno de los rangos, posiblemente no hay datos."}); 
+    }
+  
+    // Crear un arreglo para identificar el rango dominante y/o distribución
+    const rangos = [
+      { rango: "<5%", valor: metrica.menor5 },
+      { rango: "5-10%", valor: metrica.entre510 },
+      { rango: "10-15%", valor: metrica.entre1015 },
+      { rango: "15-20%", valor: metrica.entre1520 },
+      { rango: ">20%", valor: metrica.mayor20 }
+    ];
+  
+    // Ordenar de mayor a menor para detectar el más representativo
+    rangos.sort((a, b) => b.valor - a.valor);
+  
+    // El rango con mayor valor
+    const maxRango = rangos[0];
+  
+    // Calcular el porcentaje que representa el rango mayor
+    const porcentajeMax = ((maxRango.valor / total) * 100).toFixed(1);
+  
+    // Mensaje base
+    let mensaje = `Se han contabilizado ${total} empresas. `;
+
+    this.listaEsfuerzo.push({mensaje: mensaje});
+  
+    // Si la mayoría (o el mayor porcentaje) está en un solo rango:
+    if (maxRango.valor > 0) {
+      mensaje = `La mayor concentración de empresas (${porcentajeMax}% del total) `;
+      mensaje += `se ubica en el rango de esfuerzo en calidad de ${maxRango.rango}. `;
+      this.listaEsfuerzo.push({mensaje: mensaje});
+    }
+  
+    // Podemos agregar interpretaciones más específicas según el rango mayor:
+    switch (maxRango.rango) {
+      case "<5%":
+          this.listaEsfuerzo.push({mensaje: InterpretacionEsfuerzo.menor5});
+        break;
+      case "5-10%":
+          this.listaEsfuerzo.push({mensaje: InterpretacionEsfuerzo.entre5y10});
+        break;
+      case "10-15%":
+          this.listaEsfuerzo.push({mensaje: InterpretacionEsfuerzo.entre10y15});
+        break;
+      case "15-20%":
+          this.listaEsfuerzo.push({mensaje: InterpretacionEsfuerzo.entre15y20});
+        break;
+      case ">20%":
+          this.listaEsfuerzo.push({mensaje: InterpretacionEsfuerzo.mayor20});
+        break;
+    }
+  
+  }
+
 
   calcularCalidadGlobal() {
 

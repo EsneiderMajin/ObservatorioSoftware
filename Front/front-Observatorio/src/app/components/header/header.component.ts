@@ -4,19 +4,13 @@ import { Router, Event, NavigationEnd } from '@angular/router';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
-
-
   private subscription: any;
   logueado: boolean = false;
 
-  constructor(
-    private router: Router
-
-  ) {
-  }
+  constructor(private router: Router) {}
 
   ngOnInit() {
     this.subscription = this.router.events.subscribe((event: Event) => {
@@ -33,19 +27,18 @@ export class HeaderComponent implements OnInit {
   }
 
   onUrlChange(url: string) {
-    if (url === '/mainview' || url === '/cuestionario' || url === '/resultados/:id') {
+    if (
+      url === '/mainview' ||
+      url === '/cuestionario' ||
+      url === '/resultados/:id'
+    ) {
       this.logueado = true;
-      
-      // Cambia el color de fondo del header
-      //document.querySelector('header')?.classList.add('header-mainview');
-      
     }
   }
 
   logout() {
-    localStorage.removeItem('token'); // Elimina el token del almacenamiento local
-    this.router.navigate(['/login']); // Redirige a la página de inicio de sesión
-    this.logueado = false; // Cambia el estado de logueado a falso
+    localStorage.removeItem('token');
+    this.router.navigate(['/login']);
+    this.logueado = false;
   }
-
 }

@@ -18,7 +18,6 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { LoginComponent } from './pages/login/login.component';
 import { StateComponent } from './pages/state/state.component';
-import { ContactComponent } from './pages/contact/contact.component';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
@@ -52,9 +51,7 @@ const routes: Routes = [
   {
     path:'cuestionario', component: CuestionarioComponent
   },
-  {
-    path: 'contact', component: ContactComponent
-  },
+
   {
     path: 'state/:id', component: StateComponent
   },
@@ -90,7 +87,6 @@ const routerOptions: ExtraOptions = {
     HomeComponent,
     LoginComponent,
     StateComponent,
-    ContactComponent,
     CuestionarioComponent,
     RegisterComponent,
     MainviewComponent,

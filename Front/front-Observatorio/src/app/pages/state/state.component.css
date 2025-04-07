@@ -6,6 +6,53 @@ body {
   background-color: #f9f9f9;
 }
 
+/* Contenedor de tabla responsiva */
+.table-container {
+  overflow-x: auto;
+}
+
+/* Estilo de tabla */
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 2rem;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* Encabezado */
+.styled-table thead {
+  background-color: #040c42;
+  color: #ffffff;
+  text-align: left;
+}
+
+.styled-table th,
+.styled-table td {
+  padding: 14px 20px;
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* Filas alternadas */
+.styled-table tbody tr:nth-child(even) {
+  background-color: #f4f6fa;
+}
+
+/* Última fila sin borde inferior */
+.styled-table tbody tr:last-child td {
+  border-bottom: none;
+}
+
+/* Texto claro y limpio */
+.styled-table td {
+  color: #333;
+  vertical-align: top;
+  line-height: 1.5;
+}
+
+
 /* Contenedor principal del reporte */
 .report-container {
   max-width: 1000px;

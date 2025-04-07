@@ -28,6 +28,26 @@
         </p>
         <div class="chart-row">
           <canvas #calidadChartCanvas1 class="small-chart"></canvas>
+          <div class="table-container">
+            <table class="styled-table">
+              <thead>
+                <tr>
+                  <th>Práctica</th>
+                  <th>Nivel</th>
+                  <th>Nombre</th>
+                  <th>Interpretación</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let interpretacion of listaPracticasGestion">
+                  <td>{{ interpretacion.practica }}</td>
+                  <td>{{ interpretacion.nivel }}</td>
+                  <td>{{ interpretacion.nivel_nombre }}</td>
+                  <td>{{ interpretacion.interpretacion }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
           <canvas #implementacionTotal1 class="small-chart"></canvas>
           <div>
             <h2>Interpretación</h2>            
@@ -44,6 +64,26 @@
         </p>
         <div class="chart-row">
           <canvas #calidadChartCanvas2 class="small-chart"></canvas>
+          <div class="table-container">
+            <table class="styled-table">
+              <thead>
+                <tr>
+                  <th>Práctica</th>
+                  <th>Nivel</th>
+                  <th>Nombre</th>
+                  <th>Interpretación</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let interpretacion of listaPracticasControl">
+                  <td>{{ interpretacion.practica }}</td>
+                  <td>{{ interpretacion.nivel }}</td>
+                  <td>{{ interpretacion.nivel_nombre }}</td>
+                  <td>{{ interpretacion.interpretacion }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
           <canvas #implementacionTotal2 class="small-chart"></canvas>
         </div>
         <div>
@@ -60,6 +100,26 @@
         </p>
         <div class="chart-row">
           <canvas #calidadChartCanvas3 class="small-chart"></canvas>
+          <div class="table-container">
+            <table class="styled-table">
+              <thead>
+                <tr>
+                  <th>Práctica</th>
+                  <th>Nivel</th>
+                  <th>Nombre</th>
+                  <th>Interpretación</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let interpretacion of listaPracticasAseguramiento">
+                  <td>{{ interpretacion.practica }}</td>
+                  <td>{{ interpretacion.nivel }}</td>
+                  <td>{{ interpretacion.nivel_nombre }}</td>
+                  <td>{{ interpretacion.interpretacion }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
           <canvas #implementacionTotal3 class="small-chart"></canvas>
         </div>
         <div>

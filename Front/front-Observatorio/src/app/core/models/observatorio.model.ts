@@ -115,7 +115,7 @@ export const PreguntaAutorizacion: Questions = {
       question: '¿Cuál es el nivel de aplicación de las siguientes prácticas de gestión de calidad en sus proyectos?',
       type: 'matrix',
       rows: [
-        { label: 'Definir una política de calidad', value: 'definicion_calidad' },
+        { label: 'Definir una política de calidad', value: 'definicion_calidad_gestion' },
         { label: 'Planificar y establecer objetivos', value: 'planificacion_objetivos' },
         { label: 'Gestionar recursos', value: 'asignar_capacitacion' },
         { label: 'Fomentar una cultura de mejora continua', value: 'fomento_continua' },
@@ -138,7 +138,7 @@ export const PreguntaAutorizacion: Questions = {
       question: '¿Cuál es el nivel de aplicación de las siguientes prácticas de aseguramiento de calidad en sus proyectos?',
       type: 'matrix',
       rows: [       
-        { label: 'Definir una política de calidad', value: 'definicion_calidad' },
+        { label: 'Definir una política de calidad', value: 'definicion_calidad_aseguramiento' },
         { label: 'Documentar y estandarizar procesos', value: 'documentacion_gestion' },
         { label: 'Realizar auditorías internas', value: 'auditorias_direccion' },
         { label: 'Definiir y dar seguimiento a indicadores (KPIs)', value: 'definicion_kpis' },

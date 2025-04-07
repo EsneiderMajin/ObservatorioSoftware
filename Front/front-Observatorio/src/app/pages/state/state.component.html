@@ -13,18 +13,20 @@
   <hr>
 
   <h2>Gráfica de Niveles de Implementación</h2>
-
+  <p>
+    Las siguientes gráficas muestran nivel de implementación de las prácticas de calidad de las pymes desarrolladoras del suroccidente colombiano.
+  </p>
   <h3>Gestión de calidad</h3>
   <div class="chart-row">
     <canvas #calidadChartCanvas1 class="small-chart"></canvas>
-    <!-- <div class="table-container">
+    <div class="table-container">
       <table class="styled-table">
         <thead>
           <tr>
             <th>Práctica</th>
-            <th>Nivel</th>
-            <th>Nombre</th>
+            <th>Nivel Promedio</th>
             <th>Interpretación</th>
+            <th>Recomendación</th>
           </tr>
         </thead>
         <tbody>
@@ -36,20 +38,20 @@
           </tr>
         </tbody>
       </table>
-    </div> -->
+    </div>
   </div>
   <hr>
   <h3>Control de calidad</h3>
   <div class="chart-row">
     <canvas #calidadChartCanvas2 class="small-chart"></canvas>
-    <!-- <div class="table-container">
+    <div class="table-container">
       <table class="styled-table">
         <thead>
           <tr>
             <th>Práctica</th>
-            <th>Nivel</th>
-            <th>Nombre</th>
+            <th>Nivel Promedio</th>
             <th>Interpretación</th>
+            <th>Recomendación</th>
           </tr>
         </thead>
         <tbody>
@@ -61,20 +63,20 @@
           </tr>
         </tbody>
       </table>
-    </div> -->
+    </div>
   </div>
    <hr>
   <h3>Aseguramiento de calidad</h3>
   <div class="chart-row">
     <canvas #calidadChartCanvas3 class="small-chart"></canvas>
-    <!-- <div class="table-container">
+    <div class="table-container">
       <table class="styled-table">
         <thead>
           <tr>
             <th>Práctica</th>
-            <th>Nivel</th>
-            <th>Nombre</th>
+            <th>Nivel Promedio</th>
             <th>Interpretación</th>
+            <th>Recomendación</th>
           </tr>
         </thead>
         <tbody>
@@ -86,24 +88,58 @@
           </tr>
         </tbody>
       </table>
-    </div> -->
+    </div>
   </div>
  <hr>
 
   <h2>Gráfica de Porcentaje de Esfuerzo</h2>
   <p>
-    Las siguientes gráficas muestran el porcentaje de esfuerzo que invierten las PYMES desarrolladoras del suroccidente colombiano en prácticas de calidad.
+    La siguiente gráfica muestra el porcentaje de esfuerzo que invierten las pymes desarrolladoras del suroccidente colombiano en prácticas de calidad.
   </p>
   <div class="chart-row">
     <canvas #calidadChartEsfuerzo class="small-chart"></canvas>
+    <!-- conclusion esfuerzo -->
+    <div class="table-container">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Numero</th>
+            <th>Interpretación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let esfuerzo of listaEsfuerzo; let index = index">
+            <td>{{ index + 1 }}</td>
+            <td>{{ esfuerzo.mensaje }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
   <hr>
   <h2>Gráfica de Desafíos</h2>
   <p>
-    Las siguientes gráficas muestran los mayores desafíos que enfrentan las PYMES desarrolladoras del suroccidente colombiano para implementar prácticas de calidad en sus proyectos.
+    La siguiente gráfica muestra los mayores desafíos que enfrentan las pymes desarrolladoras del suroccidente colombiano para implementar prácticas de calidad en sus proyectos.
   </p>
   <div class="chart-row">
     <canvas #calidadChartDesafiosCanvas class="small-chart"></canvas>
+    <!-- conclusion desafios -->
+    <div class="table-container">
+      <table class="styled-table">
+        <thead>
+          <tr>
+            <th>Desafíos</th>
+            <th>Interpretación</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let interpretacion of listaDesafios; let i = index">
+            <td>{{ i + 1 }}</td>
+            <td>{{ interpretacion.mensaje }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
   </div>
   <hr>
   <div class="conclusion-section">

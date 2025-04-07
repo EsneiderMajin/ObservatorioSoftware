@@ -39,6 +39,12 @@ export interface listaPracticas {
     interpretacion: string; 
     nivel_nombre: string;
 }
+
+export interface listaMensajes {
+    mensaje: string;
+}
+
+
  
 
 

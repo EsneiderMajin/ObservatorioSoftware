@@ -495,7 +495,7 @@ export class ResultsComponent implements OnInit {
           labels: labels,
           datasets: [
             {
-              label: 'Nivel promedio de implementación',
+              label: 'Distribución del nivel de implementación de prácticas',
               data: values,
               backgroundColor: [
                 '#1976D2',
@@ -524,10 +524,14 @@ export class ResultsComponent implements OnInit {
             tooltip: {
               callbacks: {
                 label: function(context) {
-                  return `Frecuencia: ${context.raw}`;
+                  // const label = context.label; // Muestra la etiqueta del eje X
+                  const valorReal = context.parsed.y; // Muestra el valor numérico de la barra
+            
+                  return `Total de prácticas`;
                 }
               }
-            },
+            }
+            ,
             legend: {
               display: false // Deshabilitar la leyenda
             }
@@ -538,7 +542,7 @@ export class ResultsComponent implements OnInit {
               max: Math.max(...values) + 1,
               title: {
                 display: true,
-                text: 'Número de prácticas por nivel'
+                text: 'Número de prácticas'
               },
               ticks: {
                 font: {
@@ -590,10 +594,10 @@ export class ResultsComponent implements OnInit {
       {
         type: 'bar',
         data: {
-          labels: ['Población Global', 'Su Empresa'],
+          labels: ['Poblacion encuestada', 'Su empresa'],
           datasets: [
             {
-              label: 'Nivel de Implementación de las prácticas (1-5)',
+              label: 'Comparación del nivel de implementación de las prácticas',
               data: [totalImplementacion, totalImplementacionIndividual],
               backgroundColor: [
                 '#4b0082', // Color para Población Global
@@ -633,7 +637,7 @@ export class ResultsComponent implements OnInit {
             y: {
               title: {
                 display: true,
-                text: 'Nivel promedio de implementación (escala Likert 1 a 5)'
+                text: 'Promedio de implementación (escala Likert)'
               },
               beginAtZero: true,
               max: 5,
@@ -686,11 +690,11 @@ export class ResultsComponent implements OnInit {
   obtenerTituloImplementacion(index: number): string {
     switch (index) {
       case 0:
-        return 'Comparación de las prácticas de gestión de calidad';
+        return 'Comparación del nivel de implementación de las prácticas';
       case 1:
-        return 'Comparación de las prácticas de control de calidad';
+        return 'Comparación del nivel de implementación de las prácticas';
       case 2:
-        return 'Comparación de las prácticas de aseguramiento de calidad';
+        return 'Comparación del nivel de implementación de las prácticas';
       default:
         return '';
     }

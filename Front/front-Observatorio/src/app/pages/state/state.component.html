@@ -1,172 +1,183 @@
 <body>
-<div class="report-container">
-  <h1>Informe de Evaluación de Calidad de Software</h1>
-  <!-- Sección de introducción -->
-  <div class="description-container">
-    <h2>Introducción</h2>
-    <p>
-      Esta vista proporciona un resumen integral del estado actual de la calidad del software de la 
-      empresa, basado en la evaluación realizada. Se destacan los niveles de implementación por áreas 
-      clave y el porcentaje de esfuerzo asignado a cada una.
-    </p>
-  </div>
-  <hr>
+  <div class="report-container">
+    <h1>Informe de Evaluación de Calidad de Software</h1>
 
-  <h2>Gráfica de Niveles de Implementación</h2>
-  <p>
-    Las siguientes gráficas muestran nivel de implementación de las prácticas de calidad de las pymes desarrolladoras del suroccidente colombiano.
-  </p>
-  <h3>Gestión de calidad</h3>
-  <div class="chart-row">
-    <canvas #calidadChartCanvas1 class="small-chart"></canvas>
-    <div class="table-container">
-      <table class="styled-table">
-        <thead>
-          <tr>
-            <th>Práctica</th>
-            <th>Nivel Promedio</th>
-            <th>Interpretación</th>
-            <th>Recomendación</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let interpretacion of listaPracticasGestion">
-            <td>{{ interpretacion.practica }}</td>
-            <td>{{ interpretacion.nivel }}</td>
-            <td>{{ interpretacion.nivel_nombre }}</td>
-            <td>{{ interpretacion.interpretacion }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <!-- Sección de introducción -->
+    <div class="description-container">
+      <h2>Introducción</h2>
+      <p>
+        Esta vista proporciona un resumen integral del estado actual de la calidad del software de la población,
+        basado en la evaluación realizada de cada empresa. Se destacan los niveles de implementación por
+        áreas clave y el porcentaje de esfuerzo asignado a cada una.
+      </p>
     </div>
-  </div>
-  <hr>
-  <h3>Control de calidad</h3>
-  <div class="chart-row">
-    <canvas #calidadChartCanvas2 class="small-chart"></canvas>
-    <div class="table-container">
-      <table class="styled-table">
-        <thead>
-          <tr>
-            <th>Práctica</th>
-            <th>Nivel Promedio</th>
-            <th>Interpretación</th>
-            <th>Recomendación</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let interpretacion of listaPracticasControl">
-            <td>{{ interpretacion.practica }}</td>
-            <td>{{ interpretacion.nivel }}</td>
-            <td>{{ interpretacion.nivel_nombre }}</td>
-            <td>{{ interpretacion.interpretacion }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
-   <hr>
-  <h3>Aseguramiento de calidad</h3>
-  <div class="chart-row">
-    <canvas #calidadChartCanvas3 class="small-chart"></canvas>
-    <div class="table-container">
-      <table class="styled-table">
-        <thead>
-          <tr>
-            <th>Práctica</th>
-            <th>Nivel Promedio</th>
-            <th>Interpretación</th>
-            <th>Recomendación</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let interpretacion of listaPracticasAseguramiento">
-            <td>{{ interpretacion.practica }}</td>
-            <td>{{ interpretacion.nivel }}</td>
-            <td>{{ interpretacion.nivel_nombre }}</td>
-            <td>{{ interpretacion.interpretacion }}</td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-  </div>
- <hr>
 
-  <h2>Gráfica de Porcentaje de Esfuerzo</h2>
-  <p>
-    La siguiente gráfica muestra el porcentaje de esfuerzo que invierten las pymes desarrolladoras del suroccidente colombiano en prácticas de calidad.
-  </p>
-  <div class="chart-row">
-    <canvas #calidadChartEsfuerzo class="small-chart"></canvas>
-    <!-- conclusion esfuerzo -->
-    <div class="table-container">
-      <table class="styled-table">
-        <thead>
-          <tr>
-            <th>Numero</th>
-            <th>Interpretación</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let esfuerzo of listaEsfuerzo; let index = index">
-            <td>{{ index + 1 }}</td>
-            <td>{{ esfuerzo.mensaje }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <hr>
+
+    <div class="area-section">
+      <h2>Gráfica de Niveles de Implementación</h2>
+      <p>
+        Las siguientes gráficas muestran el nivel de implementación de las prácticas de calidad de las pymes desarrolladoras del suroccidente colombiano.
+      </p>
+
+      <h3>Gestión de calidad</h3>
+      <div class="chart-row">
+        <canvas #calidadChartCanvas1 class="small-chart"></canvas>
+        <div class="table-container">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>Práctica</th>
+                <th>Nivel Promedio</th>
+                <th>Interpretación</th>
+                <th>Recomendación</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let interpretacion of listaPracticasGestion">
+                <td>{{ interpretacion.practica }}</td>
+                <td>{{ interpretacion.nivel }}</td>
+                <td>{{ interpretacion.nivel_nombre }}</td>
+                <td>{{ interpretacion.interpretacion }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <hr>
+
+      <h3>Control de calidad</h3>
+      <div class="chart-row">
+        <canvas #calidadChartCanvas2 class="small-chart"></canvas>
+        <div class="table-container">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>Práctica</th>
+                <th>Nivel Promedio</th>
+                <th>Interpretación</th>
+                <th>Recomendación</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let interpretacion of listaPracticasControl">
+                <td>{{ interpretacion.practica }}</td>
+                <td>{{ interpretacion.nivel }}</td>
+                <td>{{ interpretacion.nivel_nombre }}</td>
+                <td>{{ interpretacion.interpretacion }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <hr>
+
+      <h3>Aseguramiento de calidad</h3>
+      <div class="chart-row">
+        <canvas #calidadChartCanvas3 class="small-chart"></canvas>
+        <div class="table-container">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>Práctica</th>
+                <th>Nivel Promedio</th>
+                <th>Interpretación</th>
+                <th>Recomendación</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let interpretacion of listaPracticasAseguramiento">
+                <td>{{ interpretacion.practica }}</td>
+                <td>{{ interpretacion.nivel }}</td>
+                <td>{{ interpretacion.nivel_nombre }}</td>
+                <td>{{ interpretacion.interpretacion }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
-  </div>
-  <hr>
-  <h2>Gráfica de Desafíos</h2>
-  <p>
-    La siguiente gráfica muestra los mayores desafíos que enfrentan las pymes desarrolladoras del suroccidente colombiano para implementar prácticas de calidad en sus proyectos.
-  </p>
-  <div class="chart-row">
-    <canvas #calidadChartDesafiosCanvas class="small-chart"></canvas>
-    <!-- conclusion desafios -->
-    <div class="table-container">
-      <table class="styled-table">
-        <thead>
-          <tr>
-            <th>Desafíos</th>
-            <th>Interpretación</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let interpretacion of listaDesafios; let i = index">
-            <td>{{ i + 1 }}</td>
-            <td>{{ interpretacion.mensaje }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <hr>
+    <div class="conclusion-section">
+      <h2>Conclusión</h2>
+      <p>
+        La siguiente tabla presenta un resumen por área evaluada, incluyendo el puntaje obtenido y una recomendación personalizada para mejorar la calidad del software en cada aspecto.
+      </p>
+      <div class="table-container">
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>Área</th>
+              <th>Puntaje</th>
+              <th>Recomendación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let conclusiones of listaConclusiones">
+              <td>{{ conclusiones.area }}</td>
+              <td>{{ conclusiones.puntaje }}</td>
+              <td>{{ conclusiones.recomendacion }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
     </div>
-  </div>
-  <hr>
-  <div class="conclusion-section">
-    <h2>Conclusión</h2>
-    <p>
-      La siguiente tabla presenta un resumen por área evaluada, incluyendo el puntaje obtenido y una recomendación personalizada para mejorar la calidad del software en cada aspecto.
-    </p>
-  
-    <div class="table-container">
-      <table class="styled-table">
-        <thead>
-          <tr>
-            <th>Área</th>
-            <th>Puntaje</th>
-            <th>Recomendación</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let conclusiones of listaConclusiones">
-            <td>{{ conclusiones.area }}</td>
-            <td>{{ conclusiones.puntaje }}</td>
-            <td>{{ conclusiones.recomendacion }}</td>
-          </tr>
-        </tbody>
-      </table>
+    <hr>
+
+    <div class="area-section">
+      <h2>Gráfica de Porcentaje de Esfuerzo</h2>
+      <p>
+        La siguiente gráfica muestra el porcentaje de esfuerzo que invierten las pymes desarrolladoras del suroccidente colombiano en prácticas de calidad.
+      </p>
+      <div class="chart-row">
+        <canvas #calidadChartEsfuerzo class="small-chart"></canvas>
+        <div class="table-container">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>Interpretación</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let esfuerzo of listaEsfuerzo; let index = index">
+                <td>{{ esfuerzo.mensaje }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
     </div>
+
+    <hr>
+
+    <div class="area-section">
+      <h2>Gráfica de Desafíos</h2>
+      <p>
+        La siguiente gráfica muestra los mayores desafíos que enfrentan las pymes desarrolladoras del suroccidente colombiano para implementar prácticas de calidad en sus proyectos.
+      </p>
+      <div class="chart-row">
+        <canvas #calidadChartDesafiosCanvas class="small-chart"></canvas>
+        <div class="table-container">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>Interpretación</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let interpretacion of listaDesafios; let i = index">
+                <td>{{ interpretacion.mensaje }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+   <button mat-raised-button class="custom-button" (click)="regresar()">Atrás</button>
   </div>
-  <button mat-raised-button class="custom-button" (click)="regresar()">Atrás</button>
-</div>
 </body>
+<footer>
+  © 2025 Universidad del Cauca, todos los derechos reservados | Autor: Esneider Majin Palechor - Sebastian Osorio
+</footer>

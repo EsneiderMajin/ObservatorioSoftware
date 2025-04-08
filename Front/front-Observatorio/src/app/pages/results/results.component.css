@@ -1,10 +1,26 @@
-/* Fuente general y reinicio de márgenes */
+/* Fuente principal */
 body {
   font-family: 'Poppins', sans-serif;
+  background-color: #f5f7fa;
   margin: 0;
   padding: 0;
-  background-color: #f9f9f9;
+  color: #333;
 }
+
+p {
+  text-align: justify;
+}
+
+footer {
+  color: #000000;
+  padding: 20px;
+  text-align: center;
+  font-family: 'Open Sans', sans-serif;
+  font-size: 14px;
+  font-weight: lighter;
+  position: relative;
+  width: 100%;
+ }
 
 /* Contenedor principal del reporte */
 .report-container {
@@ -16,103 +32,102 @@ body {
   border-radius: 12px;
 }
 
-/* Título principal */
-.report-container h1 {
-  font-size: 2.5rem;
+
+
+/* Contenedor principal con ancho fijo y centrado */
+.results-wrapper {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem;
+}
+
+/* Estilo del título principal */
+.main-title {
+  font-size: 2.2rem;
   font-weight: 700;
   color: #040c42;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
   text-align: center;
 }
 
-/* Títulos de segundo nivel */
-.report-container h2 {
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: #040c42;
-  margin-bottom: 1rem;
-  text-align: left;
-}
-
-/* Títulos de tercer nivel */
-.area-section h3 {
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: #040c42;
-  margin-top: 2rem;
-  margin-bottom: 0.5rem;
-}
-
-/* Texto explicativo debajo de cada sección */
-.area-section p,
-.description-container p {
-  font-size: 1rem;
-  font-weight: 400;
+/* Estilo del subtítulo */
+.subtitle {
+  font-size: 1.2rem;
   color: #555;
-  text-align: justify;
-  line-height: 1.6;
-  margin-bottom: 1.5rem;
-}
-
-/* Párrafos generales */
-p {
-  font-size: 1rem;
-  color: #444;
-  text-align: justify;
-  line-height: 1.6;
-  margin-bottom: 1rem;
-  max-width: 850px;
-}
-
-/* Línea divisoria */
-hr {
-  border: none;
-  border-top: 1px solid #ccc;
-  margin: 2rem 0;
-}
-
-/* Sección de descripción */
-.description-container {
-  background-color: #040c42;
-  padding: 1rem 1.5rem;
-  border-radius: 10px;
+  text-align: center;
   margin-bottom: 2rem;
-}
-
-.description-container h2 {
-  color: #FFFFFF;
-}
-
-.description-container p {
-  max-width: 100%;
-  color: #ffffff;
 }
 
 /* Sección de cada área */
 .area-section {
-  margin-top: 2rem;
-}
-
-/* Contenedor de gráficas */
-.chart-row {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  margin-bottom: 2rem;
-}
-
-/* Canvas de gráficas */
-.small-chart {
-  width: 100%;
-  height: 300px;
-  background-color: white;
+  border-left: 6px solid #040c42;
+  background-color: #f4f6fa;
   border-radius: 10px;
-  border: 1px solid #ddd;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  padding: 10px;
+  padding: 1.5rem;
+  margin-bottom: 2.5rem;
 }
 
-/* Botón personalizado */
+/* Título de sección */
+.area-title {
+  font-size: 1.4rem;
+  font-weight: 600;
+  color: #040c42;
+  margin-bottom: 1rem;
+}
+
+/* Tablas con estilo */
+.styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 1rem;
+}
+
+.styled-table th,
+.styled-table td {
+  border: 1px solid #ddd;
+  padding: 0.75rem 1rem;
+  text-align: left;
+}
+
+.styled-table th {
+  background-color: #040c42;
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.styled-table tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.styled-table tr:hover {
+  background-color: #eef2f7;
+}
+
+/* Resaltar la columna de Conclusión */
+.styled-table td:nth-child(2) {
+  font-weight: bold;
+  color: #040c42;
+  text-align: center;
+}
+
+/* Gráficas responsivas */
+.chart-container {
+  width: 100%;
+  max-width: 600px;
+  margin: 0 auto 2rem auto;
+}
+
+/* Contenedor de tablas */
+.table-container {
+  padding: 1rem;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+}
+
 .custom-button {
   display: block;
   margin: 2rem auto 0 auto;
@@ -132,102 +147,23 @@ hr {
   background-color: #303f9f !important;
 }
 
-/* Sección de conclusiones */
-.conclusion-section {
-  margin-top: 3rem;
-}
-
-.conclusion-section p {
-  margin-bottom: 1.5rem;
-  color: #555;
-  font-size: 1rem;
-  text-align: justify;
-}
-
-/* Contenedor de tabla responsiva */
-.table-container {
-  overflow-x: auto;
-}
-
-/* Estilo de tabla */
-.styled-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-bottom: 2rem;
-  font-size: 0.95rem;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-  border-radius: 10px;
-  overflow: hidden;
-}
-
-/* Encabezado */
-.styled-table thead {
-  background-color: #040c42;
-  color: #ffffff;
-  text-align: left;
-}
-
-.styled-table th,
-.styled-table td {
-  padding: 14px 20px;
-  border-bottom: 1px solid #e0e0e0;
-}
-
-/* Filas alternadas */
-.styled-table tbody tr:nth-child(even) {
-  background-color: #f4f6fa;
-}
-
-/* Última fila sin borde inferior */
-.styled-table tbody tr:last-child td {
-  border-bottom: none;
-}
-
-/* Texto claro y limpio */
-.styled-table td {
-  color: #333;
-  vertical-align: top;
-  line-height: 1.5;
-}
-
-/* Responsive ajustes */
+/* Responsive */
 @media (max-width: 768px) {
+  .main-title {
+    font-size: 1.6rem;
+  }
+
+  .subtitle {
+    font-size: 1rem;
+  }
+
   .styled-table th,
   .styled-table td {
-    padding: 12px 14px;
-    font-size: 0.9rem;
-  }
-}
-
-
-/* Responsividad */
-@media (max-width: 768px) {
-  .chart-row {
-    flex-direction: column;
-    gap: 1.5rem;
+    padding: 0.5rem;
   }
 
-  .small-chart {
-    width: 100%;
-  }
-
-  h1 {
-    font-size: 2rem;
-  }
-
-  h2 {
-    font-size: 1.5rem;
-  }
-
-  h3 {
+  .area-title {
     font-size: 1.2rem;
   }
-
-  p {
-    font-size: 0.95rem;
-  }
-
-  .custom-button {
-    width: 100%;
-  }
 }
+

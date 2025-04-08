@@ -701,7 +701,7 @@ export class StateComponent implements OnInit{
           labels: labels,
           datasets: [
             {
-              label: 'Frecuencia',
+              label: 'Número de prácticas por nivel de implementación',
               data: values,
               // Usamos una paleta de colores similar para todas las barras
               backgroundColor: [
@@ -731,7 +731,7 @@ export class StateComponent implements OnInit{
             tooltip: {
               callbacks: {
                 label: function(context) {
-                  return `Frecuencia: ${context.raw}`;
+                  return `Número de prácticas por nivel de implementación: ${context.raw}`;
                 }
               }
             },

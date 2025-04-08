@@ -1,8 +1,14 @@
+<!--
+  Informe del Estado General de la Calidad del Software
+  Este HTML genera una estructura de informe que incluye introducción, evaluaciones por áreas, gráficos, tablas y conclusiones.
+  Cada sección está acompañada de descripciones y elementos visuales para presentar resultados de una encuesta sobre calidad del software.
+-->
 <body>
   <div class="report-container">
+    <!-- Título Principal -->
     <h1>Informe del Estado General de la Calidad del Software</h1>
 
-    <!-- Sección de introducción -->
+    <!-- Sección de Introducción -->
     <div class="description-container">
       <h2>Introducción</h2>
       <p>
@@ -14,12 +20,16 @@
     </div>
     <hr>
 
-    <!-- Sección general de prácticas -->
+    <!-- Sección General de Prácticas -->
     <section>
       <h2>Evaluación de Prácticas de Calidad</h2>
-      <p>Los siguientes resultados representan el nivel de implementación en cada una de las áreas evaluadas.</p>
+      <p>
+        Las siguientes gráficas ilustran el nivel de implementación de cada práctica de calidad en una escala de Likert de 1 a 5,
+        permitiendo visualizar de manera comparativa el nivel de implementación. También se incluye una tabla con resultados detallados
+        y recomendaciones específicas para mejorar el desempeño.
+      </p>
 
-      <!-- Gestión de calidad -->
+      <!-- Sección de Gestión de Calidad -->
       <div class="area-section">
         <h3>1. Prácticas de Gestión de Calidad</h3>
         <p>
@@ -28,14 +38,16 @@
         </p>
         <div class="chart-row">
           <canvas #calidadChartCanvas1 class="small-chart"></canvas>
+
+          <!-- Tabla de prácticas y recomendaciones -->
           <div class="table-container">
             <table class="styled-table">
               <thead>
                 <tr>
                   <th>Práctica</th>
                   <th>Nivel</th>
-                  <th>Nombre</th>
                   <th>Interpretación</th>
+                  <th>Recomendación</th>
                 </tr>
               </thead>
               <tbody>
@@ -48,19 +60,33 @@
               </tbody>
             </table>
           </div>
+
+          <!-- Tabla de muestras -->
           <canvas #implementacionTotal1 class="small-chart"></canvas>
-          <div>
-            <h2>Interpretación</h2>            
+          <div class="table-container">
+            <table class="styled-table">
+              <thead>
+                <tr>
+                  <th>Interpretación</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let interpretacion of listaPracticasGestion">
+                  <td>{{ interpretacion.practica }}</td>
+                </tr>
+              </tbody>
+            </table>
           </div>
         </div>
       </div>
+      <hr>
 
-      <!-- Control de calidad -->
+      <!-- Sección de Control de Calidad -->
       <div class="area-section">
         <h3>2. Prácticas de Control de Calidad</h3>
         <p>
-          Evalúa las acciones técnicas realizadas para verificar que el producto cumple con los requisitos especificados.
-          Incluye actividades como pruebas, validaciones y métricas de defectos.
+          Evalúa las acciones técnicas realizadas para verificar que el producto cumple con los requisitos especificados,
+          incluyendo pruebas, validaciones y métricas de defectos.
         </p>
         <div class="chart-row">
           <canvas #calidadChartCanvas2 class="small-chart"></canvas>
@@ -70,8 +96,8 @@
                 <tr>
                   <th>Práctica</th>
                   <th>Nivel</th>
-                  <th>Nombre</th>
                   <th>Interpretación</th>
+                  <th>Recomendación</th>
                 </tr>
               </thead>
               <tbody>
@@ -85,18 +111,29 @@
             </table>
           </div>
           <canvas #implementacionTotal2 class="small-chart"></canvas>
-        </div>
-        <div>
-          <h2>Interpretación</h2>            
+          <div class="table-container">
+            <table class="styled-table">
+              <thead>
+                <tr>
+                  <th>Interpretación</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let interpretacion of listaPracticasGestion">
+                  <td>{{ interpretacion.practica }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
 
-      <!-- Aseguramiento de calidad -->
+      <!-- Sección de Aseguramiento de Calidad -->
       <div class="area-section">
         <h3>3. Prácticas de Aseguramiento de Calidad</h3>
         <p>
-          Evalúa el conjunto de actividades sistemáticas implementadas para garantizar que los procesos y productos
-          del software cumplan con los estándares de calidad establecidos por la organización.
+          Evalúa actividades sistemáticas implementadas para garantizar que los procesos y productos
+          del software cumplan con los estándares de calidad establecidos.
         </p>
         <div class="chart-row">
           <canvas #calidadChartCanvas3 class="small-chart"></canvas>
@@ -106,8 +143,8 @@
                 <tr>
                   <th>Práctica</th>
                   <th>Nivel</th>
-                  <th>Nombre</th>
                   <th>Interpretación</th>
+                  <th>Recomendación</th>
                 </tr>
               </thead>
               <tbody>
@@ -122,38 +159,55 @@
           </div>
           <canvas #implementacionTotal3 class="small-chart"></canvas>
         </div>
-        <div>
-          <h2>Interpretación</h2>            
+        <div class="table-container">
+          <table class="styled-table">
+            <thead>
+              <tr>
+                <th>Interpretación</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let interpretacion of listaPracticasGestion">
+                <td>{{ interpretacion.practica }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
       </div>
     </section>
-<hr>
-<div class="conclusion-section">
-  <h2>Conclusión</h2>
-  <p>
-    La siguiente tabla presenta un resumen por área evaluada, incluyendo el puntaje obtenido y una recomendación personalizada para mejorar la calidad del software en cada aspecto.
-  </p>
+    <hr>
 
-  <div class="table-container">
-    <table class="styled-table">
-      <thead>
-        <tr>
-          <th>Área</th>
-          <th>Puntaje</th>
-          <th>Recomendación</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let conclusiones of listaConclusiones">
-          <td>{{ conclusiones.area }}</td>
-          <td>{{ conclusiones.puntaje }}</td>
-          <td>{{ conclusiones.recomendacion }}</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</div>
+    <!-- Sección de Conclusión -->
+    <div class="conclusion-section">
+      <h2>Conclusión</h2>
+      <p>
+        La siguiente tabla presenta un resumen por área evaluada, incluyendo el puntaje obtenido y una recomendación personalizada
+        para mejorar la calidad del software en cada aspecto.
+      </p>
+      <div class="table-container">
+        <table class="styled-table">
+          <thead>
+            <tr>
+              <th>Área</th>
+              <th>Puntaje</th>
+              <th>Recomendación</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let conclusiones of listaConclusiones">
+              <td>{{ conclusiones.area }}</td>
+              <td>{{ conclusiones.puntaje }}</td>
+              <td>{{ conclusiones.recomendacion }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
 
-<button mat-raised-button class="custom-button" (click)="regresar()">Volver al Inicio</button>
+    <!-- Botón para volver al inicio -->
+    <button mat-raised-button class="custom-button" (click)="regresar()">Volver al Inicio</button>
   </div>
 </body>
+<footer>
+  © 2025 Universidad del Cauca, todos los derechos reservados | Autor: Esneider Majin Palechor - Sebastian Osorio
+</footer>

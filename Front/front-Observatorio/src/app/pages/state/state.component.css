@@ -7,22 +7,16 @@ body {
   color: #333;
 }
 
-/* Estilo del footer */
 footer {
   color: #000000;
-  padding: 10px 20px;
+  padding: 20px;
   text-align: center;
   font-family: 'Open Sans', sans-serif;
   font-size: 14px;
   font-weight: lighter;
-  position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  background-color: #f4f6fa;
-  border-top: 1px solid #e0e0e0;
-  border-radius: 0 0 12px 12px;
-}
+  position: relative;
+  width: 100%;
+ }
 
 /* Contenedor principal del reporte */
 .report-container {
@@ -79,13 +73,11 @@ footer {
 .styled-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 1rem;
 }
 
 .styled-table th,
 .styled-table td {
   border: 1px solid #ddd;
-  padding: 0.75rem 1rem;
   text-align: left;
 }
 
@@ -148,7 +140,7 @@ footer {
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
   .main-title {
     font-size: 1.6rem;
   }
@@ -165,6 +157,5 @@ footer {
   .area-title {
     font-size: 1.2rem;
   }
-
 }
 

@@ -79,13 +79,11 @@ footer {
 .styled-table {
   width: 100%;
   border-collapse: collapse;
-  margin-top: 1rem;
 }
 
 .styled-table th,
 .styled-table td {
   border: 1px solid #ddd;
-  padding: 0.75rem 1rem;
   text-align: left;
 }
 
@@ -148,7 +146,7 @@ footer {
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 550px) {
   .main-title {
     font-size: 1.6rem;
   }

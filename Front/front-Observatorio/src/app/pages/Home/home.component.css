@@ -68,6 +68,12 @@
 }
 
 @media (max-width: 768px) {
+
+  .banner-container footer {
+    font-size: 0.8rem;
+    padding: 15px 5px;
+  }
+
   .content-container h1 {
     font-size: 2.2rem;
   }

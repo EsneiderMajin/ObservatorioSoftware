@@ -6,7 +6,8 @@ import { TituloPracticasGestion, InterpretacionPracticasGestion, TituloPracticas
 import { recomendacionesAseguramiento, recomendacionesControl, recomendacionesGestion } from 'src/app/core/enums/recomendacion.enum';
 import { Answer, MatrixAnswer, MetricaMatrix } from 'src/app/core/models/requestQuestions.models';
 import { PreguntaResponse, question, MetricaResponse, listaConclusiones } from 'src/app/core/models/responseQuestions.models';
-import { listaPracticas } from 'src/app/core/models/results.model';
+import { listaMensajes, listaPracticas } from 'src/app/core/models/results.model';
+import { LogicaService } from 'src/app/core/services/logica/logica.service';
 import { AuthService } from 'src/app/core/services/login/auth.service';
 import { QuestionService } from 'src/app/core/services/question/question.service';
 
@@ -37,6 +38,9 @@ export class ResultsComponent implements OnInit {
   listaPracticasGestion: listaPracticas[] = [];
   listaPracticasControl: listaPracticas[] = [];
   listaPracticasAseguramiento: listaPracticas[] = [];
+  listaInterpTotalGestion: listaMensajes[] = [];
+  listaInterpTotalControl: listaMensajes[] = [];
+  listaInterpTotalAseguramiento: listaMensajes[] = [];
 
   metricaIndividual: any[]=[];
   metricaGlobal: any[]=[];
@@ -61,6 +65,7 @@ export class ResultsComponent implements OnInit {
     private readonly questionService: QuestionService,
     private readonly formBuilder: FormBuilder,
     private authService: AuthService,
+    private readonly logicaService: LogicaService
   ) {
     this.formGroup = this.formBuilder.group({});
   }
@@ -446,8 +451,16 @@ export class ResultsComponent implements OnInit {
     
   crearGraficos(listaMatrix: MetricaResponse[]) {
     listaMatrix.forEach((metrica, index) => {
-      this.crearGrafico(metrica, index);
-      // Pasar ambos valores al método crearGraficoImplementacionTotal
+      let metricaGraficar = this.logicaService.calcularMetricaGraficaIndividual(metrica);
+      metrica.totalImplementacion = Math.round(metrica.totalImplementacion * 100) / 100;
+      if(index == 0)
+        this.listaInterpTotalGestion = this.logicaService.procesarInterpretacion(metrica.totalImplementacion, metrica.totalImplementacionIndividual??0, "Gestión de calidad");
+      else if(index == 1)
+        this.listaInterpTotalControl = this.logicaService.procesarInterpretacion(metrica.totalImplementacion, metrica.totalImplementacionIndividual??0, "Control de calidad");
+      else if(index == 2)
+        this.listaInterpTotalAseguramiento = this.logicaService.procesarInterpretacion(metrica.totalImplementacion, metrica.totalImplementacionIndividual??0, "Aseguramiento de calidad");
+
+      this.crearGrafico(metricaGraficar, index);
       this.crearGraficoImplementacionTotal(
         metrica.totalImplementacion,
         //tener presente
@@ -460,11 +473,11 @@ export class ResultsComponent implements OnInit {
   crearGrafico(metrica: MetricaResponse, index: number) {
     // Etiquetas y valores
     const labels = [
-      "1",
-      "2",
-      "3",
-      "4",
-      "5"
+      "nivel 1",
+      "nivel 2",
+      "nivel 3",
+      "nivel 4",
+      "nivel 5"
     ];
   
     const values = [
@@ -524,10 +537,10 @@ export class ResultsComponent implements OnInit {
             tooltip: {
               callbacks: {
                 label: function(context) {
-                  // const label = context.label; // Muestra la etiqueta del eje X
+                  const label = context.label; // Muestra la etiqueta del eje X
                   const valorReal = context.parsed.y; // Muestra el valor numérico de la barra
             
-                  return `Total de prácticas`;
+                  return `Total de prácticas: ${valorReal}`;
                 }
               }
             }

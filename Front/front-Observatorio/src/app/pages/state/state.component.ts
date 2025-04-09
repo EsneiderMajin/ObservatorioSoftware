@@ -328,8 +328,10 @@ export class StateComponent implements OnInit{
     
         for (const practica of practicas) {
           for (const item of this.listaPracticasTotal) {
-            if (item.hasOwnProperty(practica)) {
-              const nivelRaw = Math.floor(item[practica] * 100) / 100;
+            if (item.hasOwnProperty(practica))
+              //tener en cuenta 
+              {
+              const nivelRaw = Math.round(item[practica] * 100) / 100;
               const nivel = Math.round(nivelRaw) as keyof typeof interpretacionNiveles;
               if (interpretacionNiveles[nivel]) {
                 array.push({
@@ -672,7 +674,7 @@ export class StateComponent implements OnInit{
 
   crearGrafico(metrica: MetricaResponse, index: number) {
     // Etiquetas y valores
-    const labels = ["1", "2", "3", "4", "5"];
+    const labels = ["nivel 1", "nivel 2", "nivel 3", "nivel 4", "nivel 5"];
     const values = [
       metrica.noImplementada,
       metrica.implementacionInicial,
@@ -731,7 +733,7 @@ export class StateComponent implements OnInit{
             tooltip: {
               callbacks: {
                 label: function(context) {
-                  return `Número de prácticas por nivel de implementación: ${context.raw}`;
+                  return `Promedio de prácticas por nivel de implementación: ${context.raw}`;
                 }
               }
             },

@@ -197,25 +197,26 @@ export class StateComponent implements OnInit{
       // Definir los 3 objetos de destino
       const listado = [
         {
-          "definicion_calidad_gestion": 0,
-          "planificacion_objetivos": 0,
-          "asignar_capacitacion": 0,
-          "fomento_continua": 0
+          [TituloPracticasGestion.definicion_calidad_gestion]: 0,
+          [TituloPracticasGestion.planificacion_objetivos]: 0,
+          [TituloPracticasGestion.asignar_capacitacion]: 0,
+          [TituloPracticasGestion.fomento_continua]: 0,
+          [TituloPracticasGestion.capacitacion_personal]: 0,
+          [TituloPracticasGestion.definicion_kpis]: 0
         },
         {
-          "revision_requisitos": 0,
-          "inspecciones_formales": 0,
-          "ejecucion_aceptacion": 0,
-          "uso_pruebas": 0,
-          "automatizacion_continua": 0
+          [TituloPracticasControl.revision_requisitos]: 0,
+          [TituloPracticasControl.inspecciones_formales]: 0,
+          [TituloPracticasControl.ejecucion_aceptacion]: 0,
+          [TituloPracticasControl.uso_metricas]: 0,
+          [TituloPracticasControl.herramientas_automatizacion]: 0,
+          [TituloPracticasControl.gestion_defectos]: 0
         },
         {
-          "definicion_calidad_aseguramiento": 0,
-          "documentacion_gestion": 0,
-          "auditorias_direccion": 0,
-          "definicion_kpis": 0,
-          "capacitacion_calidad": 0,
-          "acciones_preventivas": 0
+          [TituloPracticasAseguramiento.documentacion_gestion]: 0,
+          [TituloPracticasAseguramiento.auditorias_direccion]: 0,
+          [TituloPracticasAseguramiento.capacitacion_calidad]: 0,
+          [TituloPracticasAseguramiento.acciones_preventivas]: 0
         }
       ];
     
@@ -235,8 +236,6 @@ export class StateComponent implements OnInit{
 
 
     tablaInterpretaciones() {
-
-      console.log(this.listaPracticasTotal);
 
       // Definir un mapeo entre los niveles y sus valores
       const interpretacionNiveles = {
@@ -268,9 +267,11 @@ export class StateComponent implements OnInit{
           array: this.listaPracticasGestion,
           tituloPracticas: {
             [TituloPracticasGestion.definicion_calidad_gestion]: TituloPracticasGestion.definicion_calidad_contenido,
+            [TituloPracticasGestion.planificacion_objetivos]: TituloPracticasGestion.planificacion_objetivos_contenido,
             [TituloPracticasGestion.asignar_capacitacion]: TituloPracticasGestion.asignar_capacitacion_contenido,
             [TituloPracticasGestion.fomento_continua]: TituloPracticasGestion.fomento_continua_contenido,
-            [TituloPracticasGestion.planificacion_objetivos]: TituloPracticasGestion.planificacion_objetivos_contenido
+            [TituloPracticasGestion.capacitacion_personal]: TituloPracticasGestion.capacitacion_personal_contenido,
+            [TituloPracticasGestion.definicion_kpis]: TituloPracticasGestion.definicion_kpis_contenido
           }
         },
         control: {
@@ -279,8 +280,10 @@ export class StateComponent implements OnInit{
             [TituloPracticasControl.revision_requisitos]: TituloPracticasControl.revision_requisitos_contenido,
             [TituloPracticasControl.inspecciones_formales]: TituloPracticasControl.inspecciones_formales_contenido,
             [TituloPracticasControl.ejecucion_aceptacion]: TituloPracticasControl.ejecucion_aceptacion_contenido,
-            [TituloPracticasControl.uso_pruebas]: TituloPracticasControl.uso_pruebas_contenido,
-            [TituloPracticasControl.automatizacion_continua]: TituloPracticasControl.automatizacion_continua_contenido
+            [TituloPracticasControl.uso_metricas]: TituloPracticasControl.uso_metricas_contenido,
+            [TituloPracticasControl.herramientas_automatizacion]: TituloPracticasControl.herramientas_automatizacion_contenido,
+            [TituloPracticasControl.gestion_defectos]: TituloPracticasControl.gestion_defectos_contenido
+
           }
         },
         aseguramiento: {
@@ -288,7 +291,6 @@ export class StateComponent implements OnInit{
           tituloPracticas: {
             [TituloPracticasAseguramiento.documentacion_gestion]: TituloPracticasAseguramiento.documentacion_gestion_contenido,
             [TituloPracticasAseguramiento.auditorias_direccion]: TituloPracticasAseguramiento.auditorias_direccion_contenido,
-            [TituloPracticasAseguramiento.definicion_kpis]: TituloPracticasAseguramiento.definicion_kpis_contenido,
             [TituloPracticasAseguramiento.capacitacion_calidad]: TituloPracticasAseguramiento.capacitacion_calidad_contenido,
             [TituloPracticasAseguramiento.acciones_preventivas]: TituloPracticasAseguramiento.acciones_preventivas_contenido
             
@@ -300,21 +302,23 @@ export class StateComponent implements OnInit{
       const practicasAVerificar = {
         gestion: [
           TituloPracticasGestion.definicion_calidad_gestion,
+          TituloPracticasGestion.planificacion_objetivos,
           TituloPracticasGestion.asignar_capacitacion,
           TituloPracticasGestion.fomento_continua,
-          TituloPracticasGestion.planificacion_objetivos
+          TituloPracticasGestion.capacitacion_personal,
+          TituloPracticasGestion.definicion_kpis
         ],
         control: [
           TituloPracticasControl.revision_requisitos,
           TituloPracticasControl.inspecciones_formales,
           TituloPracticasControl.ejecucion_aceptacion,
-          TituloPracticasControl.uso_pruebas,
-          TituloPracticasControl.automatizacion_continua
+          TituloPracticasControl.uso_metricas,
+          TituloPracticasControl.herramientas_automatizacion,
+          TituloPracticasControl.gestion_defectos
         ],
         aseguramiento: [
           TituloPracticasAseguramiento.documentacion_gestion,
           TituloPracticasAseguramiento.auditorias_direccion,
-          TituloPracticasAseguramiento.definicion_kpis,
           TituloPracticasAseguramiento.capacitacion_calidad,
           TituloPracticasAseguramiento.acciones_preventivas
   
@@ -485,8 +489,6 @@ export class StateComponent implements OnInit{
       }
     });
 
-    console.log("esfuerzo",metricaEsfuerzoGlobal);
-
     //Graficar el esfuerzo global
     this.crearGraficoEsfuerzoGlobal(metricaEsfuerzoGlobal);
 
@@ -598,17 +600,17 @@ export class StateComponent implements OnInit{
 
     for (let i = 0; i < listaPreguntasMetricas.length; i++) {
       if (listaPreguntasMetricas[i].metrica) {
-        if(listaPreguntasMetricas[i].question == "¿Cuál es el nivel de aplicación de las siguientes prácticas de gestión de calidad en sus proyectos?"){
+        if(listaPreguntasMetricas[i].clase == "gestion"){
           metricaGlobalGestion = this.calcularMetricas(listaPreguntasMetricas[i].metrica, metricaGlobalGestion);
           metricaGlobalGestion.tamanioMatrix = listaPreguntasMetricas[i].metrica.tamanioMatrix;
           this.listaPracticasTotal.push(listaPreguntasMetricas[i].matrix);
         }
-        else if(listaPreguntasMetricas[i].question == "¿Cuál es el nivel de aplicación de las siguientes prácticas de control de calidad en sus proyectos?"){
+        else if(listaPreguntasMetricas[i].clase == "control"){
           metricaGlobalControl = this.calcularMetricas(listaPreguntasMetricas[i].metrica, metricaGlobalControl);
           metricaGlobalControl.tamanioMatrix = listaPreguntasMetricas[i].metrica.tamanioMatrix;
           this.listaPracticasTotal.push(listaPreguntasMetricas[i].matrix);
         }
-        else if(listaPreguntasMetricas[i].question == "¿Cuál es el nivel de aplicación de las siguientes prácticas de aseguramiento de calidad en sus proyectos?"){
+        else if(listaPreguntasMetricas[i].clase == "aseguramiento"){
           metricaGlobalAseguramiento = this.calcularMetricas(listaPreguntasMetricas[i].metrica, metricaGlobalAseguramiento);
           metricaGlobalAseguramiento.tamanioMatrix = listaPreguntasMetricas[i].metrica.tamanioMatrix;
           this.listaPracticasTotal.push(listaPreguntasMetricas[i].matrix);

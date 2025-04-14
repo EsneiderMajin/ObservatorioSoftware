@@ -1,43 +1,90 @@
 <div class="cuestionario-container">
-<div class="container" *ngIf="preguntaAutorizacion.avaliable">
-  <h2>Información Importante</h2>
-  <hr>
-  <app-questionselect [category]="preguntaAutorizacion.category"  [questions]="preguntaAutorizacion.questions" (answered)="answeredQuestion($event)"></app-questionselect>
-</div>
-  
+  <div class="container" *ngIf="preguntaAutorizacion.avaliable">
+    <h2>Importante</h2>
+    <p>
+      Qondor busca conocer y evaluar el estado de la calidad del software en las
+      PYMES de la región. A través de la recolección de datos estructurada, se
+      pretende identificar el nivel de implementación de prácticas de calidad y
+      los principales desafíos que enfrentan estas organizaciones.
+    </p>
+    <p>
+      Objetivo: Identificar el nivel de implementación de las prácticas de
+      calidad con el propósito de conocer su estado actual con respecto a las
+      mejores prácticas establecidas por la industria de software desde el punto
+      de vista de los ingenieros de QA en el contexto de las PYMES
+      desarrolladoras de software del suroccidente colombiano
+    </p>
+    <p>
+      Confidencialidad: Esta información está protegida según lo señalado en la
+      Ley 1551 de 2012 y su decreto reglamentario 1377 de 2013, por lo tanto,
+      los datos suministrados son confidenciales y solo podrán ser utilizados
+      con fines estadísticos.
+    </p>
+    <app-questionselect
+      [category]="preguntaAutorizacion.category"
+      [questions]="preguntaAutorizacion.questions"
+      (answered)="answeredQuestion($event)"
+    ></app-questionselect>
+  </div>
+
   <div class="container" *ngIf="preguntasGenerales.avaliable">
-    <h2 >Sección 1: Preguntas Generales</h2>
-    <hr>
-    <h3>La siguiente sección tiene como objetivo conocer un poco su organización</h3>
-    <app-questionselect [category]="preguntasGenerales.category" [questions]="preguntasGenerales.questions" (answered)="answeredQuestion($event)"></app-questionselect>
+    <h2>Información General</h2>
+    <p>
+      Esta sección tiene como objetivo conocer un poco acerca de su
+      organización.
+    </p>
+    <app-questionselect
+      [category]="preguntasGenerales.category"
+      [questions]="preguntasGenerales.questions"
+      (answered)="answeredQuestion($event)"
+    ></app-questionselect>
   </div>
   <div class="container" *ngIf="preguntasCalidad.avaliable">
-    <h2>Sección 2: Prácticas de Calidad</h2>
-    <hr>
-    <h3>La siguiente sección tiene como objetivo, reconocer el nivel de implementación de las prácticas de calidad de su organización.</h3>
-    <app-questionselect [category]="preguntasCalidad.category" [questions]="preguntasCalidad.questions" (answered)="answeredQuestion($event)"></app-questionselect>
-    <p>Nota: Las prácticas mencionadas están respaldadas por la SQuaRE (Software Product Quality Requirements and Evaluation)
+    <h2>Prácticas de Calidad</h2>
+    <p>
+      Esta siguiente sección tiene como objetivo reconocer el nivel de
+      implementación de las prácticas de calidad de su organización.
+    </p>
+    <app-questionselect
+      [category]="preguntasCalidad.category"
+      [questions]="preguntasCalidad.questions"
+      (answered)="answeredQuestion($event)"
+    ></app-questionselect>
+    <p>
+      Nota: Las prácticas mencionadas están respaldadas por la SQuaRE (Software
+      Product Quality Requirements and Evaluation)
     </p>
   </div>
   <div class="container" *ngIf="preguntasEsfuerzo.avaliable">
-    <h2>Sección 3: Porcentaje de esfuerzo</h2>
-    <hr>
-    <app-questionselect [category]="preguntasEsfuerzo.category" [questions]="preguntasEsfuerzo.questions" (answered)="answeredQuestion($event)"></app-questionselect>
+    <h2>Porcentaje de Esfuerzo</h2>
+    <app-questionselect
+      [category]="preguntasEsfuerzo.category"
+      [questions]="preguntasEsfuerzo.questions"
+      (answered)="answeredQuestion($event)"
+    ></app-questionselect>
   </div>
   <div class="container" *ngIf="preguntasDesafio.avaliable">
-    <h2>Sección 4: Desafíos de implementación</h2>
-    <hr>
-    <app-questionselect [category]="preguntasDesafio.category"   [questions]="preguntasDesafio.questions" (answered)="answeredQuestion($event)"></app-questionselect>
+    <h2>Desafíos de Implementación</h2>
+    <p>
+      Esta siguiente sección tiene como objetivo reconocer cuales son los
+      mayores desafíos que enfrenta su organización para implementar prácticas
+      de calidad.
+    </p>
+    <app-questionselect
+      [category]="preguntasDesafio.category"
+      [questions]="preguntasDesafio.questions"
+      (answered)="answeredQuestion($event)"
+    ></app-questionselect>
   </div>
 </div>
 
-  <div *ngIf="loading">
-    <app-loading></app-loading>
-  </div>
+<div *ngIf="loading">
+  <app-loading></app-loading>
+</div>
 
-  <app-modal-notification 
+<app-modal-notification
   [nofiticationData]="notificationData"
   *ngIf="visibleAlert"
   (ResponseOptionText)="buttonOption($event)"
-  >
+>
 </app-modal-notification>

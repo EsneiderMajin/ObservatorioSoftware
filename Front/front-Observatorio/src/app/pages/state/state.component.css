@@ -1,6 +1,10 @@
 /* Fuente principal */
+h1 {
+  text-align: center;
+}
+
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   background-color: #f5f7fa;
   margin: 0;
   padding: 0;
@@ -11,12 +15,20 @@ footer {
   color: #000000;
   padding: 20px;
   text-align: center;
-  font-family: 'Open Sans', sans-serif;
+  font-family: "Open Sans", sans-serif;
   font-size: 14px;
   font-weight: lighter;
   position: relative;
   width: 100%;
- }
+}
+
+p {
+  text-align: justify;
+}
+
+li {
+  text-align: justify;
+}
 
 /* Contenedor principal del reporte */
 .report-container {
@@ -132,7 +144,7 @@ footer {
   border: none !important;
   cursor: pointer;
   transition: background-color 0.3s ease !important;
-  font-family: 'Poppins', sans-serif !important;
+  font-family: "Poppins", sans-serif !important;
 }
 
 .custom-button:hover {
@@ -158,4 +170,3 @@ footer {
     font-size: 1.2rem;
   }
 }
-

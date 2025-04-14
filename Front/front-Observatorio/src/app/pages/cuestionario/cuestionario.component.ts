@@ -115,6 +115,9 @@ export class CuestionarioComponent implements OnInit {
         this.cuestionario.questions = this.listaRespuestas;
         this.cuestionario.fechacreacion = new Date().toISOString();
         this.loading = true
+
+        // console.log("que hay?:",this.cuestionario.questions);
+
         this.postGuardarRespuestas();
         this.mostrarResultados = true;
         

@@ -1,4 +1,8 @@
 /* Fuente principal */
+h1 {
+  text-align: center;
+}
+
 body {
   font-family: 'Poppins', sans-serif;
   background-color: #f5f7fa;

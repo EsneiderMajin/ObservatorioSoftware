@@ -4,7 +4,7 @@
   justify-content: center;
   height: 100vh; /* Ocupa toda la pantalla */
   background-color: #f4f6fc; /* Color de fondo suave */
-  font-family: 'Segoe UI', 'Roboto', sans-serif;
+  font-family: "Segoe UI", "Roboto", sans-serif;
 }
 
 .spinner-box {

@@ -79,12 +79,14 @@ export class ResultsComponent implements OnInit {
 
   async cargarDatos() {
     await this.questionService.getPreguntasPorIdEncuesta('preguntasCalidad', this.encuestaId).then((res) => {
+      console.log("que llega?",res);
       this.listaPreguntasCalidad = res as PreguntaResponse[];
     });
 
 
 
     await this.questionService.getPreguntasPorCategoria('preguntasCalidad').then((res) => {
+      console.log("que llega 2?",res);
       this.listaPreguntasCalidadGlobal = res as PreguntaResponse[];
     });
 
@@ -129,6 +131,7 @@ export class ResultsComponent implements OnInit {
     };
   
     // Definir un mapeo para cada categoría de prácticas
+
     const categorias = {
       gestion: {
         array: this.listaPracticasGestion,
@@ -136,7 +139,9 @@ export class ResultsComponent implements OnInit {
           [TituloPracticasGestion.definicion_calidad_gestion]: TituloPracticasGestion.definicion_calidad_contenido,
           [TituloPracticasGestion.asignar_capacitacion]: TituloPracticasGestion.asignar_capacitacion_contenido,
           [TituloPracticasGestion.fomento_continua]: TituloPracticasGestion.fomento_continua_contenido,
-          [TituloPracticasGestion.planificacion_objetivos]: TituloPracticasGestion.planificacion_objetivos_contenido
+          [TituloPracticasGestion.planificacion_objetivos]: TituloPracticasGestion.planificacion_objetivos_contenido,
+          [TituloPracticasGestion.capacitacion_personal]: TituloPracticasGestion.capacitacion_personal_contenido,
+          [TituloPracticasGestion.definicion_kpis]: TituloPracticasGestion.definicion_kpis_contenido
         }
       },
       control: {
@@ -145,8 +150,10 @@ export class ResultsComponent implements OnInit {
           [TituloPracticasControl.revision_requisitos]: TituloPracticasControl.revision_requisitos_contenido,
           [TituloPracticasControl.inspecciones_formales]: TituloPracticasControl.inspecciones_formales_contenido,
           [TituloPracticasControl.ejecucion_aceptacion]: TituloPracticasControl.ejecucion_aceptacion_contenido,
-          [TituloPracticasControl.uso_pruebas]: TituloPracticasControl.uso_pruebas_contenido,
-          [TituloPracticasControl.automatizacion_continua]: TituloPracticasControl.automatizacion_continua_contenido
+          [TituloPracticasControl.uso_metricas]: TituloPracticasControl.uso_metricas_contenido,
+          [TituloPracticasControl.herramientas_automatizacion]: TituloPracticasControl.herramientas_automatizacion_contenido,
+          [TituloPracticasControl.gestion_defectos]: TituloPracticasControl.gestion_defectos_contenido
+
         }
       },
       aseguramiento: {
@@ -154,7 +161,6 @@ export class ResultsComponent implements OnInit {
         tituloPracticas: {
           [TituloPracticasAseguramiento.documentacion_gestion]: TituloPracticasAseguramiento.documentacion_gestion_contenido,
           [TituloPracticasAseguramiento.auditorias_direccion]: TituloPracticasAseguramiento.auditorias_direccion_contenido,
-          [TituloPracticasAseguramiento.definicion_kpis]: TituloPracticasAseguramiento.definicion_kpis_contenido,
           [TituloPracticasAseguramiento.capacitacion_calidad]: TituloPracticasAseguramiento.capacitacion_calidad_contenido,
           [TituloPracticasAseguramiento.acciones_preventivas]: TituloPracticasAseguramiento.acciones_preventivas_contenido
           
@@ -166,21 +172,24 @@ export class ResultsComponent implements OnInit {
     const practicasAVerificar = {
       gestion: [
         TituloPracticasGestion.definicion_calidad_gestion,
+        TituloPracticasGestion.planificacion_objetivos,
         TituloPracticasGestion.asignar_capacitacion,
+        TituloPracticasGestion.capacitacion_personal,
         TituloPracticasGestion.fomento_continua,
-        TituloPracticasGestion.planificacion_objetivos
+        TituloPracticasGestion.definicion_kpis
       ],
       control: [
         TituloPracticasControl.revision_requisitos,
         TituloPracticasControl.inspecciones_formales,
         TituloPracticasControl.ejecucion_aceptacion,
-        TituloPracticasControl.uso_pruebas,
-        TituloPracticasControl.automatizacion_continua
+        TituloPracticasControl.uso_metricas,
+        TituloPracticasControl.herramientas_automatizacion,
+        TituloPracticasControl.gestion_defectos
+
       ],
       aseguramiento: [
         TituloPracticasAseguramiento.documentacion_gestion,
         TituloPracticasAseguramiento.auditorias_direccion,
-        TituloPracticasAseguramiento.definicion_kpis,
         TituloPracticasAseguramiento.capacitacion_calidad,
         TituloPracticasAseguramiento.acciones_preventivas
 
@@ -251,15 +260,15 @@ export class ResultsComponent implements OnInit {
 
     for (let i = 0; i < listaPreguntasMetricas.length; i++) {
       if (listaPreguntasMetricas[i].metrica) {
-        if(listaPreguntasMetricas[i].question == "¿Cuál es el nivel de aplicación de las siguientes prácticas de gestión de calidad en sus proyectos?"){
+        if(listaPreguntasMetricas[i].clase == "gestion"){
           metricaGlobalGestion = this.calcularMetricas(listaPreguntasMetricas[i].metrica, metricaGlobalGestion);
           metricaGlobalGestion.tamanioMatrix = listaPreguntasMetricas[i].metrica.tamanioMatrix;
         }
-        else if(listaPreguntasMetricas[i].question == "¿Cuál es el nivel de aplicación de las siguientes prácticas de control de calidad en sus proyectos?"){
+        else if(listaPreguntasMetricas[i].clase == "control"){
           metricaGlobalControl = this.calcularMetricas(listaPreguntasMetricas[i].metrica, metricaGlobalControl);
           metricaGlobalControl.tamanioMatrix = listaPreguntasMetricas[i].metrica.tamanioMatrix;
         }
-        else if(listaPreguntasMetricas[i].question == "¿Cuál es el nivel de aplicación de las siguientes prácticas de aseguramiento de calidad en sus proyectos?"){
+        else if(listaPreguntasMetricas[i].clase == "aseguramiento"){
           metricaGlobalAseguramiento = this.calcularMetricas(listaPreguntasMetricas[i].metrica, metricaGlobalAseguramiento);
           metricaGlobalAseguramiento.tamanioMatrix = listaPreguntasMetricas[i].metrica.tamanioMatrix;
         }
@@ -332,17 +341,17 @@ export class ResultsComponent implements OnInit {
 
     for (let i = 0; i < listaPreguntasMetricas.length; i++) {
       if (listaPreguntasMetricas[i].metrica) {
-        if(listaPreguntasMetricas[i].question == "¿Cuál es el nivel de aplicación de las siguientes prácticas de gestión de calidad en sus proyectos?"){
+        if(listaPreguntasMetricas[i].clase == "gestion"){
           metricaIndividualGestion = listaPreguntasMetricas[i].metrica;
 
           this.listaPracticasTotal.push(listaPreguntasMetricas[i].matrix); 
         }
-        else if(listaPreguntasMetricas[i].question == "¿Cuál es el nivel de aplicación de las siguientes prácticas de control de calidad en sus proyectos?"){
+        else if(listaPreguntasMetricas[i].clase == "control"){
           metricaIndividualControl = listaPreguntasMetricas[i].metrica;
           this.listaPracticasTotal.push(listaPreguntasMetricas[i].matrix);
 
         }
-        else if(listaPreguntasMetricas[i].question == "¿Cuál es el nivel de aplicación de las siguientes prácticas de aseguramiento de calidad en sus proyectos?"){
+        else if(listaPreguntasMetricas[i].clase == "aseguramiento"){
           metricaIndividualAseguramiento = listaPreguntasMetricas[i].metrica;
           this.listaPracticasTotal.push(listaPreguntasMetricas[i].matrix);
 

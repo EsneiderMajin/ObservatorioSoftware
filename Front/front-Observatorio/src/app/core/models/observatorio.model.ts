@@ -24,7 +24,8 @@ export interface Questions {
   question?: string;
   questionText?: string;
   mensaje?: string; 
-  type: 'single' | 'multiple' | 'matrix' | 'percentage'; 
+  type: 'single' | 'multiple' | 'matrix' | 'percentage' | 'text'; 
+  clase?: string;
   options?: Option[];
   rows?: MatrixRow[];
   columns?: MatrixColumn[];
@@ -35,6 +36,7 @@ export interface Option {
     label: string;
     value: string;
     hasInput?: boolean; 
+    inputPlaceholder?: string;
   }
   
 
@@ -49,9 +51,9 @@ export interface Option {
   }
   
 export const PreguntaAutorizacion: Questions = {
-    questionText: 'Los datos recopilados en este estudio serán utilizados exclusivamente con fines educativos y de investigación. No se compartirán con terceros ni se expondrán de manera que permitan identificar a los participantes. Toda la información será tratada de forma anónima y confidencial, garantizando el respeto a la privacidad y seguridad de los datos.',
     mensaje: '¿Desea Continuar?',
     type: 'single',
+    clase: 'autorizacion',
     options: [
       { label: 'Sí', value: 'si' },
       { label: 'No', value: 'no' }
@@ -60,9 +62,46 @@ export const PreguntaAutorizacion: Questions = {
   
   export const PreguntasGenerales: Questions[] = [
     {
-      question: '¿Cuál es el tamaño aproximado de su organización?',
+      question: 'Nombre de la organización:',
+      type: 'text',
+      clase: 'general',
+      options: [
+        {
+          label: 'Escriba el nombre de su organización:',
+          value: 'nombre_organizacion',
+          inputPlaceholder: 'Nombre de la organización...'
+        }
+      ]
+    },
+    {
+      question: 'Nombre de la persona que está realizando la encuesta:',
+      type: 'text',
+      clase: 'general',
+      options: [
+        {
+          label: 'Escriba el nombre de la persona:',
+          value: 'nombre_persona',
+          inputPlaceholder: 'Nombre de la persona...'
+        }
+      ]
+    },
+    {
+      question: '¿Cuál es su rol dentro de la organización',
       mensaje: '(Seleccione una sola opción)',
       type: 'single',
+      clase: 'general',
+      options: [
+        { label: 'Gerente de proyectos', value: 'gerente_proyectos' },
+        { label: 'Desarrollador', value: 'desarrollador' },
+        { label: 'QA', value: 'ingeniero_qa' },
+        { label: 'Ténico', value: 'lider_tecnico' },
+      ]
+    }, 
+    {
+      question: '¿Cuál el tamaño aproximado de la organización?',
+      mensaje: '(Seleccione una sola opción)',
+      type: 'single',
+      clase: 'general',
       options: [
         { label: 'Microempresa (1 - 10 empleados)', value: 'microempresa' },
         { label: 'Pequeña empresa (11 - 50 empleados)', value: 'pequena_empresa' },
@@ -70,9 +109,10 @@ export const PreguntaAutorizacion: Questions = {
       ]
     },
     {
-      question: '¿Cuál es el principal enfoque de su organización?',
+      question: 'Seleccione el área de especialización de la organización',
       mensaje: '(Seleccione una o varias opciones)',
       type: 'multiple',
+      clase: 'general',
       options: [
         { label: 'Desarrollo de software personalizado', value: 'desarrollo_software' },
         { label: 'Venta de productos de software', value: 'venta_productos' },
@@ -83,20 +123,10 @@ export const PreguntaAutorizacion: Questions = {
       question: '¿Su organización tiene certificaciones de calidad?',
       mensaje: '(Seleccione una opcion)',
       type: 'single',
+      clase: 'general',
       options: [
         { label: 'Sí', value: 'si' },
         { label: 'No', value: 'no' }
-      ]
-    },
-    {
-      question: '¿Cuál es su rol dentro de la organización?',
-      mensaje: '(Seleccione una sola opción)',
-      type: 'single',
-      options: [
-        { label: 'Ingeniero de QA', value: 'ingeniero_qa' },
-        { label: 'Desarrollador', value: 'desarrollador' },
-        { label: 'Líder técnico', value: 'lider_tecnico' },
-        { label: 'Gerente de proyectos', value: 'gerente_proyectos' },
       ]
     }
   ];
@@ -112,35 +142,40 @@ export const PreguntaAutorizacion: Questions = {
   // Listado de preguntas de matriz
   export const matrixQuestions: Questions[] = [
     {
-      question: '¿Cuál es el nivel de aplicación de las siguientes prácticas de gestión de calidad en sus proyectos?',
+      question: '¿Cuál es el nivel de aplicación de las siguientes prácticas de gestión de calidad en sus proyectos? (1 = No Implementada y 5 = Totalmente implementada)',
       type: 'matrix',
+      clase: 'gestion',
       rows: [
         { label: 'Definir una política de calidad', value: 'definicion_calidad_gestion' },
         { label: 'Planificar y establecer objetivos', value: 'planificacion_objetivos' },
         { label: 'Gestionar recursos', value: 'asignar_capacitacion' },
+        { label: 'Capacitar al personal', value: 'capacitacion_personal' },
+        { label: 'Definir y dar seguimiento a indicadores (KPIs)', value: 'definicion_kpis' },
         { label: 'Fomentar una cultura de mejora continua', value: 'fomento_continua' },
       ],
       columns: PreguntasCalidad
     },
     {
-      question: '¿Cuál es el nivel de aplicación de las siguientes prácticas de control de calidad en sus proyectos?',
+      question: '¿Cuál es el nivel de aplicación de las siguientes prácticas de control de calidad en sus proyectos? (1 = No Implementada y 5 = Totalmente implementada)',
       type: 'matrix',
+      clase: 'control',
       rows: [
         { label: 'Revisar y validar requisitos', value: 'revision_requisitos' },
         { label: 'Realizar inspecciones y revisiones formales (código, diseño)', value: 'inspecciones_formales' },
         { label: 'Ejecutar pruebas(unitarias, integración, sistema y aceptación)', value: 'ejecucion_aceptacion' },
-        { label: 'Usar métricas y seguimiento de incidencias', value: 'uso_pruebas' },
-        { label: 'Automatización de pruebas', value: 'automatizacion_continua' },
+        { label: 'Usar métricas y seguimiento de incidencias', value: 'uso_metricas' },
+        { label: 'Uso de herramientas automatizadas', value: 'herramientas-automatizacion' },
+        { label: 'Gestión de defectos y seguimientos', value: 'gestion_defectos' },
       ],
       columns: PreguntasCalidad
     },
     {
-      question: '¿Cuál es el nivel de aplicación de las siguientes prácticas de aseguramiento de calidad en sus proyectos?',
+      question: '¿Cuál es el nivel de aplicación de las siguientes prácticas de aseguramiento de calidad en sus proyectos? (1 = No Implementada y 5 = Totalmente implementada)',
       type: 'matrix',
+      clase: 'aseguramiento',
       rows: [       
-        { label: 'Documentar y estandarizar procesos', value: 'documentacion_gestion' },
+        { label: 'Establecer un sistema de calidad', value: 'documentacion_gestion' },
         { label: 'Realizar auditorías internas', value: 'auditorias_direccion' },
-        { label: 'Definir y dar seguimiento a indicadores (KPIs)', value: 'definicion_kpis' },
         { label: 'Capacitación', value: 'capacitacion_calidad' },
         { label: 'Implementar acciones preventivas y correctivas', value: 'acciones_preventivas' },
       ],
@@ -153,6 +188,7 @@ export const PreguntaAutorizacion: Questions = {
       question: 'En sus proyectos de software, ¿qué porcentaje del esfuerzo total (horas/persona) se dedica a cada una de las siguientes actividades dentro del ciclo de desarrollo? ',
       mensaje: '(Asegúrese de que la sumatoria sea igual al 100%)',
       type: 'percentage',
+      clase: 'esfuerzo',
       options: [
         { label: 'Ingeniería', value: 'ingenieria' },
         { label: 'Calidad (Gestión, Control, Aseguramiento)', value: 'calidad' },
@@ -166,6 +202,7 @@ export const PreguntaAutorizacion: Questions = {
     {
       question: '¿Cuáles son los mayores desafíos que enfrenta su organización en la implementación de las prácticas de calidad de software? (Seleccione todas las opciones que considere relevantes para su organización)',
       type: 'multiple',
+      clase: 'desafios',
       options: [
         { label: 'Recursos limitados', value: 'recursos_limitados' },
         { label: 'Dificultad para adaptar estándares de calidad internacionales', value: 'dificultad_adaptar_estandares' },

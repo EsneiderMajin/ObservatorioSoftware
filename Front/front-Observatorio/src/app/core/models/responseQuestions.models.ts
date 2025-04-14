@@ -21,6 +21,7 @@ export interface PreguntaResponse {
 }
 
 export interface question{
+  clase: string;
   question: string;
   reponse: string;
   type: 'single' | 'multiple' | 'matrix';

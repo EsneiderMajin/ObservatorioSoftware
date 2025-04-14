@@ -10,7 +10,12 @@
         <mat-label>Nombre</mat-label>
         <mat-icon matPrefix>person</mat-icon>
         <input matInput formControlName="nombre" />
-        <mat-error *ngIf="registroForm.get('nombre')?.hasError('required') && registroForm.get('nombre')?.touched">
+        <mat-error
+          *ngIf="
+            registroForm.get('nombre')?.hasError('required') &&
+            registroForm.get('nombre')?.touched
+          "
+        >
           El nombre es obligatorio
         </mat-error>
       </mat-form-field>
@@ -19,10 +24,20 @@
         <mat-label>Correo</mat-label>
         <mat-icon matPrefix>mail</mat-icon>
         <input matInput formControlName="correo" />
-        <mat-error *ngIf="registroForm.get('correo')?.hasError('required') && registroForm.get('correo')?.touched">
+        <mat-error
+          *ngIf="
+            registroForm.get('correo')?.hasError('required') &&
+            registroForm.get('correo')?.touched
+          "
+        >
           El correo es obligatorio
         </mat-error>
-        <mat-error *ngIf="registroForm.get('correo')?.hasError('email') && registroForm.get('correo')?.touched">
+        <mat-error
+          *ngIf="
+            registroForm.get('correo')?.hasError('email') &&
+            registroForm.get('correo')?.touched
+          "
+        >
           Formato de correo inválido
         </mat-error>
       </mat-form-field>
@@ -30,17 +45,37 @@
       <mat-form-field appearance="outline" class="full-width">
         <mat-label>Contraseña</mat-label>
         <mat-icon matPrefix>lock</mat-icon>
-        <input matInput [type]="hide ? 'password' : 'text'" formControlName="contrasena" />
-        <button mat-icon-button matSuffix type="button" (click)="hide = !hide" tabindex="-1">
-          <mat-icon>{{ hide ? 'visibility_off' : 'visibility' }}</mat-icon>
+        <input
+          matInput
+          [type]="hide ? 'password' : 'text'"
+          formControlName="contrasena"
+        />
+        <button
+          mat-icon-button
+          matSuffix
+          type="button"
+          (click)="hide = !hide"
+          tabindex="-1"
+        >
+          <mat-icon>{{ hide ? "visibility_off" : "visibility" }}</mat-icon>
         </button>
-        <mat-error *ngIf="registroForm.get('contrasena')?.hasError('required') && registroForm.get('contrasena')?.touched">
+        <mat-error
+          *ngIf="
+            registroForm.get('contrasena')?.hasError('required') &&
+            registroForm.get('contrasena')?.touched
+          "
+        >
           La contraseña es obligatoria
         </mat-error>
       </mat-form-field>
 
-      <button mat-raised-button color="primary" class="register-button" type="submit"
-              [disabled]="registroForm.invalid || loading">
+      <button
+        mat-raised-button
+        color="primary"
+        class="register-button"
+        type="submit"
+        [disabled]="registroForm.invalid || loading"
+      >
         Registrarse
       </button>
     </form>
@@ -50,12 +85,14 @@
     </div>
   </div>
 
-  <app-modal-notification 
+  <app-modal-notification
     [nofiticationData]="notificationData"
     *ngIf="visibleAlert"
-    (ResponseOptionText)="buttonOption($event)">
+    (ResponseOptionText)="buttonOption($event)"
+  >
   </app-modal-notification>
   <footer>
-    © 2025 Universidad del Cauca, todos los derechos reservados | Autor: Esneider Majin Palechor - Sebastian Osorio
+    © 2025 Universidad del Cauca, todos los derechos reservados | Autor:
+    Esneider Majin Palechor - Sebastian Osorio
   </footer>
 </div>

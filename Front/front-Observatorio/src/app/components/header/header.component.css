@@ -1,7 +1,7 @@
 .custom-toolbar {
   background-color: #040c42; /* tono principal */
   color: #ffffff;
-  font-family: 'Roboto', sans-serif;
+  font-family: "Roboto", sans-serif;
   padding: 0 2rem;
   height: 70px;
   display: flex;

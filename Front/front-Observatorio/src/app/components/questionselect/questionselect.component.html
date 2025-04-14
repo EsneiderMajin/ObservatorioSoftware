@@ -1,9 +1,11 @@
 <form [formGroup]="questionsForm" (ngSubmit)="onSubmit()">
   <div formArrayName="questions">
     <!-- Recorremos todas las preguntas, pero solo mostramos la que coincide con currentQuestionIndex -->
-    <ng-container *ngFor="let questionCtrl of questionsArray.controls; let i = index" [formGroupName]="i">
+    <ng-container
+      *ngFor="let questionCtrl of questionsArray.controls; let i = index"
+      [formGroupName]="i"
+    >
       <div *ngIf="i === currentQuestionIndex">
-        
         <!-- Texto de la pregunta -->
         <div class="container-text">
           <p *ngIf="questions[i].questionText">
@@ -11,7 +13,7 @@
             <span class="asterisk">*</span>
           </p>
         </div>
-        
+
         <div class="container-titulos">
           <p *ngIf="questions[i].question">
             {{ questions[i].question }}
@@ -30,7 +32,8 @@
               <mat-radio-button
                 *ngFor="let opcion of questions[i].options"
                 [value]="opcion.value"
-                class="radio-opcion">
+                class="radio-opcion"
+              >
                 {{ opcion.label }}
               </mat-radio-button>
             </mat-radio-group>
@@ -47,7 +50,11 @@
             </div>
 
             <!-- Campo "otro" -->
-            <div *ngIf="hasOtherSelected(getFormGroup(i).value, questions[i].options)">
+            <div
+              *ngIf="
+                hasOtherSelected(getFormGroup(i).value, questions[i].options)
+              "
+            >
               <mat-form-field appearance="fill">
                 <mat-label>Especifique otro</mat-label>
                 <input matInput formControlName="otroTexto" />
@@ -59,8 +66,12 @@
           <div *ngSwitchCase="'multiple'" [formGroup]="getFormGroup(i)">
             <div *ngFor="let opcion of questions[i].options">
               <mat-checkbox
-                (change)="onCheckboxChange($event, opcion.value, getFormGroup(i))"
-                [checked]="getFormGroup(i).value.selectedOptions.includes(opcion.value)"
+                (change)="
+                  onCheckboxChange($event, opcion.value, getFormGroup(i))
+                "
+                [checked]="
+                  getFormGroup(i).value.selectedOptions.includes(opcion.value)
+                "
               >
                 {{ opcion.label }}
               </mat-checkbox>
@@ -78,7 +89,11 @@
             </div>
 
             <!-- Campo "otro" -->
-            <div *ngIf="hasOtherSelected(getFormGroup(i).value, questions[i].options)">
+            <div
+              *ngIf="
+                hasOtherSelected(getFormGroup(i).value, questions[i].options)
+              "
+            >
               <mat-form-field appearance="fill">
                 <mat-label>Especifique otro</mat-label>
                 <input matInput formControlName="otroTexto" />
@@ -87,8 +102,11 @@
           </div>
 
           <!-- MATRIX -->
-          <div class="matrix-container" *ngSwitchCase="'matrix'" [formGroup]="getFormGroup(i)">
-            <p>(1 = No Implementada, 5 = Totalmente implementada)</p>
+          <div
+            class="matrix-container"
+            *ngSwitchCase="'matrix'"
+            [formGroup]="getFormGroup(i)"
+          >
             <table class="matrix-table">
               <thead>
                 <tr>
@@ -115,7 +133,14 @@
                         getFormGroup(i).get('matrix')?.get(row.value)?.value ===
                         col.value
                       "
-                      (change)="onMatrixRadioChange(row.value, col.value, getMatrixGroup(i), i)"
+                      (change)="
+                        onMatrixRadioChange(
+                          row.value,
+                          col.value,
+                          getMatrixGroup(i),
+                          i
+                        )
+                      "
                     >
                     </mat-radio-button>
                   </td>
@@ -128,7 +153,11 @@
           </div>
 
           <!-- PERCENTAGE -->
-          <div class="percentage-container" *ngSwitchCase="'percentage'" [formGroup]="getPercentageGroup(i)">
+          <div
+            class="percentage-container"
+            *ngSwitchCase="'percentage'"
+            [formGroup]="getPercentageGroup(i)"
+          >
             <div *ngFor="let opcion of questions[i].options">
               <label>{{ opcion.label }}</label>
               <input
@@ -161,6 +190,21 @@
               )
             </div>
           </div>
+
+          <!-- TEXT -->
+<div *ngSwitchCase="'text'" [formGroup]="getFormGroup(i)">
+  <mat-form-field appearance="fill">
+    <mat-label *ngIf="questions[i].options?.[0]?.label">{{ questions[i].options?.[0]?.label || 'Sin etiqueta' }}</mat-label>
+    <input matInput formControlName="response" [placeholder]="questions[i].options?.[0]?.inputPlaceholder ?? ''" />
+  </mat-form-field>
+
+  <!-- Validación requerida -->
+  <div class="error-message" *ngIf="getFormGroup(i).get('response')?.touched && getFormGroup(i).get('response')?.hasError('required')">
+    Por favor ingrese una respuesta
+  </div>
+</div>
+
+
           <!-- FIN SWITCH -->
         </div>
         <!-- FIN DEL CONTENIDO DE LA PREGUNTA ACTUAL -->
@@ -169,8 +213,7 @@
   </div>
 
   <!-- Navegación entre preguntas -->
-  <div class="button-container" style="margin-top: 1rem;">
-
+  <div class="button-container" style="margin-top: 1rem">
     <!-- Botón SIGUIENTE (si NO es la última pregunta) -->
     <button
       mat-raised-button

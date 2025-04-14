@@ -5,20 +5,20 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   padding: 40px 20px;
 }
 
 .register-wrapper footer {
   color: #000000;
- margin-top: 5%;
- padding: 20px;
- text-align: center;
- font-family: 'Open Sans', sans-serif;
- font-size: 14px;
- font-weight: lighter;
- position: relative;
- width: 100%;
+  margin-top: 5%;
+  padding: 20px;
+  text-align: center;
+  font-family: "Open Sans", sans-serif;
+  font-size: 14px;
+  font-weight: lighter;
+  position: relative;
+  width: 100%;
 }
 
 /* Encabezado */
@@ -29,7 +29,7 @@
 
 .content-container h1 {
   font-size: clamp(2.5rem, 5vw, 3rem);
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-weight: 700;
   color: #1a237e;
   margin-bottom: 10px;
@@ -37,7 +37,7 @@
 
 .content-container h2 {
   font-size: clamp(1.2rem, 3vw, 1.5rem);
-  font-family: 'Poppins', sans-serif;
+  font-family: "Poppins", sans-serif;
   font-weight: 400;
   color: #5c6bc0;
 }

@@ -1,17 +1,35 @@
-import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
-import { AbstractControl, FormArray, FormBuilder, FormGroup, ValidatorFn, Validators } from '@angular/forms';
-import { Questions, Option, MatrixRow, } from 'src/app/core/models/observatorio.model';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnChanges,
+  OnInit,
+  Output,
+  SimpleChanges,
+} from '@angular/core';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
+import {
+  Questions,
+  Option,
+  MatrixRow,
+} from 'src/app/core/models/observatorio.model';
 
 @Component({
   selector: 'app-questionselect',
   templateUrl: './questionselect.component.html',
-  styleUrls: ['./questionselect.component.css']
+  styleUrls: ['./questionselect.component.css'],
 })
-export class QuestionselectComponent implements OnInit, OnChanges  {
+export class QuestionselectComponent implements OnInit, OnChanges {
   @Input() questions!: Questions[];
   @Input() category!: string;
   @Output() answered = new EventEmitter<any>();
-
 
   botonSend = 'Siguiente';
   matrixError = false;
@@ -38,7 +56,9 @@ export class QuestionselectComponent implements OnInit, OnChanges  {
   }
 
   getFormGroup(index: number): FormGroup {
-    return (this.questionsArray.at(index) as FormGroup).get('form') as FormGroup;
+    return (this.questionsArray.at(index) as FormGroup).get(
+      'form'
+    ) as FormGroup;
   }
 
   getMatrixGroup(i: number): FormGroup {
@@ -77,7 +97,10 @@ export class QuestionselectComponent implements OnInit, OnChanges  {
           // Se crea un grupo para cada fila de la matriz
           const matrixGroup = this.fb.group({});
           question.rows?.forEach((row: MatrixRow) => {
-            matrixGroup.addControl(row.value, this.fb.control(null, Validators.required));
+            matrixGroup.addControl(
+              row.value,
+              this.fb.control(null, Validators.required)
+            );
           });
           group = this.fb.group({
             matrix: matrixGroup,
@@ -100,6 +123,11 @@ export class QuestionselectComponent implements OnInit, OnChanges  {
             percentage: percentageGroup,
           });
           break;
+        case 'text':
+          group = this.fb.group({
+            response: ['', [Validators.required,Validators.minLength(3), Validators.maxLength(50)]], // Campo requerido para texto
+          });
+          break;
 
         default:
           group = this.fb.group({});
@@ -110,6 +138,7 @@ export class QuestionselectComponent implements OnInit, OnChanges  {
         this.fb.group({
           questionText: [question.questionText || question.question],
           type: [question.type],
+          clase: [question.clase],
           form: group,
         })
       );
@@ -156,7 +185,8 @@ export class QuestionselectComponent implements OnInit, OnChanges  {
     }
     if (formValue.selectedOptions) {
       return options.some(
-        (option) => option.hasInput && formValue.selectedOptions.includes(option.value)
+        (option) =>
+          option.hasInput && formValue.selectedOptions.includes(option.value)
       );
     }
     return false;
@@ -194,7 +224,12 @@ export class QuestionselectComponent implements OnInit, OnChanges  {
   }
 
   // Se invoca al cambiar un radio button en la matriz
-  onMatrixRadioChange(rowValue: string, colValue: number, matrixGroup: FormGroup, index: number): void {
+  onMatrixRadioChange(
+    rowValue: string,
+    colValue: number,
+    matrixGroup: FormGroup,
+    index: number
+  ): void {
     const rowControl = matrixGroup.get(rowValue);
     if (rowControl) {
       rowControl.setValue(colValue);
@@ -204,7 +239,10 @@ export class QuestionselectComponent implements OnInit, OnChanges  {
 
   updateMatrixError(index: number) {
     const matrixGroup = this.getMatrixGroup(index);
-    const isComplete = this.isMatrixComplete(matrixGroup, this.questions[index].rows || []);
+    const isComplete = this.isMatrixComplete(
+      matrixGroup,
+      this.questions[index].rows || []
+    );
     this.matrixError = !isComplete;
   }
 
@@ -218,40 +256,47 @@ export class QuestionselectComponent implements OnInit, OnChanges  {
     return true;
   }
 
-
   // ENVÍO FINAL DEL FORMULARIO (solo ocurre en la última pregunta)
   onSubmit(): void {
     // Antes de enviar, marcamos todo como tocado para no omitir errores
-    this.questionsArray.controls.forEach((control) => control.markAllAsTouched());
+    this.questionsArray.controls.forEach((control) =>
+      control.markAllAsTouched()
+    );
 
     if (this.questionsForm.valid) {
       const formValue = this.questionsForm.value;
-      const answers = formValue.questions.map((questionData: any, index: number) => {
-        const questionText = questionData.questionText;
-        const type = questionData.type;
-        const form = questionData.form;
+      const answers = formValue.questions.map(
+        (questionData: any, index: number) => {
+          const questionText = questionData.questionText;
+          const type = questionData.type;
+          const form = questionData.form;
 
-        let result: any = {
-          question: questionText,
-          type: type,
-        };
+          let result: any = {
+            question: questionText,
+            type: type,
+            clase: questionData.clase,
+          };
 
-        switch (type) {
-          case 'single':
-            result.response = form.response;
-            break;
-          case 'multiple':
-            result.selectedOptions = form.selectedOptions;
-            break;
-          case 'matrix':
-            result.matrix = form.matrix;
-            break;
-          case 'percentage':
-            result.percentage = form.percentage;
-            break;
+          switch (type) {
+            case 'single':
+              result.response = form.response;
+              break;
+            case 'multiple':
+              result.selectedOptions = form.selectedOptions;
+              break;
+            case 'matrix':
+              result.matrix = form.matrix;
+              break;
+            case 'percentage':
+              result.percentage = form.percentage;
+              break;
+            case 'text':
+              result.response = form.response;
+              break;
+          }
+          return result;
         }
-        return result;
-      });
+      );
 
       const finalPayload = {
         category: this.category,
@@ -261,14 +306,17 @@ export class QuestionselectComponent implements OnInit, OnChanges  {
       this.answered.emit(finalPayload);
     } else {
       // Marca todos los controles como tocados para mostrar errores
-      (this.questionsForm.get('questions') as FormArray).controls.forEach((control) => 
-        control.markAllAsTouched()
+      (this.questionsForm.get('questions') as FormArray).controls.forEach(
+        (control) => control.markAllAsTouched()
       );
       // Verifica errores en matrices, si existen
       this.questions.forEach((question, index) => {
         if (question.type === 'matrix') {
           const matrixGroup = this.getMatrixGroup(index);
-          const isMatrixComplete = this.isMatrixComplete(matrixGroup, question.rows || []);
+          const isMatrixComplete = this.isMatrixComplete(
+            matrixGroup,
+            question.rows || []
+          );
           if (!isMatrixComplete) {
             this.matrixError = true;
           }
@@ -276,6 +324,4 @@ export class QuestionselectComponent implements OnInit, OnChanges  {
       });
     }
   }
-
-
 }

@@ -1,8 +1,3 @@
-<!--
-  Informe del Estado General de la Calidad del Software
-  Este HTML genera una estructura de informe que incluye introducción, evaluaciones por áreas, gráficos, tablas y conclusiones.
-  Cada sección está acompañada de descripciones y elementos visuales para presentar resultados de una encuesta sobre calidad del software.
--->
 <body>
   <div class="report-container">
     <!-- Título Principal -->
@@ -12,29 +7,45 @@
     <div class="description-container">
       <h2>Introducción</h2>
       <p>
-        Este informe presenta los resultados individuales obtenidos a partir de la encuesta aplicada a su organización.
-        El objetivo es diagnosticar el nivel de implementación de prácticas de calidad de software en tres áreas clave:
-        <strong>Gestión de la Calidad</strong>, <strong>Control de la Calidad</strong> y <strong>Aseguramiento de la Calidad</strong>.
-        La información recolectada ha sido procesada y representada en gráficos que facilitan su comprensión y análisis.
+        Este informe presenta los resultados individuales obtenidos a partir de
+        la encuesta aplicada a su organización. El objetivo es diagnosticar el
+        nivel de implementación de prácticas de calidad de software en tres
+        áreas clave:
+        <strong>Gestión de la Calidad</strong>,
+        <strong>Control de la Calidad</strong> y
+        <strong>Aseguramiento de la Calidad</strong>. La información recolectada
+        ha sido procesada y representada en gráficos que facilitan su
+        comprensión y análisis.
       </p>
     </div>
-    <hr>
+    <hr />
 
     <!-- Sección General de Prácticas -->
     <section>
       <h2>Evaluación de Prácticas de Calidad</h2>
       <p>
-        Las siguientes gráficas ilustran el nivel de implementación de cada práctica de calidad en una escala de Likert de 1 a 5,
-        permitiendo visualizar de manera comparativa el nivel de implementación. También se incluye una tabla con resultados detallados
-        y recomendaciones específicas para mejorar el desempeño.
+        Las siguientes gráficas ilustran el nivel de implementación de cada
+        práctica de calidad en una escala de Likert de 1 a 5, permitiendo
+        visualizar de manera comparativa el nivel de implementación. También se
+        incluye una tabla con resultados detallados y recomendaciones
+        específicas para mejorar el desempeño.
       </p>
 
       <!-- Sección de Gestión de Calidad -->
       <div class="area-section">
         <h3>1. Prácticas de Gestión de Calidad</h3>
         <p>
-          Evalúa el enfoque estratégico y organizacional con respecto a la calidad del software, incluyendo liderazgo,
-          planificación, gestión de recursos y revisión de procesos.
+          Evalúa el enfoque estratégico y organizacional con respecto a la
+          calidad del software, incluyendo liderazgo, planificación, gestión de
+          recursos y revisión de procesos.
+        </p>
+        <p>
+          La siguiente gráfica muestra la distribución de los niveles de
+          implementación de las prácticas evaluadas, en el eje X se representa
+          el "Nivel de implementación (escala Likert)", que varía de 1 a 5 y en
+          el eje Y se representa el "Número de prácticas", indicando cuántas
+          prácticas se encuentran en cada nivel de implementación facilitando la
+          identificación de áreas de mejora.
         </p>
         <div class="chart-row">
           <canvas #calidadChartCanvas1 class="small-chart"></canvas>
@@ -45,7 +56,7 @@
               <thead>
                 <tr>
                   <th>Práctica</th>
-                  <th>Nivel</th>
+                  <th>Nivel Seleccionado</th>
                   <th>Interpretación</th>
                   <th>Recomendación</th>
                 </tr>
@@ -62,6 +73,16 @@
           </div>
 
           <!-- Tabla de muestras -->
+          <p>
+            La siguiente gráfica una comparación del nivel de implementación de
+            prácticas entre la población encuestada y su empresa. En el eje X se
+            representan las "Muestras evaluadas", divididas en "Población
+            encuestada" y "Su empresa". El eje Y muestra el "Promedio de
+            implementación (escala Likert)", que varía de 0 a 5. Las barras
+            indican el promedio de implementación para cada grupo, permitiendo
+            comparar rápidamente el rendimiento de su empresa contra el promedio
+            de la población.
+          </p>
           <canvas #implementacionTotal1 class="small-chart"></canvas>
           <div class="table-container">
             <table class="styled-table">
@@ -79,14 +100,25 @@
           </div>
         </div>
       </div>
-      <hr>
 
       <!-- Sección de Control de Calidad -->
       <div class="area-section">
         <h3>2. Prácticas de Control de Calidad</h3>
         <p>
-          Evalúa las acciones técnicas realizadas para verificar que el producto cumple con los requisitos especificados,
-          incluyendo pruebas, validaciones y métricas de defectos.
+          Evalúa las acciones técnicas realizadas para verificar que el producto
+          cumple con los requisitos especificados, incluyendo pruebas,
+          validaciones y métricas de defectos.
+        </p>
+        <p>
+          La siguiente gráfica la distribución del nivel de implementación de
+          prácticas de control de calidad. En el eje X se representa el "Nivel
+          de implementación (escala Likert)", que varía de 1 a 5. En el eje Y se
+          muestra el "Número de prácticas", indicando cuántas prácticas se
+          encuentran en cada nivel de implementación. Las barras muestran
+          cuántas prácticas están en cada nivel, facilitando la identificación
+          de áreas de mejora. La tabla debajo proporciona detalles específicos
+          sobre cada práctica, incluyendo el nivel seleccionado, la
+          interpretación y recomendaciones para mejorar.
         </p>
         <div class="chart-row">
           <canvas #calidadChartCanvas2 class="small-chart"></canvas>
@@ -95,7 +127,7 @@
               <thead>
                 <tr>
                   <th>Práctica</th>
-                  <th>Nivel</th>
+                  <th>Nivel Seleccionado</th>
                   <th>Interpretación</th>
                   <th>Recomendación</th>
                 </tr>
@@ -110,6 +142,16 @@
               </tbody>
             </table>
           </div>
+          <p>
+            La siguiente gráfica presenta una comparación del nivel de
+            implementación de prácticas entre la población encuestada y su
+            empresa. En el eje X se distinguen dos categorías: "Población
+            encuestada" y "Su empresa". El eje Y muestra el "Promedio de
+            implementación (escala Likert)", que varía de 0 a 5. Las barras
+            representan el promedio de implementación para cada categoría,
+            facilitando una comparación visual del rendimiento de su empresa en
+            relación con el promedio de la población.
+          </p>
           <canvas #implementacionTotal2 class="small-chart"></canvas>
           <div class="table-container">
             <table class="styled-table">
@@ -132,8 +174,20 @@
       <div class="area-section">
         <h3>3. Prácticas de Aseguramiento de Calidad</h3>
         <p>
-          Evalúa actividades sistemáticas implementadas para garantizar que los procesos y productos
-          del software cumplan con los estándares de calidad establecidos.
+          Evalúa actividades sistemáticas implementadas para garantizar que los
+          procesos y productos del software cumplan con los estándares de
+          calidad establecidos.
+        </p>
+        <p>
+          La siguiente gráfica muestra la distribución del nivel de
+          implementación de prácticas de aseguramiento de calidad. En el eje X
+          se representa el "Nivel de implementación (escala Likert)", que varía
+          de 1 a 5. En el eje Y se muestra el "Número de prácticas", indicando
+          cuántas prácticas se encuentran en cada nivel de implementación. Las
+          barras muestran cuántas prácticas están en cada nivel, facilitando la
+          identificación de áreas de mejora. La tabla debajo proporciona
+          detalles específicos sobre cada práctica, incluyendo el nivel
+          seleccionado, la interpretación y recomendaciones para mejorar.
         </p>
         <div class="chart-row">
           <canvas #calidadChartCanvas3 class="small-chart"></canvas>
@@ -142,7 +196,7 @@
               <thead>
                 <tr>
                   <th>Práctica</th>
-                  <th>Nivel</th>
+                  <th>Nivel Seleccionado</th>
                   <th>Interpretación</th>
                   <th>Recomendación</th>
                 </tr>
@@ -157,6 +211,17 @@
               </tbody>
             </table>
           </div>
+          <p>
+            La siguiente gráfica presenta una comparación del nivel de
+            implementación de prácticas entre la población encuestada y su
+            empresa en el ámbito de Aseguramiento de Calidad. En el eje X se
+            distinguen dos categorías: "Población encuestada" y "Su empresa". El
+            eje Y muestra el "Promedio de implementación (escala Likert)", que
+            varía de 0 a 5. Las barras representan el promedio de implementación
+            para cada categoría, facilitando una comparación visual del
+            rendimiento de su empresa en relación con el promedio de la
+            población.
+          </p>
           <canvas #implementacionTotal3 class="small-chart"></canvas>
         </div>
         <div class="table-container">
@@ -175,14 +240,14 @@
         </div>
       </div>
     </section>
-    <hr>
 
     <!-- Sección de Conclusión -->
     <div class="conclusion-section">
       <h2>Conclusión</h2>
       <p>
-        La siguiente tabla presenta un resumen por área evaluada, incluyendo el puntaje obtenido y una recomendación personalizada
-        para mejorar la calidad del software en cada aspecto.
+        La siguiente tabla presenta un resumen por área evaluada, incluyendo el
+        puntaje obtenido y una recomendación personalizada para mejorar la
+        calidad del software en cada aspecto.
       </p>
       <div class="table-container">
         <table class="styled-table">
@@ -205,9 +270,12 @@
     </div>
 
     <!-- Botón para volver al inicio -->
-    <button mat-raised-button class="custom-button" (click)="regresar()">Volver al Inicio</button>
+    <button mat-raised-button class="custom-button" (click)="regresar()">
+      Volver al Inicio
+    </button>
   </div>
 </body>
 <footer>
-  © 2025 Universidad del Cauca, todos los derechos reservados | Autor: Esneider Majin Palechor - Sebastian Osorio
+  © 2025 Universidad del Cauca, todos los derechos reservados | Autor: Esneider
+  Majin Palechor - Sebastian Osorio
 </footer>

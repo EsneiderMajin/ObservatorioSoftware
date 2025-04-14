@@ -51,7 +51,8 @@ export class QuestionService {
             question: pregunta.question,
             type: pregunta.type,
             idEncuesta: idEncuesta,
-            category: category
+            category: category,
+            clase: pregunta.clase,
           });
         }
       }
@@ -114,7 +115,13 @@ export class QuestionService {
                 idPregunta: idPregunta
               });
             });
+          } else if (pregunta.type === 'text') {
+            respuestasBatch.single.push({
+              response: pregunta.response,
+              idPregunta: idPregunta
+            });
           }
+          
         }
       }
   
@@ -228,6 +235,7 @@ export class QuestionService {
           idPregunta: pregunta.idPregunta,
           question: pregunta.question,
           type: pregunta.type,
+          clase: pregunta.clase, 
           response: simpleResp ? simpleResp.response : undefined,
           metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
         };
@@ -237,6 +245,7 @@ export class QuestionService {
           idPregunta: pregunta.idPregunta,
           question: pregunta.question,
           type: pregunta.type,
+          clase: pregunta.clase,  
           selectedOptions: multipleResp.map((item: any) => item.optionSelected),
           metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
         };
@@ -250,6 +259,7 @@ export class QuestionService {
           idPregunta: pregunta.idPregunta,
           question: pregunta.question,
           type: pregunta.type,
+          clase: pregunta.clase,  
           matrix,
           metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
         };
@@ -258,6 +268,7 @@ export class QuestionService {
           idPregunta: pregunta.idPregunta,
           question: pregunta.question,
           type: pregunta.type,
+          clase: pregunta.clase,
           metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
         };
       }
@@ -269,6 +280,96 @@ export class QuestionService {
       avaliable: true
     }];
   }
+
+    //consultar preguntas por categoria 
+    async getPreguntasPorCategoria(categoria: string): Promise<ListQuestions[]> {
+      const supabase = this.supabaseService.getClient();
+    
+      // Usamos la sintaxis de Supabase para "expandir" las relaciones
+      // Ahora incluimos metricaMatrix en la consulta
+      const { data, error } = await supabase
+        .from('Pregunta')
+        .select(`
+          *,
+          respuestaSimple(*),
+          respuestaMultiple(*),
+          respuestaMatrix(*),
+          metricaMatrix(*) // Incluir metricaMatrix en la consulta
+        `)
+        .eq('category', categoria);
+    
+      if (error) {
+        console.error('Error al obtener preguntas por categoría:', error);
+        return [];
+      }
+    
+      const questionsTransformadas = data.map((pregunta: any) => {
+        // Según el tipo de pregunta, estructuramos las respuestas
+        if (pregunta.type === 'single') {
+          const simpleResp = pregunta.respuestaSimple?.[0];
+          return {
+            idPregunta: pregunta.idPregunta,
+            question: pregunta.question,
+            type: pregunta.type,
+            clase: pregunta.clase,
+            response: simpleResp ? simpleResp.response : undefined,
+            metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
+          };
+        } else if (pregunta.type === 'multiple') {
+          const multipleResp = pregunta.respuestaMultiple || [];
+          return {
+            idPregunta: pregunta.idPregunta,
+            question: pregunta.question,
+            type: pregunta.type,
+            clase: pregunta.clase,
+            selectedOptions: multipleResp.map((item: any) => item.optionSelected),
+            metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
+          };
+        } else if (pregunta.type === 'matrix') {
+          const matrixResp = pregunta.respuestaMatrix || [];
+          const matrix: { [key: string]: number } = {};
+          matrixResp.forEach((item: any) => {
+            matrix[item.matrixKey] = item.value;
+          });
+          return {
+            idPregunta: pregunta.idPregunta,
+            question: pregunta.question,
+            type: pregunta.type,
+            clase: pregunta.clase,
+            matrix,
+            metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
+          };
+        } else if (pregunta.type === 'percentage') {
+          const matrixResp = pregunta.respuestaMatrix || [];
+          const matrix: { [key: string]: number } = {};
+          matrixResp.forEach((item: any) => {
+            matrix[item.matrixKey] = item.value;
+          });
+          return {
+            idPregunta: pregunta.idPregunta,
+            question: pregunta.question,
+            type: pregunta.type,
+            clase: pregunta.clase,
+            matrix,
+          };
+        
+        }
+        else {
+          return {
+            idPregunta: pregunta.idPregunta,
+            question: pregunta.question,
+            type: pregunta.type,
+            metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
+          };
+        }
+      });
+    
+      return [{
+        category: categoria,
+        questions: questionsTransformadas,
+        avaliable: true
+      }];
+    }
   
   // Función auxiliar para obtener la métrica
   getMetrica(metricaMatrix: any[]): any {
@@ -288,91 +389,7 @@ export class QuestionService {
   }
 
 
-  //consultar preguntas por categoria 
-  async getPreguntasPorCategoria(categoria: string): Promise<ListQuestions[]> {
-    const supabase = this.supabaseService.getClient();
-  
-    // Usamos la sintaxis de Supabase para "expandir" las relaciones
-    // Ahora incluimos metricaMatrix en la consulta
-    const { data, error } = await supabase
-      .from('Pregunta')
-      .select(`
-        *,
-        respuestaSimple(*),
-        respuestaMultiple(*),
-        respuestaMatrix(*),
-        metricaMatrix(*) // Incluir metricaMatrix en la consulta
-      `)
-      .eq('category', categoria);
-  
-    if (error) {
-      console.error('Error al obtener preguntas por categoría:', error);
-      return [];
-    }
-  
-    const questionsTransformadas = data.map((pregunta: any) => {
-      // Según el tipo de pregunta, estructuramos las respuestas
-      if (pregunta.type === 'single') {
-        const simpleResp = pregunta.respuestaSimple?.[0];
-        return {
-          idPregunta: pregunta.idPregunta,
-          question: pregunta.question,
-          type: pregunta.type,
-          response: simpleResp ? simpleResp.response : undefined,
-          metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
-        };
-      } else if (pregunta.type === 'multiple') {
-        const multipleResp = pregunta.respuestaMultiple || [];
-        return {
-          idPregunta: pregunta.idPregunta,
-          question: pregunta.question,
-          type: pregunta.type,
-          selectedOptions: multipleResp.map((item: any) => item.optionSelected),
-          metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
-        };
-      } else if (pregunta.type === 'matrix') {
-        const matrixResp = pregunta.respuestaMatrix || [];
-        const matrix: { [key: string]: number } = {};
-        matrixResp.forEach((item: any) => {
-          matrix[item.matrixKey] = item.value;
-        });
-        return {
-          idPregunta: pregunta.idPregunta,
-          question: pregunta.question,
-          type: pregunta.type,
-          matrix,
-          metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
-        };
-      } else if (pregunta.type === 'percentage') {
-        const matrixResp = pregunta.respuestaMatrix || [];
-        const matrix: { [key: string]: number } = {};
-        matrixResp.forEach((item: any) => {
-          matrix[item.matrixKey] = item.value;
-        });
-        return {
-          idPregunta: pregunta.idPregunta,
-          question: pregunta.question,
-          type: pregunta.type,
-          matrix,
-        };
-      
-      }
-      else {
-        return {
-          idPregunta: pregunta.idPregunta,
-          question: pregunta.question,
-          type: pregunta.type,
-          metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
-        };
-      }
-    });
-  
-    return [{
-      category: categoria,
-      questions: questionsTransformadas,
-      avaliable: true
-    }];
-  }
+
 
 //consultar preguntas por categoria 
 async getPreguntasPorCategoriaanio(categoria: string, ano: number = 2025): Promise<ListQuestions[]> {
@@ -406,6 +423,7 @@ async getPreguntasPorCategoriaanio(categoria: string, ano: number = 2025): Promi
         idPregunta: pregunta.idPregunta,
         question: pregunta.question,
         type: pregunta.type,
+        clase: pregunta.clase,
         response: simpleResp ? simpleResp.response : undefined,
         metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
       };
@@ -415,6 +433,7 @@ async getPreguntasPorCategoriaanio(categoria: string, ano: number = 2025): Promi
         idPregunta: pregunta.idPregunta,
         question: pregunta.question,
         type: pregunta.type,
+        clase: pregunta.clase,
         selectedOptions: multipleResp.map((item: any) => item.optionSelected),
         metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
       };
@@ -428,6 +447,7 @@ async getPreguntasPorCategoriaanio(categoria: string, ano: number = 2025): Promi
         idPregunta: pregunta.idPregunta,
         question: pregunta.question,
         type: pregunta.type,
+        clase: pregunta.clase,
         matrix,
         metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
       };
@@ -441,6 +461,7 @@ async getPreguntasPorCategoriaanio(categoria: string, ano: number = 2025): Promi
         idPregunta: pregunta.idPregunta,
         question: pregunta.question,
         type: pregunta.type,
+        clase: pregunta.clase,
         matrix,
       };
     } else {
@@ -448,6 +469,7 @@ async getPreguntasPorCategoriaanio(categoria: string, ano: number = 2025): Promi
         idPregunta: pregunta.idPregunta,
         question: pregunta.question,
         type: pregunta.type,
+        clase: pregunta.clase,
         metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
       };
     }

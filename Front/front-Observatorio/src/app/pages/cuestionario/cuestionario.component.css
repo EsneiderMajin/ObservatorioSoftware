@@ -17,26 +17,15 @@
 /* Título de sección */
 .container h2 {
   font-size: clamp(1.7rem, 4vw, 2.2rem);
-  font-weight: 600;
-  color: #212121;
+  color: #000000;
   margin-bottom: 0.5rem;
   text-align: left;
-}
-
-/* Subtítulo o introducción */
-.container h3 {
-  font-size: 1rem;
-  font-weight: 400;
-  color: #333;
-  margin-top: 0.5rem;
-  margin-bottom: 1rem;
-  text-align: justify;
 }
 
 /* Notas o aclaraciones */
 .container p {
   font-size: 0.95rem;
-  color: #666;
+  color: #000000;
   margin-top: 0.5rem;
   text-align: justify;
 }

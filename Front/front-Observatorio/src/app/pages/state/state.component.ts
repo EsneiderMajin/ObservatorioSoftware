@@ -977,7 +977,7 @@ export class StateComponent implements OnInit{
           tooltip: {
             callbacks: {
               label: function(context) {
-                return `Frecuencia: ${context.raw}`;
+                return `Número de empresas: ${context.raw}`;
               }
             }
           },

@@ -1,8 +1,4 @@
 /* Fuente principal */
-h1 {
-  text-align: center;
-}
-
 body {
   font-family: "Poppins", sans-serif;
   background-color: #f5f7fa;
@@ -13,43 +9,33 @@ body {
 
 footer {
   color: #000000;
-  padding: 20px;
+  padding: 10px;
   text-align: center;
   font-family: "Open Sans", sans-serif;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: lighter;
   position: relative;
   width: 100%;
 }
 
-p {
+p, li {
   text-align: justify;
-}
-
-li {
-  text-align: justify;
+  font-size: 14px;
 }
 
 /* Contenedor principal del reporte */
 .report-container {
   max-width: 1000px;
-  margin: 2rem auto;
-  padding: 2rem;
+  margin: 1rem auto;
+  padding: 1rem;
   background-color: #ffffff;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   border-radius: 12px;
 }
 
-/* Contenedor principal con ancho fijo y centrado */
-.results-wrapper {
-  max-width: 1100px;
-  margin: 0 auto;
-  padding: 2rem;
-}
-
 /* Estilo del título principal */
 .main-title {
-  font-size: 2.2rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: #040c42;
   margin-bottom: 0.5rem;
@@ -58,39 +44,41 @@ li {
 
 /* Estilo del subtítulo */
 .subtitle {
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: #555;
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
 }
 
 /* Sección de cada área */
 .area-section {
-  border-left: 6px solid #040c42;
+  border-left: 4px solid #040c42;
   background-color: #f4f6fa;
-  border-radius: 10px;
-  padding: 1.5rem;
-  margin-bottom: 2.5rem;
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
 }
 
 /* Título de sección */
 .area-title {
-  font-size: 1.4rem;
+  font-size: 1.2rem;
   font-weight: 600;
   color: #040c42;
-  margin-bottom: 1rem;
+  margin-bottom: 0.5rem;
 }
 
 /* Tablas con estilo */
 .styled-table {
   width: 100%;
   border-collapse: collapse;
+  font-size: 12px;
 }
 
 .styled-table th,
 .styled-table td {
   border: 1px solid #ddd;
   text-align: left;
+  padding: 0.4rem;
 }
 
 .styled-table th {
@@ -107,40 +95,38 @@ li {
   background-color: #eef2f7;
 }
 
-/* Resaltar la columna de Conclusión */
-.styled-table td:nth-child(2) {
-  font-weight: bold;
-  color: #040c42;
-  text-align: center;
+/* Contenedor de tablas */
+.table-container {
+  overflow-x: auto;
+  padding: 0.5rem;
+  background-color: #fff;
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
 }
 
 /* Gráficas responsivas */
-.chart-container {
+.chart-row {
   width: 100%;
-  max-width: 600px;
-  margin: 0 auto 2rem auto;
+  margin: 1rem auto;
 }
 
-/* Contenedor de tablas */
-.table-container {
-  padding: 1rem;
-  background-color: #fff;
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
-  margin-top: 1.5rem;
-  margin-bottom: 2rem;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+.small-chart {
+  width: 100%;
+  height: auto;
 }
 
+/* Botón personalizado */
 .custom-button {
   display: block;
-  margin: 2rem auto 0 auto;
+  margin: 1rem auto;
   background-color: #040c42 !important;
   color: white !important;
-  padding: 12px 24px !important;
-  font-size: 1rem !important;
+  padding: 8px 16px !important;
+  font-size: 0.9rem !important;
   font-weight: 500 !important;
-  border-radius: 10px !important;
+  border-radius: 8px !important;
   border: none !important;
   cursor: pointer;
   transition: background-color 0.3s ease !important;
@@ -152,21 +138,27 @@ li {
 }
 
 /* Responsive */
-@media (max-width: 600px) {
+@media (max-width: 800px) {
   .main-title {
-    font-size: 1.6rem;
+    font-size: 1.3rem;
   }
 
   .subtitle {
-    font-size: 1rem;
+    font-size: 0.9rem;
   }
 
   .styled-table th,
   .styled-table td {
-    padding: 0.5rem;
+    padding: 0.3rem;
+    font-size: 0.75rem;
   }
 
   .area-title {
-    font-size: 1.2rem;
+    font-size: 1.1rem;
+  }
+
+  .custom-button {
+    padding: 6px 12px;
+    font-size: 0.8rem;
   }
 }

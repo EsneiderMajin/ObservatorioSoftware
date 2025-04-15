@@ -752,6 +752,7 @@ export class StateComponent implements OnInit{
                 text: 'Número de prácticas por nivel'
               },
               ticks: {
+                stepSize: 0.5, // Ajustar el paso a 0.5
                 font: {
                   size: 12
                 }
@@ -763,6 +764,7 @@ export class StateComponent implements OnInit{
                 text: 'Nivel de implementación de prácticas (1-5)'
               },
               ticks: {
+                stepSize: 0.5, // Ajustar el paso a 0.5
                 font: {
                   size: 12
                 }
@@ -889,6 +891,7 @@ export class StateComponent implements OnInit{
               text: 'Número de empresas'
             },
             ticks: {
+              stepSize: 0.5, // Ajustar el paso a 0.5
               font: {
                 size: 12
               }
@@ -900,6 +903,7 @@ export class StateComponent implements OnInit{
               text: 'Rango de esfuerzo dedicado a calidad (%)'
             },
             ticks: {
+              stepSize: 0.5, // Ajustar el paso a 0.5
               font: {
                 size: 12
               }
@@ -990,6 +994,7 @@ export class StateComponent implements OnInit{
               text: 'Número de empresas'
             },
             ticks: {
+              stepSize: 0.5, // Ajustar el paso a 0.5
               font: {
                 size: 12
               }
@@ -1001,6 +1006,7 @@ export class StateComponent implements OnInit{
               text: 'Desafíos'
             },
             ticks: {
+              stepSize: 0.5, // Ajustar el paso a 0.5
               font: {
                 size: 12
               }

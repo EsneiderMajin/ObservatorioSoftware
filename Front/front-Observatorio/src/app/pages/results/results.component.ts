@@ -22,6 +22,7 @@ import { QuestionService } from 'src/app/core/services/question/question.service
 export class ResultsComponent implements OnInit {
 
   formGroup!: FormGroup;
+  listaPreguntasGeneral: PreguntaResponse[] = [];
   listaPreguntasEsfuerzo: PreguntaResponse[] = [];
   listaPreguntasCalidad: PreguntaResponse[] = [];
   listaPreguntasCalidadGlobal: PreguntaResponse[] = [];
@@ -78,15 +79,16 @@ export class ResultsComponent implements OnInit {
   }
 
   async cargarDatos() {
+
+    await this.questionService.getPreguntasPorIdEncuesta('preguntasGenerales', this.encuestaId).then((res) => {
+      this.listaPreguntasGeneral = res as PreguntaResponse[];
+    });
+
     await this.questionService.getPreguntasPorIdEncuesta('preguntasCalidad', this.encuestaId).then((res) => {
-      console.log("que llega?",res);
       this.listaPreguntasCalidad = res as PreguntaResponse[];
     });
 
-
-
     await this.questionService.getPreguntasPorCategoria('preguntasCalidad').then((res) => {
-      console.log("que llega 2?",res);
       this.listaPreguntasCalidadGlobal = res as PreguntaResponse[];
     });
 

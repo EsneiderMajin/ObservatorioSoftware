@@ -23,7 +23,7 @@ export interface PreguntaResponse {
 export interface question{
   clase: string;
   question: string;
-  reponse: string;
+  response: string;
   type: 'single' | 'multiple' | 'matrix';
   idPregunta: number;
   metrica: MetricaResponse; // Opcional, para incluir métricas

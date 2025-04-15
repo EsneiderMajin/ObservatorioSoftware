@@ -263,7 +263,18 @@ export class QuestionService {
           matrix,
           metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
         };
-      } else {
+      } else if( pregunta.type === 'text') {
+        const simpleResp = pregunta.respuestaSimple?.[0];
+        return {
+          idPregunta: pregunta.idPregunta,
+          question: pregunta.question,
+          type: pregunta.type,
+          clase: pregunta.clase, 
+          response: simpleResp ? simpleResp.response : undefined,
+          metrica: this.getMetrica(pregunta.metricaMatrix) // Incluir métrica
+        };
+        }
+      else {
         return {
           idPregunta: pregunta.idPregunta,
           question: pregunta.question,

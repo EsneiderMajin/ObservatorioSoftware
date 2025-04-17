@@ -2,6 +2,7 @@ export interface cuestionarioRequest {
     idUsuario: string;
     questions: QuestionCategory[];
     fechacreacion: string;
+    anio: number;
   }
   
   export interface QuestionCategory {

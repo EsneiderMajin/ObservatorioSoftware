@@ -16,7 +16,7 @@
       <tbody>
         <tr *ngFor="let encuesta of listaEncuestas; let i = index">
           <td>Encuesta {{ i + 1 }}</td>
-          <td>{{ formatDate(encuesta.fechaCreacion) }}</td>
+          <td>{{ encuesta.fechaCreacion}}</td>
           <td>
             <button (click)="generarResultados(encuesta.idEncuesta)" class="btn-generar">
               Generar Resultados

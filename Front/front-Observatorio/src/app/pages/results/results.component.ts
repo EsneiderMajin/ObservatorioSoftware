@@ -26,7 +26,6 @@ export class ResultsComponent implements OnInit {
   listaPreguntasEsfuerzo: PreguntaResponse[] = [];
   listaPreguntasCalidad: PreguntaResponse[] = [];
   listaPreguntasCalidadGlobal: PreguntaResponse[] = [];
-  listaPreguntasGenerales: PreguntaResponse[] = [];
   conclusionesEvaluacion: string[] = [];
   conclusionesEvaluacionGlobal: string[] = [];
   encuestaId = 0;
@@ -60,6 +59,14 @@ export class ResultsComponent implements OnInit {
   @ViewChild('implementacionTotal2') implementacionTotal2!: ElementRef<HTMLCanvasElement>;
   @ViewChild('implementacionTotal3') implementacionTotal3!: ElementRef<HTMLCanvasElement>;
 
+  //Ficha Tecnica: 
+  anio = 0;
+  fechaAplicacion = '';
+  modeloUtilizado = 'Qondor';
+  numeroEmpresas = 0;
+  areaGeografica = 'Valle del Cauca, Cauca, Nariño';  
+
+
 
   constructor(
     private readonly activeRoute: ActivatedRoute,
@@ -80,6 +87,15 @@ export class ResultsComponent implements OnInit {
 
   async cargarDatos() {
 
+    await this.questionService.getEncuestaPorIdEncuesta(this.encuestaId.toString()).then((res) => {
+      this.fechaAplicacion = res.fechaCreacion;
+      this.anio = res.anio;
+    });
+
+    await this.questionService.contarEncuestas().then((res) => {
+      this.numeroEmpresas = res;
+    });
+      
     await this.questionService.getPreguntasPorIdEncuesta('preguntasGenerales', this.encuestaId).then((res) => {
       this.listaPreguntasGeneral = res as PreguntaResponse[];
     });
@@ -105,6 +121,8 @@ export class ResultsComponent implements OnInit {
     
     
   }
+
+
     
   tablaInterpretaciones() {
 
@@ -297,8 +315,6 @@ export class ResultsComponent implements OnInit {
     metricaGlobalAseguramiento.totalImplementacionIndividual = this.listaPreguntasCalidad[0].questions[2].metrica?.totalImplementacion || 0;
 
     this.metricaGlobal = [metricaGlobalGestion, metricaGlobalControl, metricaGlobalAseguramiento];
-
-    // this.crearGraficos(listaMatrix);
 
   }
 

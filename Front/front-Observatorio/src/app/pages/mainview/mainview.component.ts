@@ -37,7 +37,6 @@ export class MainviewComponent implements OnInit {
       this.authService.consultarUsuarioPorToken().subscribe({
         next: (response) => {
           this.usuario = response;
-          console.log('Usuario:', this.usuario);
           resolve(response);
         },
         error: (error) => {

@@ -113,10 +113,8 @@ export class CuestionarioComponent implements OnInit {
         this.preguntasDesafio.avaliable = false;
         this.listaRespuestas.push(respuesta);
         this.cuestionario.questions = this.listaRespuestas;
-        this.cuestionario.fechacreacion = new Date().toISOString();
+        this.cuestionario.fechacreacion = this.formatDate(new Date().toISOString());
         this.loading = true
-
-        // console.log("que hay?:",this.cuestionario.questions);
 
         this.postGuardarRespuestas();
         this.mostrarResultados = true;
@@ -127,6 +125,19 @@ export class CuestionarioComponent implements OnInit {
     }
 
   }
+
+    // Método para formatear la fecha
+    formatDate(dateString: string): string {
+      if (!dateString) return '';
+  
+      const date = new Date(dateString);
+      const year = date.getFullYear();
+      const month = (date.getMonth() + 1).toString().padStart(2, '0');
+      const day = date.getDate().toString().padStart(2, '0');
+      this.cuestionario.anio = year;
+  
+      return `${year}-${month}-${day}`;
+    }
 
   async postGuardarRespuestas() {
 

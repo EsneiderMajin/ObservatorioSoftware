@@ -35,8 +35,13 @@ export class MainviewGlobalComponent implements OnInit {
 
   async cargarDatos() {
 
-    this.listadoAnios.push({
-      anio: 2025
+    this.questionService.getAllSurveyYears().then((response) => {
+      // Eliminar duplicados usando un Set
+      const uniqueYears = Array.from(new Set(response));
+      // Asignar los años únicos a listadoAnios
+      this.listadoAnios = uniqueYears.map((anio: number) => ({ anio }));
+    }).catch((error) => {
+      console.error('Error al cargar los años:', error);
     });
 
 
@@ -79,16 +84,6 @@ export class MainviewGlobalComponent implements OnInit {
     this.router.navigate(['/state', anio]);
   }
 
-   // Método para formatear la fecha
-   formatDate(dateString: string): string {
-    if (!dateString) return '';
 
-    const date = new Date(dateString);
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0');
-    const day = date.getDate().toString().padStart(2, '0');
-
-    return `${year}-${month}-${day}`;
-  }
   
 }

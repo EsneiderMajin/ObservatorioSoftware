@@ -29,6 +29,7 @@ export class ResultsComponent implements OnInit {
   conclusionesEvaluacion: string[] = [];
   conclusionesEvaluacionGlobal: string[] = [];
   encuestaId = 0;
+  loading = false;
   mostrarGrafica = false;
   averagedMetricsGlobal: { [question: string]: { [variable: string]: number } } = {};
   listaConclusiones: listaConclusiones[] = [];
@@ -87,6 +88,8 @@ export class ResultsComponent implements OnInit {
 
   async cargarDatos() {
 
+    this.loading = true;
+
     await this.questionService.getEncuestaPorIdEncuesta(this.encuestaId.toString()).then((res) => {
       this.fechaAplicacion = res.fechaCreacion;
       this.anio = res.anio;
@@ -108,7 +111,6 @@ export class ResultsComponent implements OnInit {
       this.listaPreguntasCalidadGlobal = res as PreguntaResponse[];
     });
 
-
     //este orfen es importante, se grafica la calidad indivuidual
 
     this.calculoGlobal();
@@ -118,7 +120,8 @@ export class ResultsComponent implements OnInit {
     this.recomendacionesEvaluacionCalidad();
 
     this.tablaInterpretaciones();
-    
+
+    this.loading = false;
     
   }
 

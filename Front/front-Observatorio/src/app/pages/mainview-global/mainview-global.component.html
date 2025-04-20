@@ -2,7 +2,7 @@
     <h1>Encuestas realizadas por las pymes</h1>
     <div class="contenedor-tabla" *ngIf="listadoAnios.length">
       <h2>Para ver los resultados de la encuesta poblacional haga clic en "Generar Resultados" en la encuesta que desea visualizar.</h2>
-      <p>Los resultados aqui mostrados pertenecen al año 2025</p>
+      <!-- <p>Los resultados aqui mostrados pertenecen al año 2025</p> -->
       <table>
         <thead>
           <tr>
@@ -23,6 +23,10 @@
           </tr>
         </tbody>
       </table>
+    </div>
+
+    <div *ngIf="!listadoAnios.length" class="mensaje-error">
+      <p>No hay encuestas disponibles para mostrar.</p>
     </div>
     <footer>
       © 2025 Universidad del Cauca, todos los derechos reservados | Autor: Esneider Majin Palechor - Sebastian Osorio

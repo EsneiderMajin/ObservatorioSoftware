@@ -35,6 +35,14 @@ p {
     padding-bottom: 2rem;
   }
 
+  .mensaje-error {
+    color: #981e1e; /* Color rojo para mensajes de error */
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1rem;
+    text-align: center;
+    margin-top: 1rem;
+  }
+
   .body-container footer {
     color: #000000;
    margin-top: 5%;

@@ -20,6 +20,68 @@ import { SupabaseService } from '../supabase/supabase.service';
 export class QuestionService {
   constructor(private supabaseService: SupabaseService) {}
 
+  // Método genérico para obtener preguntas por categoría
+  async getPreguntas(categoria: string): Promise<ListQuestions> {
+    const supabase = this.supabaseService.getClient();
+
+    // Obtén el ID de la categoría por su nombre
+    const categoryId = await this.getCategoryId(categoria);
+
+    // Consulta para obtener preguntas y sus relaciones
+    const { data, error } = await supabase
+      .from('questions')
+      .select(
+        `id, question, type, clase, 
+         options(id, label, value, has_input, input_placeholder), 
+         matrix_rows(label, value), 
+         matrix_columns(label, value), 
+         question_categories(category, avaliable)`
+      )
+      .eq('category_id', categoryId);
+
+    if (error) {
+      console.error(`Error fetching questions for category ${categoria}:`, error);
+      throw error;
+    }
+
+    // Transformación de los datos obtenidos
+    return {
+      questions: data.map(item => ({
+        id: item.id,
+        question: item.question,
+        type: item.type,
+        clase: item.clase,
+        rows: item.matrix_rows,
+        columns: item.matrix_columns,
+        options: item.options.map(option => ({
+          id: option.id,
+          label: option.label,
+          value: option.value,
+          hasInput: option.has_input,
+          inputPlaceholder: option.input_placeholder
+        }))
+      })),
+      category: data[0]?.question_categories?.[0]?.category || categoria,
+      avaliable: data[0]?.question_categories?.[0]?.avaliable || false
+    };
+  }
+
+  // Método auxiliar para obtener el ID de una categoría
+  private async getCategoryId(categoria: string): Promise<string> {
+    const { data, error } = await this.supabaseService.getClient()
+      .from('question_categories')
+      .select('id')
+      .eq('category', categoria)
+      .single();
+
+    if (error) {
+      console.error(`Error fetching category ID for ${categoria}:`, error);
+      throw error;
+    }
+
+    return data.id;
+  }
+
   async postGuardarRespuestas(encuestaObjet: any): Promise<{ success: boolean; error?: any }> {
     const supabase = this.supabaseService.getClient();
     try {
@@ -66,7 +128,7 @@ export class QuestionService {
 
       // Insertar todas las preguntas en un solo lote para obtener sus IDs
       const { data: preguntasData, error: preguntasError } = await supabase
-        .from('Pregunta')
+        .from('PreguntaRespuesta')
         .insert(preguntasBatch)
         .select();
 
@@ -164,55 +226,55 @@ export class QuestionService {
     }
   }
 
-  // Método para obtener la pregunta de autorización
-  getPreguntaAutorizacion(): ListQuestions {
-    const preguntaAutorizacionData: ListQuestions = {
-      questions: [PreguntaAutorizacion],
-      category: 'preguntaAutorizacion',
-      avaliable: true,
-    };
-    return preguntaAutorizacionData;
-  }
+  // // Método para obtener la pregunta de autorización
+  // getPreguntaAutorizacion(): ListQuestions {
+  //   const preguntaAutorizacionData: ListQuestions = {
+  //     questions: [PreguntaAutorizacion],
+  //     category: 'preguntaAutorizacion',
+  //     avaliable: true,
+  //   };
+  //   return preguntaAutorizacionData;
+  // }
 
-  // Método para obtener todas las preguntas
-  getPreguntasGenerales(): ListQuestions {
-    const preguntasGeneralesData: ListQuestions = {
-      questions: PreguntasGenerales,
-      category: 'preguntasGenerales',
-      avaliable: false,
-    };
-    return preguntasGeneralesData;
-  }
+  // // Método para obtener todas las preguntas
+  // getPreguntasGenerales(): ListQuestions {
+  //   const preguntasGeneralesData: ListQuestions = {
+  //     questions: PreguntasGenerales,
+  //     category: 'preguntasGenerales',
+  //     avaliable: false,
+  //   };
+  //   return preguntasGeneralesData;
+  // }
 
-  // Método para obtener las preguntas de matriz
-  getPreguntasCalidad(): ListQuestions {
-    const matrixQuestionsData: ListQuestions = {
-      questions: matrixQuestions,
-      category: 'preguntasCalidad',
-      avaliable: false,
-    };
-    return matrixQuestionsData;
-  }
+  // // Método para obtener las preguntas de matriz
+  // getPreguntasCalidad(): ListQuestions {
+  //   const matrixQuestionsData: ListQuestions = {
+  //     questions: matrixQuestions,
+  //     category: 'preguntasCalidad',
+  //     avaliable: false,
+  //   };
+  //   return matrixQuestionsData;
+  // }
 
-  // Método para obtener las preguntas de esfuerzo
-  getPreguntasEsfuerzo(): ListQuestions {
-    const PreguntasEsfuerzoData: ListQuestions = {
-      questions: PreguntasEsfuerzo,
-      category: 'preguntasEsfuerzo',
-      avaliable: false,
-    };
-    return PreguntasEsfuerzoData;
-  }
+  // // Método para obtener las preguntas de esfuerzo
+  // getPreguntasEsfuerzo(): ListQuestions {
+  //   const PreguntasEsfuerzoData: ListQuestions = {
+  //     questions: PreguntasEsfuerzo,
+  //     category: 'preguntasEsfuerzo',
+  //     avaliable: false,
+  //   };
+  //   return PreguntasEsfuerzoData;
+  // }
 
-  // Método para obtener las preguntas de desafíos
-  getPreguntasDesafios(): ListQuestions {
-    const PreguntasDesafiosData: ListQuestions = {
-      questions: PreguntasDesafios,
-      category: 'preguntasDesafios',
-      avaliable: false,
-    };
-    return PreguntasDesafiosData;
-  }
+  // // Método para obtener las preguntas de desafíos
+  // getPreguntasDesafios(): ListQuestions {
+  //   const PreguntasDesafiosData: ListQuestions = {
+  //     questions: PreguntasDesafios,
+  //     category: 'preguntasDesafios',
+  //     avaliable: false,
+  //   };
+  //   return PreguntasDesafiosData;
+  // }
 
   async getPreguntasPorIdEncuesta(
     categoria: string,
@@ -223,7 +285,7 @@ export class QuestionService {
     // Usamos la sintaxis de Supabase para "expandir" las relaciones
     // Ahora incluimos metricaMatrix en la consulta
     const { data, error } = await supabase
-      .from('Pregunta')
+      .from('PreguntaRespuesta')
       .select(
         `
         *,
@@ -317,7 +379,7 @@ export class QuestionService {
     // Usamos la sintaxis de Supabase para "expandir" las relaciones
     // Ahora incluimos metricaMatrix en la consulta
     const { data, error } = await supabase
-      .from('Pregunta')
+      .from('PreguntaRespuesta')
       .select(
         `
           *,
@@ -428,7 +490,7 @@ export class QuestionService {
 
     // Usamos la sintaxis de Supabase para "expandir" las relaciones y unir con Encuesta
     const { data, error } = await supabase
-      .from('Pregunta')
+      .from('PreguntaRespuesta')
       .select(
         `
       *,

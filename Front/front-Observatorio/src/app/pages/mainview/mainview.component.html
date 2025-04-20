@@ -1,6 +1,6 @@
 <div class="body-container">
   <h1>Encuestas anuales realizadas por su organización</h1>
-  <div class="user-container">
+  <div class="user-container" *ngIf="usuario && usuario.user_metadata">
     <h2>Bienvenido {{ usuario.user_metadata.nombre }}</h2>
   </div>
   <div class="contenedor-tabla" *ngIf="listaEncuestas.length">

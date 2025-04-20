@@ -37,27 +37,5 @@ export class RegisterService {
     }
   }
 
-  // async postCreateUsuario(registro: Register): Promise<void> {
-  //   const supabase = this.supabaseService.getClient();
-  //   try {
-  //     // Insertar registro en la tabla Usuario
-  //     const { data: usuarioData, error: usuarioError } = await supabase
-  //       .from('Usuario')
-  //       .insert({
-  //         nombre: registro.nombre,
-  //         correoElectronico: registro.correoElectronico,
-  //         contrasena: registro.contrasena,
-  //         Rol: registro.rol
-  //       })
-  //       .select();
-  //     if (usuarioError) {
-  //       console.error('Error al insertar usuario:', usuarioError);
-  //       return;
-  //     }
-  //     console.log('Registro guardado con éxito:', usuarioData);
-  //   } catch (error) {
-  //     console.error('Error al guardar registro:', error);
-  //   }
-  // }
   
 }

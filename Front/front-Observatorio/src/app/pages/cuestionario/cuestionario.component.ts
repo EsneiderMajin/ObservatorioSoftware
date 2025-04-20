@@ -71,17 +71,25 @@ export class CuestionarioComponent implements OnInit {
 
 
   async cargarPreguntas() {
-    // Cargar pregunta de autorización
-    this.preguntaAutorizacion = this.questionService.getPreguntaAutorizacion();
-    // Cargar preguntas generales
-    this.preguntasGenerales = await this.questionService.getPreguntasGenerales();
-    // Cargar preguntas de calidad
-    this.preguntasCalidad = await this.questionService.getPreguntasCalidad();
-    // Cargar preguntas de esfuerzo
-    this.preguntasEsfuerzo = await this.questionService.getPreguntasEsfuerzo();
 
-    // Cargar preguntas de desafio
-    this.preguntasDesafio = await this.questionService.getPreguntasDesafios();
+    this.loading = true;
+
+    // // Cargar pregunta de autorización
+    // this.preguntaAutorizacion = this.questionService.getPreguntaAutorizacion();
+    // this.preguntasGenerales = await this.questionService.getPreguntasGenerales();
+    // this.preguntasCalidad = await this.questionService.getPreguntasCalidad();
+    // this.preguntasEsfuerzo = await this.questionService.getPreguntasEsfuerzo();
+    // this.preguntasDesafio = await this.questionService.getPreguntasDesafios();
+
+    this.preguntaAutorizacion = await this.questionService.getPreguntas("preguntaAutorizacion");
+    this.preguntasGenerales = await this.questionService.getPreguntas("preguntasGenerales");
+    this.preguntasCalidad = await this.questionService.getPreguntas("preguntasCalidad");
+    this.preguntasEsfuerzo = await this.questionService.getPreguntas("preguntasEsfuerzo");
+    this.preguntasDesafio = await this.questionService.getPreguntas("preguntasDesafios");
+    this.preguntaAutorizacion.avaliable = true;
+
+    this.loading = false;
+    
   }
 
   async answeredQuestion(respuesta: RespuestaComponent) {

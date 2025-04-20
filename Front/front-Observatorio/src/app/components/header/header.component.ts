@@ -30,7 +30,7 @@ export class HeaderComponent implements OnInit {
     if (
       url === '/mainview' ||
       url === '/cuestionario' ||
-      url === '/resultados/:id'
+      url.startsWith('/resultados/') && /^\d+$/.test(url.split('/').pop()!)
     ) {
       this.logueado = true;
     }

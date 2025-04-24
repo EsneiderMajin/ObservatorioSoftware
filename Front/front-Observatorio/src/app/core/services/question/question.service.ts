@@ -31,7 +31,7 @@ export class QuestionService {
     const { data, error } = await supabase
       .from('questions')
       .select(
-        `id, question, type, clase, 
+        `id, question, type, clase, mensaje,
          options(id, label, value, has_input, input_placeholder), 
          matrix_rows(label, value), 
          matrix_columns(label, value), 
@@ -51,6 +51,7 @@ export class QuestionService {
         question: item.question,
         type: item.type,
         clase: item.clase,
+        mensaje: item.mensaje,
         rows: item.matrix_rows,
         columns: item.matrix_columns,
         options: item.options.map(option => ({

@@ -14,6 +14,7 @@ export class MainviewGlobalComponent implements OnInit {
 
   usuario: any;
   listadoAnios: listaAnios[] = [];
+  loading = false;
 
   constructor(
         private readonly questionService: QuestionService,
@@ -23,14 +24,10 @@ export class MainviewGlobalComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
-    // await this.usuarioTieneEncuesta();
-
+    this.loading = true;
     await this.cargarDatos();
-
-
-    // await this.consultarEncuestas();
-
-    
+    this.loading = false;
+        
   }
 
   async cargarDatos() {
@@ -46,26 +43,6 @@ export class MainviewGlobalComponent implements OnInit {
 
 
     }
-
-  async usuarioTieneEncuesta(){
-
-    return new Promise((resolve) => {
-      this.authService.consultarUsuarioPorToken().subscribe({
-        next: (response) => {
-          this.usuario = response;
-          console.log('Usuario:', this.usuario);
-          resolve(response);
-
-        },
-        error: (error) => {
-          console.error('Error al consultar el usuario:', error);
-          resolve(error);
-        }
-      });
-
-    });
-    
-  }
 
   async consultarEncuestas() {
     await this.questionService.getEncuestasPorUsuario(this.usuario.id).then((response) => {

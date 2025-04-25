@@ -39,6 +39,7 @@ export class StateComponent implements OnInit{
   listaPracticasAseguramiento: listaPracticas[] = [];
   listaEsfuerzo: listaMensajes[] = [];
   listaDesafios: listaMensajes[] = [];
+  loading = false;
 
   //Calidad
   calidadChart1!: Chart;
@@ -66,12 +67,15 @@ export class StateComponent implements OnInit{
   }
 
   async ngOnInit() {
+
+    this.loading = true;
     
     this.activeRoute.params.subscribe(params => {
       this.anioId = params?.['id'] ?? 0;
     });
 
     await this.cargarDatos();
+    this.loading = false;
   }
 
   async cargarDatos() {
@@ -154,7 +158,7 @@ export class StateComponent implements OnInit{
           puntaje: Math.floor(metrica.totalImplementacion * 100) / 100,
           recomendacion: recomendacion
         });
-      });      
+      });     
   
     }
 
@@ -651,15 +655,21 @@ export class StateComponent implements OnInit{
 
   calcularTotalMetrica(metrica: MetricaResponse): MetricaResponse {
 
-    metrica ={
-      noImplementada: metrica.noImplementada / metrica.tamanioMatrix,
-      implementacionInicial: metrica.implementacionInicial / metrica.tamanioMatrix,
-      implementacionParcial: metrica.implementacionParcial / metrica.tamanioMatrix,
-      implementacionAvanzada: metrica.implementacionAvanzada / metrica.tamanioMatrix,
-      implementacionOptimizad: metrica.implementacionOptimizad / metrica.tamanioMatrix,
+    const noImplementada = parseFloat((metrica.noImplementada / metrica.tamanioMatrix).toFixed(2));
+    const implementacionInicial = parseFloat((metrica.implementacionInicial / metrica.tamanioMatrix).toFixed(2));
+    const implementacionParcial = parseFloat((metrica.implementacionParcial / metrica.tamanioMatrix).toFixed(2));
+    const implementacionAvanzada = parseFloat((metrica.implementacionAvanzada / metrica.tamanioMatrix).toFixed(2));
+    const implementacionOptimizad = parseFloat((metrica.implementacionOptimizad / metrica.tamanioMatrix).toFixed(2));
+  
+    metrica = {
+      noImplementada: noImplementada,
+      implementacionInicial: implementacionInicial,
+      implementacionParcial: implementacionParcial,
+      implementacionAvanzada: implementacionAvanzada,
+      implementacionOptimizad: implementacionOptimizad,
       tamanioMatrix: metrica.tamanioMatrix,
       totalImplementacion: 0,
-    }
+    };
 
     return metrica;
 
@@ -669,7 +679,6 @@ export class StateComponent implements OnInit{
   crearGraficos(listaMatrix: MetricaResponse[]) {
     listaMatrix.forEach((metrica, index) => {
       this.crearGrafico(metrica, index);
-      // Pasar ambos valores al método crearGraficoImplementacionTotal
 
     });
   }

@@ -11,8 +11,8 @@ export interface Encuesta {
 
 export interface ListQuestions{
   questions: Questions[];
-  category: string; // Nueva propiedad para la categoría
-  avaliable?: boolean; // Nueva propiedad para indicar si la pregunta está disponible
+  category: string;
+  avaliable?: boolean; 
 }
 
 export interface RespuestaComponent {

@@ -19,6 +19,7 @@ export class MainviewComponent implements OnInit {
   mostrarBotonEncuesta: boolean = true;
   fechaEncuestaRealizada: string = '';
   fechaHabilitadaProxima: string = '';
+  loading = false;
 
   constructor(
     private readonly questionService: QuestionService,
@@ -28,8 +29,11 @@ export class MainviewComponent implements OnInit {
   ) { }
 
   async ngOnInit() {
+    this.loading = true;
     await this.usuarioTieneEncuesta();
     await this.consultarEncuestas();
+    this.loading = false;
+
   }
 
   async usuarioTieneEncuesta() {

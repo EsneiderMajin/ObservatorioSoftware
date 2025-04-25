@@ -1,4 +1,7 @@
 <div class="body-container">
+  <div *ngIf="loading">
+    <app-loading></app-loading>
+  </div>
   <h1>Encuestas anuales realizadas por su organización</h1>
   <div class="user-container" *ngIf="usuario && usuario.user_metadata">
     <h2>Bienvenido {{ usuario.user_metadata.nombre }}</h2>
@@ -42,5 +45,4 @@
   <footer>
     © 2025 Universidad del Cauca, todos los derechos reservados | Autor: Esneider Majin Palechor - Sebastian Osorio
   </footer>
-  
 </div>

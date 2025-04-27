@@ -15,9 +15,7 @@ export class AuthCallbackComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // Extraer tokens del fragmento
-    // Ejemplo de URL: #access_token=ey...&expires_at=...
-    const hash = window.location.hash.substring(1); // quitar '#'
+    const hash = window.location.hash.substring(1);
     const params = new URLSearchParams(hash);
 
     const accessToken = params.get('access_token');
@@ -31,17 +29,9 @@ export class AuthCallbackComponent implements OnInit {
       localStorage.setItem('access_token', accessToken);
       if (refreshToken) localStorage.setItem('refresh_token', refreshToken);
 
-      // Ejemplo: si usas un servicio que maneja la sesión:
-      // this.supabaseService.getClient().auth.setSession({
-      //   access_token: accessToken,
-      //   refresh_token: refreshToken
-      // });
-
-      // Redirigir a una página de confirmación o dashboard
       this.router.navigate(['/inicio']);
     } else {
       console.error('No se encontró access_token en la URL');
-      // Redirigir a una página de error o login
       this.router.navigate(['/login']);
     }
   }

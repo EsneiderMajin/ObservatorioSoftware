@@ -4,13 +4,7 @@ import {
   MatrixColumn,
   Questions,
 } from '../../models/observatorio.model';
-import {
-  PreguntaAutorizacion,
-  PreguntasGenerales,
-  matrixQuestions,
-  PreguntasEsfuerzo,
-  PreguntasDesafios,
-} from '../../models/observatorio.model';
+
 import { createClient, SupabaseClient } from '@supabase/supabase-js';
 import { SupabaseService } from '../supabase/supabase.service';
 
@@ -227,55 +221,6 @@ export class QuestionService {
     }
   }
 
-  // // Método para obtener la pregunta de autorización
-  // getPreguntaAutorizacion(): ListQuestions {
-  //   const preguntaAutorizacionData: ListQuestions = {
-  //     questions: [PreguntaAutorizacion],
-  //     category: 'preguntaAutorizacion',
-  //     avaliable: true,
-  //   };
-  //   return preguntaAutorizacionData;
-  // }
-
-  // // Método para obtener todas las preguntas
-  // getPreguntasGenerales(): ListQuestions {
-  //   const preguntasGeneralesData: ListQuestions = {
-  //     questions: PreguntasGenerales,
-  //     category: 'preguntasGenerales',
-  //     avaliable: false,
-  //   };
-  //   return preguntasGeneralesData;
-  // }
-
-  // // Método para obtener las preguntas de matriz
-  // getPreguntasCalidad(): ListQuestions {
-  //   const matrixQuestionsData: ListQuestions = {
-  //     questions: matrixQuestions,
-  //     category: 'preguntasCalidad',
-  //     avaliable: false,
-  //   };
-  //   return matrixQuestionsData;
-  // }
-
-  // // Método para obtener las preguntas de esfuerzo
-  // getPreguntasEsfuerzo(): ListQuestions {
-  //   const PreguntasEsfuerzoData: ListQuestions = {
-  //     questions: PreguntasEsfuerzo,
-  //     category: 'preguntasEsfuerzo',
-  //     avaliable: false,
-  //   };
-  //   return PreguntasEsfuerzoData;
-  // }
-
-  // // Método para obtener las preguntas de desafíos
-  // getPreguntasDesafios(): ListQuestions {
-  //   const PreguntasDesafiosData: ListQuestions = {
-  //     questions: PreguntasDesafios,
-  //     category: 'preguntasDesafios',
-  //     avaliable: false,
-  //   };
-  //   return PreguntasDesafiosData;
-  // }
 
   async getPreguntasPorIdEncuesta(
     categoria: string,
@@ -283,8 +228,7 @@ export class QuestionService {
   ): Promise<ListQuestions[]> {
     const supabase = this.supabaseService.getClient();
 
-    // Usamos la sintaxis de Supabase para "expandir" las relaciones
-    // Ahora incluimos metricaMatrix en la consulta
+    //Incluimos metricaMatrix en la consulta
     const { data, error } = await supabase
       .from('PreguntaRespuesta')
       .select(
@@ -377,8 +321,7 @@ export class QuestionService {
   async getPreguntasPorCategoria(categoria: string): Promise<ListQuestions[]> {
     const supabase = this.supabaseService.getClient();
 
-    // Usamos la sintaxis de Supabase para "expandir" las relaciones
-    // Ahora incluimos metricaMatrix en la consulta
+    // Incluimos metricaMatrix en la consulta
     const { data, error } = await supabase
       .from('PreguntaRespuesta')
       .select(
@@ -503,8 +446,8 @@ export class QuestionService {
     `
       )
       .eq('category', categoria)
-      .gte('Encuesta.fechaCreacion', `${ano}-01-01`) // Filtro por fecha de inicio del año
-      .lte('Encuesta.fechaCreacion', `${ano}-12-31`); // Filtro por fecha de fin del año
+      .gte('Encuesta.fechaCreacion', `${ano}-01-01`) // Filtro fecha de inicio del año
+      .lte('Encuesta.fechaCreacion', `${ano}-12-31`); // Filtro fecha de fin del año
 
     if (error) {
       console.error('Error al obtener preguntas por categoría:', error);

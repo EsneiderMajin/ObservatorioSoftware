@@ -12,8 +12,8 @@ import { listaMensajes, listaPracticas } from 'src/app/core/models/results.model
 import { AuthService } from 'src/app/core/services/login/auth.service';
 import { QuestionService } from 'src/app/core/services/question/question.service';
 
-  // Registrar los componentes de Chart.js que se usarán
-  Chart.register(CategoryScale, LinearScale, BarElement, BarController, Title, Tooltip, Legend);
+// Registrar los componentes de Chart.js que se usarán
+Chart.register(CategoryScale, LinearScale, BarElement, BarController, Title, Tooltip, Legend);
 
 @Component({
   selector: 'app-state',
@@ -165,8 +165,8 @@ export class StateComponent implements OnInit{
 
 
     calcularPromedioPracticas() {
-      const valoresAcumulados: Record<string, number> = {}; // Para almacenar la suma de valores de cada práctica
-      const contador: Record<string, number> = {}; // Para contar cuántas veces aparece cada práctica
+      const valoresAcumulados: Record<string, number> = {}; 
+      const contador: Record<string, number> = {}; 
     
       // Recorrer cada objeto en la lista
       for (const objeto of this.listaPracticasTotal) {
@@ -497,10 +497,7 @@ export class StateComponent implements OnInit{
     this.crearGraficoEsfuerzoGlobal(metricaEsfuerzoGlobal);
 
     // Interpretar el esfuerzo
-
     this.interpretarEsfuerzoGlobal(metricaEsfuerzoGlobal);
-
-
   }  
 
   interpretarEsfuerzoGlobal(metrica: MetricaEsfuerzo) {
@@ -793,7 +790,6 @@ export class StateComponent implements OnInit{
       this.calidadChart3 = chart;
     }
   }
-
 
   obtenerTituloGrafico(index: number): string {
     switch (index) {

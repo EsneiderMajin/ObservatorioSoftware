@@ -74,13 +74,6 @@ export class CuestionarioComponent implements OnInit {
 
     this.loading = true;
 
-    // // Cargar pregunta de autorización
-    // this.preguntaAutorizacion = this.questionService.getPreguntaAutorizacion();
-    // this.preguntasGenerales = await this.questionService.getPreguntasGenerales();
-    // this.preguntasCalidad = await this.questionService.getPreguntasCalidad();
-    // this.preguntasEsfuerzo = await this.questionService.getPreguntasEsfuerzo();
-    // this.preguntasDesafio = await this.questionService.getPreguntasDesafios();
-
     this.preguntaAutorizacion = await this.questionService.getPreguntas("preguntaAutorizacion");
     this.preguntasGenerales = await this.questionService.getPreguntas("preguntasGenerales");
     this.preguntasCalidad = await this.questionService.getPreguntas("preguntasCalidad");

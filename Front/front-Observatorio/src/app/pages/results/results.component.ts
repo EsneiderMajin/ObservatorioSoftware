@@ -111,7 +111,7 @@ export class ResultsComponent implements OnInit {
       this.listaPreguntasCalidadGlobal = res as PreguntaResponse[];
     });
 
-    //este orfen es importante, se grafica la calidad indivuidual
+    //este orden es importante, se grafica la calidad indivuidual
 
     this.calculoGlobal();
 
@@ -246,7 +246,6 @@ export class ResultsComponent implements OnInit {
     let listaPreguntasMetricas:question [] = this.listaPreguntasCalidadGlobal[0].questions;
 
     let cantidadEncuestas = listaPreguntasMetricas.length / 3;
-
 
     let metricaGlobalGestion: MetricaResponse = {
       noImplementada: 0,
@@ -437,10 +436,11 @@ export class ResultsComponent implements OnInit {
         }
       }
 
+      let puntaje = parseFloat(metrica.totalImplementacionIndividual?.toFixed(2)) || 0;
 
       this.listaConclusiones.push({
         area: area,
-        puntaje: metrica.totalImplementacionIndividual ?? 0,
+        puntaje: puntaje,
         recomendacion: recomendacion
       });
     });      

@@ -25,7 +25,7 @@ export enum TituloPracticasControl {
     ejecucion_aceptacion_contenido = 'Ejecutar pruebas(unitarias, integración, sistema y aceptación)',
     uso_metricas = 'uso_metricas',
     uso_metricas_contenido = 'Usar métricas y seguimiento de incidencias',
-    herramientas_automatizacion = 'herramientas-automatizacion',
+    herramientas_automatizacion = 'herramientas_automatizacion',
     herramientas_automatizacion_contenido = 'Uso de herramientas automatizadas',
     gestion_defectos = 'gestion_defectos',
     gestion_defectos_contenido = 'Gestión de defectos y seguimientos'

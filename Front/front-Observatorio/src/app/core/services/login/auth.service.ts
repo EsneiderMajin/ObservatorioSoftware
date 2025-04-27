@@ -82,23 +82,4 @@ export class AuthService {
     }).pipe(delay(100)); // Simula un retraso de 1 segundo
   }
 
-  
-
-  // getUsuarioByCorreoandContrasena(correo: string, contrasena: string): Promise<any> {
-  //   const supabase = this.supabaseService.getClient();
-  //   return Promise.resolve(
-  //     supabase
-  //       .from('Usuario')
-  //       .select('*')
-  //       .eq('correoElectronico', correo)
-  //       .eq('contrasena', contrasena)
-  //       .single()
-  //   ).then(({ data, error }) => {
-  //     if (error) {
-  //       console.error('Error al obtener el usuario:', error);
-  //       return null;
-  //     }
-  //     return data;
-  //   });
-  // }
 }

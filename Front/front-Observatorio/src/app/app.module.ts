@@ -35,6 +35,7 @@ import { ResultsComponent } from './pages/results/results.component';
 import { AuthCallbackComponent } from './pages/auth-callback/auth-callback.component';
 import { LocationStrategy, HashLocationStrategy } from '@angular/common';
 import { MainviewGlobalComponent } from './pages/mainview-global/mainview-global.component';
+import { ModelViewComponent } from './pages/model-view/model-view.component';
 
 
 const routes: Routes = [
@@ -63,6 +64,9 @@ const routes: Routes = [
   {
     path: 'resultados/:id', component: ResultsComponent
   },
+  {
+    path: 'model-view', component: ModelViewComponent
+  },
   { 
     path: 'auth-callback', component: AuthCallbackComponent 
   },
@@ -70,6 +74,7 @@ const routes: Routes = [
     path: '**', component: HomeComponent 
 
   },
+
 
 ];
 
@@ -94,6 +99,7 @@ const routerOptions: ExtraOptions = {
     ResultsComponent,
     AuthCallbackComponent,
     MainviewGlobalComponent,
+    ModelViewComponent,
 
   ],
   imports: [

@@ -58,6 +58,7 @@
   color: #cfd8dc;
 }
 
+
 .cta-text {
   font-family: 'Poppins', sans-serif;
   margin-top: 2rem;
@@ -66,6 +67,8 @@
   color: #82b1ff;
   text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
 }
+
+
 
 @media (max-width: 768px) {
 
@@ -89,4 +92,18 @@
   .cta-text {
     font-size: 1.1rem;
   }
+}
+
+.cta {
+  padding: 15px 30px;
+  font-size: 16px;
+  font-weight: bold;
+  text-transform: uppercase;
+  background: linear-gradient(45deg, #4562d6, #5378c4);
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 6px rgba(26, 49, 177, 0.1);
 }

@@ -483,6 +483,7 @@ export class ResultsComponent implements OnInit {
     listaMatrix.forEach((metrica, index) => {
       let metricaGraficar = this.logicaService.calcularMetricaGraficaIndividual(metrica);
       metrica.totalImplementacion = Math.round(metrica.totalImplementacion * 100) / 100;
+      metrica.totalImplementacionIndividual = Math.round((metrica.totalImplementacionIndividual ?? 0) * 100) / 100;
       if(index == 0)
         this.listaInterpTotalGestion = this.logicaService.procesarInterpretacion(metrica.totalImplementacion, metrica.totalImplementacionIndividual??0, "Gestión de calidad");
       else if(index == 1)

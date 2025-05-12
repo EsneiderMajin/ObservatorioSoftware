@@ -26,7 +26,6 @@ export class MainviewGlobalComponent implements OnInit {
   async ngOnInit() {
     this.loading = true;
     await this.cargarDatos();
-    this.loading = false;
         
   }
 
@@ -35,14 +34,16 @@ export class MainviewGlobalComponent implements OnInit {
     this.questionService.getAllSurveyYears().then((response) => {
       // Eliminar duplicados usando un Set
       const uniqueYears = Array.from(new Set(response));
-      // Asignar los años únicos a listadoAnios
+      // Asignar los años únicos a listadoAnios 
       this.listadoAnios = uniqueYears.map((anio: number) => ({ anio }));
+      this.loading = false;
+
     }).catch((error) => {
       console.error('Error al cargar los años:', error);
     });
 
-
     }
+
 
   async consultarEncuestas() {
     await this.questionService.getEncuestasPorUsuario(this.usuario.id).then((response) => {
